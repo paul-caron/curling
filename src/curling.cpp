@@ -124,7 +124,7 @@ const std::map<std::string, std::string>& Request::getResponseHeadersMap() const
     return responseHeadersMap; // Access to headers map
 }
 
- const long& getHttpCode() const{
+ const long& Request::getHttpCode() const{
      return http_code;
  }
 
