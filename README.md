@@ -22,3 +22,5 @@ for generating documentation, install doxygen and graphviz and then run:
 ```
 make doc
 ```
+or you can take a look into the precompiled pdf manual included in this repo: refman.pdf
+
