@@ -109,11 +109,10 @@ void Request::send() {
         throw std::runtime_error("Curl perform failed");
     }
 
-    http_code = 0;
+    http_code = 0; //Store the response http code
     curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &http_code);
-    std::cout << "HTTP Response Code: " << http_code << std::endl;
 
-    response = responseStream.str(); // Store the response
+    response = responseStream.str(); // Store the response body
 }
 
 const std::string& Request::getResponse() const {
