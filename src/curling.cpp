@@ -116,7 +116,7 @@ std::endl;
         throw std::runtime_error("Curl perform failed");
     }
 
-    long http_code = 0;
+    http_code = 0;
     curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &http_code);
     std::cout << "HTTP Response Code: " << http_code << std::endl;
 
