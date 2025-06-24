@@ -3,8 +3,7 @@
 
 namespace curling {
 
-Request::Request() : curlHandle(curl_easy_init()), list(nullptr), 
-cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+Request::Request() : curlHandle(curl_easy_init()), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
     if (instances++ == 0)
         curl_global_init(CURL_GLOBAL_DEFAULT);
 
