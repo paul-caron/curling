@@ -3,8 +3,6 @@
 
 namespace curling {
 
-int Request::instances = 0;
-
 Request::Request() : curlHandle(curl_easy_init()), list(nullptr), 
 cookieFile("cookies.txt"), cookieJar("cookies.txt") {
     if (instances++ == 0)
