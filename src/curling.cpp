@@ -137,7 +137,7 @@ void Request::reset() {
     args.clear();
     responseHeadersMap.clear();
     response.clear();
-    method = GET;
+    method = Method::GET;
     if (list) {
         curl_slist_free_all(list);
         list = nullptr;
