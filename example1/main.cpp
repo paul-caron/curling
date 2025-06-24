@@ -6,7 +6,7 @@ using namespace std;
 
 int main(){
     Request request;
-    request.setMethod(Request::POST);
+    request.setMethod(Request::Method::POST);
     request.setURL("https://httpbin.org/post");
     request.addHeader("Content-Type: application/json");
     string jsonBody = R"({"key": "value"})";
