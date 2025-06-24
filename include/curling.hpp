@@ -12,7 +12,7 @@ namespace curling {
 
 class Request {
 public:
-    enum Method { GET, POST, PUT, DELETE };
+    enum class Method { GET, POST, PUT, DELETE };
 
     inline static std::atomic<int> instances = 0;
 
