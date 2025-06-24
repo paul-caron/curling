@@ -115,6 +115,13 @@ headers.
     const std::map<std::string, std::string>& getResponseHeadersMap() 
 const;
 
+/**
+     * @brief Retrieves http code of the response from the last sent request.
+     *
+     * @return A constant reference to the map containing response headers
+     */
+    const long& getHttpCode() const;
+
     /**
      * @brief Resets the internal state for reuse of this Request 
 instance.
@@ -127,6 +134,7 @@ private:
     struct curl_slist* list;
     std::string url, args, response, body, cookieFile, cookieJar;
     std::map<std::string, std::string> responseHeadersMap;
+    long http_code;
 
     /**
      * @brief Callback function for handling the data received in the 
