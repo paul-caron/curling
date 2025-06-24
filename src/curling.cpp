@@ -105,8 +105,7 @@ void Request::send() {
 
     CURLcode res = curl_easy_perform(curlHandle);
     if (res != CURLE_OK) {
-        std::cerr << "Curl perform failed: " << curl_easy_strerror(res) << 
-std::endl;
+        std::cerr << "Curl perform failed: " << curl_easy_strerror(res) << std::endl;
         throw std::runtime_error("Curl perform failed");
     }
 
