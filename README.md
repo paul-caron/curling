@@ -8,3 +8,8 @@ cd curling
 make
 ```
 
+## dependencies
+```
+sudo apt install curl libcurl libcurl-dev
+```
+
