@@ -67,24 +67,19 @@ void Request::addHeader(const std::string& header) {
 void Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT) {
-        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, 
-static_cast<long>(body.size()));
-        curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, 
-body.c_str());
+        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+        curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, body.c_str());
     }
 }
 
-size_t Request::WriteCallback(void* contents, size_t size, size_t nmemb, 
-void* userp) {
+size_t Request::WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     auto responseStream = static_cast<std::ostringstream*>(userp);
     responseStream->write(static_cast<char*>(contents), size * nmemb);
     return size * nmemb;
 }
 
-size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, 
-void* userdata) {
-    std::map<std::string, std::string>* headerMap = 
-static_cast<std::map<std::string, std::string>*>(userdata);
+size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata) {
+    std::map<std::string, std::string>* headerMap = static_cast<std::map<std::string, std::string>*>(userdata);
     std::string headerLine(buffer, size * nitems);
 
     if (headerLine.empty()) return 0; // skip the separation line
@@ -127,10 +122,13 @@ const std::string& Request::getResponse() const {
     return response;
 }
 
-const std::map<std::string, std::string>& Request::getResponseHeadersMap() 
-const {
+const std::map<std::string, std::string>& Request::getResponseHeadersMap() const {
     return responseHeadersMap; // Access to headers map
 }
+
+ const long& getHttpCode() const{
+     return http_code;
+ }
 
 void Request::reset() {
     curl_easy_reset(curlHandle);
