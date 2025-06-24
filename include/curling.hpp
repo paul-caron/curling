@@ -14,10 +14,8 @@ namespace curling {
  * @class Request
  * @brief Handles HTTP requests using libcurl.
  *
- * This class provides functionality to perform HTTP operations such as 
-GET, POST,
- * PUT, and DELETE. It manages the setup and execution of these requests 
-with libcurl.
+ * This class provides functionality to perform HTTP operations such as GET, POST,
+ * PUT, and DELETE. It manages the setup and execution of these requests with libcurl.
  */
 class Request {
 public:
@@ -34,8 +32,7 @@ public:
 
     /**
      * @var instances
-     * @brief Static atomic counter to track the number of Request 
-instances.
+     * @brief Static atomic counter to track the number of Request instances.
      */
     inline static std::atomic<int> instances = 0;
 
@@ -50,8 +47,7 @@ instances.
     /**
      * @brief Destructor for the Request class.
      *
-     * Decrements the instances counter and performs any necessary 
-cleanup.
+     * Decrements the instances counter and performs any necessary cleanup.
      */
     ~Request();
 
@@ -72,22 +68,19 @@ cleanup.
     /**
      * @brief Adds an argument to the query string of the request.
      *
-     * @param arg The key-value pair formatted as a string (e.g., 
-"key=value").
+     * @param arg The key-value pair formatted as a string (e.g., "key=value").
      */
     void addArg(const std::string& arg);
 
     /**
      * @brief Adds a header to the request.
      *
-     * @param header The header string to be added (e.g., "Content-Type: 
-text/html").
+     * @param header The header string to be added (e.g., "Content-Type: text/html").
      */
     void addHeader(const std::string& header);
 
     /**
-     * @brief Sets the body of the HTTP request, applicable for POST and 
-PUT methods.
+     * @brief Sets the body of the HTTP request, applicable for POST and PUT methods.
      *
      * @param body The body content as a string.
      */
@@ -106,11 +99,9 @@ PUT methods.
     const std::string& getResponse() const;
 
     /**
-     * @brief Retrieves a map of response headers from the last sent 
-request.
+     * @brief Retrieves a map of response headers from the last sent request.
      *
-     * @return A constant reference to the map containing response 
-headers.
+     * @return A constant reference to the map containing response headers.
      */
     const std::map<std::string, std::string>& getResponseHeadersMap() 
 const;
@@ -123,8 +114,7 @@ const;
     const long& getHttpCode() const;
 
     /**
-     * @brief Resets the internal state for reuse of this Request 
-instance.
+     * @brief Resets the internal state for reuse of this Request instance.
      */
     void reset();
 
@@ -137,22 +127,17 @@ private:
     long http_code;
 
     /**
-     * @brief Callback function for handling the data received in the 
-response body.
+     * @brief Callback function for handling the data received in the response body.
      *
-     * This static function is used as a callback to handle incoming data 
-when
+     * This static function is used as a callback to handle incoming data when
      * writing the response body during a curl operation.
      *
      * @param contents Pointer to the data buffer.
      * @param size Size of each element.
      * @param nmemb Number of elements in the buffer.
-     * @param userp User pointer, typically pointing to an instance of 
-Request.
-     * @return The number of bytes actually taken care of by this 
-function,
-     *         which may differ from the size*nmemb if the data 
-is not
+     * @param userp User pointer, typically pointing to an instance of Request.
+     * @return The number of bytes actually taken care of by this function,
+     *         which may differ from the size*nmemb if the data is not
      *         completely processed here (due to a call to Curl_readdata()
      *         for example).
      */
@@ -163,20 +148,15 @@ is not
     /**
      * @brief Callback function for handling response headers.
      *
-     * This static function is used as a callback to handle incoming 
-header data
-     * during a curl operation. It processes and stores the headers in a 
-map.
+     * This static function is used as a callback to handle incoming header data
+     * during a curl operation. It processes and stores the headers in a map.
      *
      * @param buffer The header line being processed.
      * @param size Size of each character.
      * @param nitems Number of items (characters) in the buffer.
-     * @param userdata User pointer, typically pointing to an instance of 
-Request.
-     * @return The number of bytes actually taken care of by this 
-function,
-     *         which may differ from size*nitems if the data is 
-not completely
+     * @param userdata User pointer, typically pointing to an instance of Request.
+     * @return The number of bytes actually taken care of by this function,
+     *         which may differ from size*nitems if the data is not completely
      *         processed here.
      */
     static size_t HeaderCallback(char* buffer, size_t size, size_t nitems, 
@@ -186,8 +166,7 @@ not completely
     /**
      * @brief Cleans up resources associated with the current request.
      *
-     * This private method ensures that all libcurl and other allocated 
-resources
+     * This private method ensures that all libcurl and other allocated resources
      * are properly freed and reset.
      */
     void clean();
@@ -195,8 +174,7 @@ resources
     /**
      * @brief Updates the URL to include query arguments if present.
      *
-     * This method appends the stored query arguments to the base URL if 
-any 
+     * This method appends the stored query arguments to the base URL if any 
      * arguments have been added using addArg().
      */
     void updateURL();
