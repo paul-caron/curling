@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <atomic>
 #include <curl/curl.h>
 
 namespace curling {
@@ -13,7 +14,7 @@ class Request {
 public:
     enum Method { GET, POST, PUT, DELETE };
 
-    static int instances;
+    inline static std::atomic<int> instances = 0;
 
     Request();
     ~Request();
