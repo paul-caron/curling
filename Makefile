@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Iinclude -Wall -std=c++11
-LDFLAGS = -static-libgcc
+LDFLAGS = -lcurl -static-libgcc
 
 SRC_DIR = src
 OBJ_DIR = obj
