@@ -8,7 +8,6 @@ Request::Request() : curlHandle(curl_easy_init()), list(nullptr), cookieFile("co
         curl_global_init(CURL_GLOBAL_DEFAULT);
 
     if (!curlHandle) {
-        std::cerr << "Curl initialization failed!" << std::endl;
         throw std::runtime_error("Curl initialization failed");
     }
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
@@ -105,7 +104,6 @@ void Request::send() {
 
     CURLcode res = curl_easy_perform(curlHandle);
     if (res != CURLE_OK) {
-        std::cerr << "Curl perform failed: " << curl_easy_strerror(res) << std::endl;
         throw std::runtime_error("Curl perform failed");
     }
 
