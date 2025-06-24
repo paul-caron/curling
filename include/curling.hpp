@@ -103,10 +103,9 @@ public:
      *
      * @return A constant reference to the map containing response headers.
      */
-    const std::map<std::string, std::string>& getResponseHeadersMap() 
-const;
+    const std::map<std::string, std::string>& getResponseHeadersMap() const;
 
-/**
+    /**
      * @brief Retrieves http code of the response from the last sent request.
      *
      * @return A constant reference to the map containing response headers
@@ -141,9 +140,7 @@ private:
      *         completely processed here (due to a call to Curl_readdata()
      *         for example).
      */
-    static size_t WriteCallback(void* contents, size_t size, size_t nmemb, 
-
-        void* userp);
+    static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
 
     /**
      * @brief Callback function for handling response headers.
@@ -159,9 +156,7 @@ private:
      *         which may differ from size*nitems if the data is not completely
      *         processed here.
      */
-    static size_t HeaderCallback(char* buffer, size_t size, size_t nitems, 
-
-        void* userdata);
+    static size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata);
 
     /**
      * @brief Cleans up resources associated with the current request.
