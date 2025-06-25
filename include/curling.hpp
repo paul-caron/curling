@@ -75,10 +75,14 @@ public:
      */
     ~Request();
 
+    // move constructors
+    Request(Request&& other) noexcept;
+    Request& operator=(Request&&) noexcept;
+
+    // deleted copy constructors
     Request(const Request&) = delete;
     Request& operator=(const Request&) = delete;
-    Request(Request&&) = delete;
-    Request& operator=(Request&&) = delete;
+
 
     /**
      * @brief Sets the HTTP method for the request.
