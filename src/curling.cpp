@@ -60,7 +60,7 @@ void Request::setMethod(Method m) {
     method = m;
     
     switch (method) {
-        case Method::MIME: return;
+        case Method::MIME: break;
         case Method::GET:
             curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
             break;
