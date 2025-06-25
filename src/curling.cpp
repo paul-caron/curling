@@ -159,12 +159,12 @@ void Request::trim(std::string &s){
 }
 
 void Request::setTimeout(long seconds){
-    
+    curl_easy_setopt(curlHandle, CURLOPT_TIMEOUT, seconds);
 }
 
 
 void Request::setConnectTimeout(long seconds){
-    
+    curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, seconds);
 }
 
 } // namespace curling
