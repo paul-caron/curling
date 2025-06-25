@@ -99,27 +99,6 @@ public:
     Response send();
 
     /**
-     * @brief Retrieves the response body from the last sent request.
-     *
-     * @return A constant reference to the response string.
-     */
-    const std::string& getResponse() const;
-
-    /**
-     * @brief Retrieves a map of response headers from the last sent request.
-     *
-     * @return A constant reference to the map containing response headers.
-     */
-    const std::map<std::string, std::string>& getResponseHeadersMap() const;
-
-    /**
-     * @brief Retrieves http code of the response from the last sent request.
-     *
-     * @return A constant reference to the map containing response headers
-     */
-    const long& getHttpCode() const;
-
-    /**
      * @brief Resets the internal state for reuse of this Request instance.
      */
     void reset();
