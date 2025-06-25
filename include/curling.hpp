@@ -178,6 +178,13 @@ public:
      */
     void setAuthToken(const std::string& token);
 
+    /**
+     * @brief Sets the cookie file path
+     *
+     * This method sets the name or path of the file that curl will write cookies into. Default "cookies.txt".
+     */
+    void setCookiePath(const std::string& path);
+
 private:
     Method method;
     CURL* curlHandle;
