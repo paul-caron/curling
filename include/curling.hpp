@@ -179,6 +179,7 @@ private:
      * arguments have been added using addArg().
      */
     void updateURL();
+    void trim(std::string & s);
 };
 
 } // namespace curling
