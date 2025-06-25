@@ -100,7 +100,7 @@ public:
     void setProxy(const std::string& URL);
 
     /**
-     * @brief Sets the URL for the request.
+     * @brief Sets the auth credentials for the proxy
      *
      * @param username
      * @param password
@@ -109,7 +109,7 @@ public:
 
 
     /**
-     * @brief Sets the URL for the request.
+     * @brief Sets the Auth Method used with proxies
      *
      * @param method
      */
@@ -155,6 +155,13 @@ public:
      * This method is to limit the amount of time per request
      */
     void setTimeout(long seconds);
+
+    /**
+     * @brief Sets follow redirects
+     *
+     * This method is to enable or disable follow redirects.
+     */
+    void setFollowRedirects(bool follow);
 
 
     /**
