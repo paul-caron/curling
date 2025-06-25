@@ -93,6 +93,13 @@ public:
     void setURL(const std::string& URL);
 
     /**
+     * @brief Sets the URL for the request.
+     *
+     * @param URL The URL of the Proxy, a string.
+     */
+    void setProxy(const std::string& URL);
+
+    /**
      * @brief Adds an argument to the query string of the request.
      *
      * @param key The arg key
