@@ -246,9 +246,8 @@ void Request::setUserAgent(const std::string& userAgent){
 
 void Request::addFormField(const std::string& fieldName, const std::string & value){
     if(!mime){
-        mime = curl_mime_init(mime);
+        mime = curl_mime_init(curlHandle);
         curl_easy_setopt(curlHandle, CURLOPT_MIMEPOST, mime);
-        setMethod(Method::POST);
     }
     curl_mimepart* part = curl_mime_addpart(mime);
     curl_mime_name(part, fieldName.c_str());
@@ -257,9 +256,8 @@ void Request::addFormField(const std::string& fieldName, const std::string & val
 
 void Request::addFormFile(const std::string& fieldName, const std::string & filePath){
         if(!mime){
-        mime = curl_mime_init(mime);
+        mime = curl_mime_init(curlHandle);
         curl_easy_setopt(curlHandle, CURLOPT_MIMEPOST, mime);
-        setMethod(Method::POST);
     }
     curl_mimepart* part = curl_mime_addpart(mime);
     curl_mime_name(part, fieldName.c_str());
