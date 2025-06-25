@@ -82,7 +82,7 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
     auto colonPos = headerLine.find(":");
     if (colonPos != std::string::npos) {
         std::string key = headerLine.substr(0, colonPos);
-        std::string value = headerLine.substr(colonPos + 2);
+        std::string value = headerLine.substr(colonPos + 1);
         (*headerMap)[key] = value;
     }
 
