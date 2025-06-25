@@ -11,11 +11,28 @@
 
 namespace curling {
 
+/**
+ * @struct Response
+ * @brief Represents an HTTP response.
+ *
+ * This structure holds details of an HTTP response, including 
+ * the status code, body content, and headers.
+ */
 struct Response {
-    long httpCode;
-    std::string body;
+    long httpCode; ///< The HTTP status code received in the response.
+
+    std::string body; ///< The body content of the HTTP response as a 
+string.
+
+    /**
+     * @brief A map to store HTTP headers from the response.
+     *
+     * Each header is stored with its name as the key and 
+     * the corresponding value as the map's value.
+     */
     std::map<std::string, std::string> headers;
 };
+
 
 /**
  * @class Request
