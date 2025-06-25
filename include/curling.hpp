@@ -74,6 +74,11 @@ public:
      */
     ~Request();
 
+    Request(const Request&) = delete;
+    Request& operator=(const Request&) = delete;
+    Request(Request&&) = delete;
+    Request& operator=(Request&&) = delete;
+
     /**
      * @brief Sets the HTTP method for the request.
      *
