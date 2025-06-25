@@ -226,4 +226,8 @@ void Request::setAuthToken(const std::string& token){
     addHeader(header);
 }
 
+void Request::setFollowRedirects(bool follow){
+    curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, follow ? 1L : 0L);
+}
+
 } // namespace curling
