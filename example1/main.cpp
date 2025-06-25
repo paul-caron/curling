@@ -10,8 +10,9 @@ int main(){
     request.setMethod(Request::Method::POST);
     request.setURL("https://httpbin.org/post");
     request.addHeader("Content-Type: application/json");
-    string jsonBody = R"({"key": "value"})";
+    string jsonBody = R"({"jsonKey": "jsonValue"})";
     request.setBody(jsonBody);
+    request.addArg("argKey","argValue");
     auto response = request.send();
 
     cout << "Response Code: " << response.httpCode << endl;
