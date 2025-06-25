@@ -34,7 +34,7 @@ void Request::setMethod(Method m) {
             curl_easy_setopt(curlHandle, CURLOPT_POST, 1L);
             break;
         case Method::PUT:
-            curl_easy_setopt(curlHandle, CURLOPT_UPLOAD, 1L);
+            curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PUT");
             break;
         case Method::DELETE:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -62,8 +62,8 @@ void Request::addHeader(const std::string& header) {
 void Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT) {
-        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
-        curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, body.c_str());
+        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
+        curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, this->body.data());
     }
 }
 
