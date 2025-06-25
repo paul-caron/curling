@@ -20,7 +20,7 @@ int main(){
     auto responseHeadersMap = response.headers;
     cout << "\nResponse Headers Map:" << endl;
     for (const auto& header : responseHeadersMap) {
-        cout << header.first << ": " << header.second << endl;
+        cout << header.first << ": " << header.second[0] << endl;
     }
 
     return 0;
