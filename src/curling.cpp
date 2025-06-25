@@ -203,6 +203,15 @@ void Request::setProxy(const std::string& url){
     curl_easy_setopt(curlHandle, CURLOPT_PROXY, url.c_str());
 }
 
+void Request::setProxyAuth(const std::string& username, const std::string password){
+    curl_easy_septopt(curlHandle, CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
+}
+
+void Request::setProxyAuthMethod(long method){
+    //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST, CURLAUTH_ANY
+    curl_easy_setopt(curlHandle, CURLOPT_PROXYAUTH, method);
+}
+
 void Request::setConnectTimeout(long seconds){
     curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, seconds);
 }
