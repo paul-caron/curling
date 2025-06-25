@@ -95,9 +95,11 @@ public:
     /**
      * @brief Adds an argument to the query string of the request.
      *
-     * @param arg The key-value pair formatted as a string (e.g., "key=value").
+     * @param key The arg key
+     *
+     * @param value The arg value
      */
-    void addArg(const std::string& arg);
+    void addArg(const std::string& key, const std::string& value);
 
     /**
      * @brief Adds a header to the request.
