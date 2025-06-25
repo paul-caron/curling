@@ -185,6 +185,14 @@ public:
      */
     void setCookiePath(const std::string& path);
 
+
+    /**
+     * @brief Sets the User Agent header
+     *
+     * This method sets the user agent header that will be sent with the request
+     */
+    void setUserAgent(const std::string& userAgent);
+
 private:
     Method method;
     CURL* curlHandle;
