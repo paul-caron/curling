@@ -75,8 +75,17 @@ void Request::setURL(const std::string& URL) {
     url = URL;
 }
 
-void Request::addArg(const std::string& arg) {
-    args.append(args.empty() ? "" : "&").append(arg);
+void Request::addArg(const std::string& key, const std::string& value) {
+    char* escapedKey = curl_easy_escape(curlHandle, key.c_str(), 0);
+    char* escapedValue = curl_easy_escape(curlHandle, value.c_str(), 0);
+
+    if(escapedKey && escapedValue){
+        std::string arg = std::string(escapedKey) + "=" + escapedValue;
+        args.append(args.empty() ? "" : "&").append(arg);
+    }
+    
+    if(escapedKey) curl_free(escapedKey);
+    if(escapedValue) curl_free(escapedValue);
 }
 
 void Request::addHeader(const std::string& header) {
