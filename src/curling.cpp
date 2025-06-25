@@ -207,4 +207,9 @@ void Request::setConnectTimeout(long seconds){
     curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, seconds);
 }
 
+void Request::setAuthToken(const std::string& token){
+    std::string header = "Authorization: Bearer " + token;
+    addHeader(header);
+}
+
 } // namespace curling
