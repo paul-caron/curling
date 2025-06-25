@@ -1,5 +1,4 @@
 #include "curling.hpp"
-#include <stdexcept>
 
 namespace curling {
 
