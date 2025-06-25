@@ -199,8 +199,8 @@ void Request::setTimeout(long seconds){
     curl_easy_setopt(curlHandle, CURLOPT_TIMEOUT, seconds);
 }
 
-void Request::setProxy(std::string url){
-    curl_easy_setopt(curlHandle, CURLOPT_PROXY, url);
+void Request::setProxy(const std::string& url){
+    curl_easy_setopt(curlHandle, CURLOPT_PROXY, url.c_str());
 }
 
 void Request::setConnectTimeout(long seconds){
