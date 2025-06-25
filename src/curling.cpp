@@ -1,4 +1,4 @@
-o#include "curling.hpp"
+#include "curling.hpp"
 
 namespace curling {
 
