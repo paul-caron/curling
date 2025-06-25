@@ -100,6 +100,22 @@ public:
     void setProxy(const std::string& URL);
 
     /**
+     * @brief Sets the URL for the request.
+     *
+     * @param username
+     * @param password
+     */
+    void setProxyAuth(const std::string& username, const std::string password);
+
+
+    /**
+     * @brief Sets the URL for the request.
+     *
+     * @param method
+     */
+    void setProxyAuthMethod(long method);
+
+    /**
      * @brief Adds an argument to the query string of the request.
      *
      * @param key The arg key
