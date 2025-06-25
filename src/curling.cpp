@@ -44,12 +44,6 @@ Request::Request() : curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt
 
 Request::~Request() {
     clean();
-
-    if (list) {
-        curl_slist_free_all(list);
-        list = nullptr;
-    }
-
     maybeCleanupGlobalCurl();
 }
 
@@ -167,26 +161,25 @@ void Request::reset() {
     args.clear();
     url.clear();
     body.clear();
-
-    if (list) {
-        curl_slist_free_all(list);
-        list = nullptr;
-    }
-    
     method = Method::GET;
+
     curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
 }
 
 void Request::clean() {
-    if (curlHandle) {
-        curl_easy_cleanup(curlHandle);
-        curlHandle = nullptr;
-    }
     if (mime) {
         curl_mime_free(mime);
         mime = nullptr;
+    }
+    if (list) {
+        curl_slist_free_all(list);
+        list = nullptr;
+    }
+    if (curlHandle) {
+        curl_easy_cleanup(curlHandle);
+        curlHandle = nullptr;
     }
 }
 
