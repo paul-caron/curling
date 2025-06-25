@@ -33,9 +33,13 @@ Request::Request() : curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt
     if (!curlHandle) {
         throw std::runtime_error("Curl initialization failed");
     }
-    
+
+    //setup cookies
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
+
+    //set default method
+    curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
 }
 
 Request::~Request() {
