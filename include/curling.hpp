@@ -193,11 +193,28 @@ public:
      */
     void setUserAgent(const std::string& userAgent);
 
+
+    /**
+     * @brief Adds a form field
+     *
+     * This method adds a form field for a multipart form post request
+     */
+    void addFormField(const std::string& fieldName, const std::string & value);
+
+    /**
+     * @brief Adds a form file
+     *
+     * This method add a file to upload during the multipart post request
+     */
+    void addFormField(const std::string& fieldName, const std::string & filePath);
+
+
 private:
     Method method;
     CURL* curlHandle;
     struct curl_slist* list;
     std::string url, args, body, cookieFile, cookieJar;
+    curl_mime* mime = nullptr;
 
     /**
      * @brief Callback function for handling the data received in the response body.
