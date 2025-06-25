@@ -230,4 +230,12 @@ void Request::setFollowRedirects(bool follow){
     curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, follow ? 1L : 0L);
 }
 
+void Request::setCookiePath(const std::string& path){
+    //set path to read cookies from
+    curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, path.c_str());
+    //set path to write cookies to
+    curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, path.c_str());
+    
+}
+
 } // namespace curling
