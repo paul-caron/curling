@@ -184,6 +184,10 @@ void Request::clean() {
         curl_easy_cleanup(curlHandle);
         curlHandle = nullptr;
     }
+    if (mime) {
+        curl_mime_free(mime);
+        mime = nullptr;
+    }
 }
 
 void Request::updateURL() {
