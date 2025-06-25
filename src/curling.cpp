@@ -3,12 +3,14 @@
 namespace curling {
 
 Request::Request() : curlHandle(curl_easy_init()), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
-    if (instances++ == 0)
-        curl_global_init(CURL_GLOBAL_DEFAULT);
-
     if (!curlHandle) {
         throw std::runtime_error("Curl initialization failed");
     }
+    
+    if (instances++ == 0){
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+    }
+    
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
 }
