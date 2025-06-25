@@ -21,8 +21,7 @@ namespace curling {
 struct Response {
     long httpCode; ///< The HTTP status code received in the response.
 
-    std::string body; ///< The body content of the HTTP response as a 
-string.
+    std::string body; ///< The body content of the HTTP response as a string.
 
     /**
      * @brief A map to store HTTP headers from the response.
