@@ -137,4 +137,8 @@ void Request::updateURL() {
     curl_easy_setopt(curlHandle, CURLOPT_URL, s.c_str());
 }
 
+void Request::trim(std::string &s){
+    
+}
+
 } // namespace curling
