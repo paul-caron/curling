@@ -28,7 +28,7 @@ struct Response {
      * @brief A map to store HTTP headers from the response.
      *
      * Each header is stored with its name as the key and 
-     * the corresponding value as the map's value.
+     * the corresponding value is stored into a vector, as there can be many headers with same key.
      */
     std::map<std::string, std::vector<std::string>> headers;
 };
