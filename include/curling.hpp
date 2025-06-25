@@ -59,12 +59,6 @@ public:
     };
 
     /**
-     * @var instances
-     * @brief Static atomic counter to track the number of Request instances.
-     */
-    inline static std::atomic<int> instances = 0;
-
-    /**
      * @brief Constructor for the Request class.
      *
      * Initializes a new instance of the Request class and increments the 
