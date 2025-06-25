@@ -7,6 +7,7 @@
 #include <vector>
 #include <sstream>
 #include <atomic>
+#include <mutex>
 #include <stdexcept>
 #include <algorithm>
 #include <cctype>
