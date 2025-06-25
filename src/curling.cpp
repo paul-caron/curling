@@ -82,7 +82,7 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
 
     if (headerLine.empty()) return 0; // skip the separation line
 
-    auto colonPos = headerLine.find(": ");
+    auto colonPos = headerLine.find(":");
     if (colonPos != std::string::npos) {
         std::string key = headerLine.substr(0, colonPos);
         std::string value = headerLine.substr(colonPos + 2);
