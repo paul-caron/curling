@@ -8,6 +8,9 @@
 #include <sstream>
 #include <atomic>
 #include <stdexcept>
+#include <algorithm>
+#include <cctype>
+#include <locale>
 #include <curl/curl.h>
 
 namespace curling {
