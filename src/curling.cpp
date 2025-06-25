@@ -103,7 +103,7 @@ Response Request::send() {
     updateURL();
     CURLcode res = curl_easy_perform(curlHandle);
     if (res != CURLE_OK) {
-        throw std::runtime_error("Curl perform failed" + std::string(curl_easy_strerror(res)));
+        throw std::runtime_error("Curl perform failed: " + std::string(curl_easy_strerror(res)));
     }
  
     curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &(response.httpCode)); // store the http code from the response
