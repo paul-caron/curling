@@ -10,6 +10,12 @@
 
 namespace curling {
 
+struct Response {
+    long httpCode;
+    std::string body;
+    std::map<std::string, std::string> headers;
+};
+
 /**
  * @class Request
  * @brief Handles HTTP requests using libcurl.
@@ -89,7 +95,7 @@ public:
     /**
      * @brief Sends the HTTP request using libcurl.
      */
-    void send();
+    Response send();
 
     /**
      * @brief Retrieves the response body from the last sent request.
