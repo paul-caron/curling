@@ -70,6 +70,9 @@ void Request::setMethod(Method m) {
         case Method::PUT:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PUT");
             break;
+        case Method::PATCH:
+            curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PATCH");
+            break;
         case Method::DELETE_:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
@@ -104,7 +107,7 @@ void Request::addHeader(const std::string& header) {
 
 void Request::setBody(const std::string& body) {
     this->body = body;
-    if (method == Method::POST || method == Method::PUT) {
+    if (method == Method::POST || method == Method::PUT || method == Method::PATCH) {
         curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
         curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, this->body.data());
     }
