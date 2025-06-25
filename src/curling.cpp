@@ -204,7 +204,7 @@ void Request::setProxy(const std::string& url){
 }
 
 void Request::setProxyAuth(const std::string& username, const std::string password){
-    curl_easy_septopt(curlHandle, CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
+    curl_easy_setopt(curlHandle, CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
 }
 
 void Request::setProxyAuthMethod(long method){
