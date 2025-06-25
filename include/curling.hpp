@@ -179,7 +179,13 @@ private:
      * arguments have been added using addArg().
      */
     void updateURL();
-    void trim(std::string & s);
+
+    /**
+     * @brief Trims whitespaces from string
+     *
+     * This method is used to trim spaces during parsing of the response headers
+     */
+    static void trim(std::string & s);
 };
 
 } // namespace curling
