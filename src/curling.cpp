@@ -48,12 +48,18 @@ Request::~Request() {
 }
 
 void Request::setMethod(Method m) {
+    if(method == Method::MIME && m!= Method::MIME){
+        throw std::logic-error("Cannot override MIME method with another HTTP method");
+    }
+    
     //reset CUSTOMREQUEST and others so they dont interfere with each other when curl sends request
     curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 0L);
     curl_easy_setopt(curlHandle, CURLOPT_POST, 0L);
     curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, nullptr);
     
     method = m;
+    if(method == Method::MIME) return ;
+    
     switch (method) {
         case Method::GET:
             curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
@@ -64,7 +70,7 @@ void Request::setMethod(Method m) {
         case Method::PUT:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PUT");
             break;
-        case Method::DELETE:
+        case Method::DELETE_:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
     }
