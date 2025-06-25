@@ -206,7 +206,7 @@ public:
      *
      * This method add a file to upload during the multipart post request
      */
-    void addFormField(const std::string& fieldName, const std::string & filePath);
+    void addFormFile(const std::string& fieldName, const std::string & filePath);
 
 
 private:
