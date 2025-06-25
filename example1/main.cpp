@@ -12,12 +12,12 @@ int main(){
     request.addHeader("Content-Type: application/json");
     string jsonBody = R"({"key": "value"})";
     request.setBody(jsonBody);
-    request.send();
+    auto response = request.send();
 
-    cout << "Response Code: " << request.getHttpCode() << endl;
-    cout << "Response Data:\n" << request.getResponse() << endl;
+    cout << "Response Code: " << response.httpCode << endl;
+    cout << "Response Data:\n" << response.body << endl;
 
-    auto responseHeadersMap = request.getResponseHeadersMap();
+    auto responseHeadersMap = response.headers;
     cout << "\nResponse Headers Map:" << endl;
     for (const auto& header : responseHeadersMap) {
         cout << header.first << ": " << header.second << endl;
