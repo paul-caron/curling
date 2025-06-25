@@ -117,10 +117,11 @@ Response Request::send() {
 }
 
 void Request::reset() {
-    if(curlHandle){
-        curl_easy_reset(curlHandle);
-    }
+    clean();
     curlHandle = curl_easy_init();
+    if(!curlHandle){
+        throw std::runtime_error("Curl re-initialization failed");
+    }
     
     args.clear();
     url.clear();
