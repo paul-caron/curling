@@ -128,6 +128,22 @@ public:
      */
     void reset();
 
+
+    /**
+     * @brief Sets timeout of request
+     *
+     * This method is to limit the amount of time per request
+     */
+    void setTimeout(long seconds);
+
+
+    /**
+     * @brief Sets timeout to connect
+     *
+     * This method is to limit the amount of time per connection
+     */
+    void setConnectTimeout(long seconds);
+
 private:
     Method method;
     CURL* curlHandle;
@@ -189,6 +205,7 @@ private:
      * This method is used to trim spaces during parsing of the response headers
      */
     static void trim(std::string & s);
+
 };
 
 } // namespace curling
