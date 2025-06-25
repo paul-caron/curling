@@ -158,4 +158,13 @@ void Request::trim(std::string &s){
     }).base(), s.end());
 }
 
+void Request::setTimeout(long seconds){
+    
+}
+
+
+void Request::setConnectTimeout(long seconds){
+    
+}
+
 } // namespace curling
