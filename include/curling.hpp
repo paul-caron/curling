@@ -6,6 +6,7 @@
 #include <map>
 #include <sstream>
 #include <atomic>
+#include <stdexcept>
 #include <curl/curl.h>
 
 namespace curling {
