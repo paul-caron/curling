@@ -9,6 +9,7 @@ int main(){
 
     request.setMethod(Request::Method::POST);
     request.setURL("https://httpbin.org/post");
+    request.setUserAgent("Bond/James-Bond/007");
     request.addHeader("Content-Type: application/json");
     string jsonBody = R"({"jsonKey": "jsonValue"})";
     request.setBody(jsonBody);
@@ -27,3 +28,4 @@ int main(){
     return 0;
 
 }
+
