@@ -117,14 +117,22 @@ Response Request::send() {
 }
 
 void Request::reset() {
-    curl_easy_reset(curlHandle);
+    if(curlHandle){
+        curl_easy_reset(curlHandle);
+    }
+    curlHandle = curl_easy_init();
+    
     args.clear();
     url.clear();
-    method = Method::GET;
+    body.clear();
+
     if (list) {
         curl_slist_free_all(list);
         list = nullptr;
     }
+    
+    method = Method::GET;
+    curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
 }
