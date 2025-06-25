@@ -107,7 +107,7 @@ public:
      * @param username
      * @param password
      */
-    void setProxyAuth(const std::string& username, const std::string password);
+    void setProxyAuth(const std::string& username, const std::string & password);
 
 
     /**
