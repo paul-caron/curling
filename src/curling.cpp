@@ -1,4 +1,4 @@
-#include "curling.hpp"
+o#include "curling.hpp"
 
 namespace curling {
 
@@ -54,6 +54,11 @@ Request::~Request() {
 }
 
 void Request::setMethod(Method m) {
+    //reset CUSTOMREQUEST and others so they dont interfere with each other when curl sends request
+    curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 0L);
+    curl_easy_setopt(curlHandle, CURLOPT_POST, 0L);
+    curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, nullptr);
+    
     method = m;
     switch (method) {
         case Method::GET:
