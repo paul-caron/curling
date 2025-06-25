@@ -92,38 +92,27 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
     return size * nitems;
 }
 
-void Request::send() {
+Response Request::send() {
     std::ostringstream responseStream;
+    Response response;
 
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &responseStream);
 
     // Use responseHeadersMap to store headers
     curl_easy_setopt(curlHandle, CURLOPT_HEADERFUNCTION, HeaderCallback);
-    curl_easy_setopt(curlHandle, CURLOPT_HEADERDATA, &responseHeadersMap);
+    curl_easy_setopt(curlHandle, CURLOPT_HEADERDATA, &(response.headers));
 
     CURLcode res = curl_easy_perform(curlHandle);
     if (res != CURLE_OK) {
         throw std::runtime_error("Curl perform failed" + std::string(curl_easy_strerror(res)));
     }
+ 
+    curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &(response.httpCode)); // store the http code from the response
 
-    http_code = 0; 
-    curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &http_code); // store the http code from the response
-
-    response = responseStream.str(); // Store the response body
-}
-
-const std::string& Request::getResponse() const {
+    response.body = responseStream.str(); // Store the response body
     return response;
 }
-
-const std::map<std::string, std::string>& Request::getResponseHeadersMap() const {
-    return responseHeadersMap; // Access to headers map
-}
-
- const long& Request::getHttpCode() const{
-     return http_code;
- }
 
 void Request::reset() {
     curl_easy_reset(curlHandle);
