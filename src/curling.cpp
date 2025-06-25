@@ -240,4 +240,8 @@ void Request::setCookiePath(const std::string& path){
     cookieJar = path;
 }
 
+void Request::setUserAgent(const std::string& userAgent){
+    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, userAgent.c_str());
+}
+
 } // namespace curling
