@@ -44,12 +44,10 @@ void Request::setMethod(Method m) {
 
 void Request::setURL(const std::string& URL) {
     url = URL;
-    updateURL();
 }
 
 void Request::addArg(const std::string& arg) {
     args.append(args.empty() ? "" : "&").append(arg);
-    updateURL();
 }
 
 void Request::addHeader(const std::string& header) {
@@ -101,7 +99,8 @@ Response Request::send() {
     // Use responseHeadersMap to store headers
     curl_easy_setopt(curlHandle, CURLOPT_HEADERFUNCTION, HeaderCallback);
     curl_easy_setopt(curlHandle, CURLOPT_HEADERDATA, &(response.headers));
-
+    
+    updateURL();
     CURLcode res = curl_easy_perform(curlHandle);
     if (res != CURLE_OK) {
         throw std::runtime_error("Curl perform failed" + std::string(curl_easy_strerror(res)));
@@ -116,12 +115,12 @@ Response Request::send() {
 void Request::reset() {
     curl_easy_reset(curlHandle);
     args.clear();
+    url.clear();
     method = Method::GET;
     if (list) {
         curl_slist_free_all(list);
         list = nullptr;
     }
-    updateURL();
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
 }
