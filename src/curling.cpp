@@ -235,7 +235,9 @@ void Request::setCookiePath(const std::string& path){
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, path.c_str());
     //set path to write cookies to
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, path.c_str());
-    
+    //set member variables
+    cookieFile = path;
+    cookieJar = path;
 }
 
 } // namespace curling
