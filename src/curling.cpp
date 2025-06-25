@@ -2,13 +2,36 @@
 
 namespace curling {
 
-Request::Request() : curlHandle(curl_easy_init()), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+namespace {
+
+std::once_flag curlGlobalInitFlag;
+std::mutex curlGlobalMutex;
+
+int instanceCount = 0;
+
+void ensureCurlGlobalInit(){
+    std::call_once(curlGlobalInitFlag, []{
+        curl_global_init(CURL_GLOBAL_DEFAULT);
+    });
+    std::lock_guard<std::mutex> lock(curlGlobalMutex);
+    ++instanceCount;
+}
+
+void maybeCleanupGlobalCurl(){
+    std::lock_guard<std::mutex> lock(curlGlobalMutex);
+    if(--instanceCount==0){
+        curl_global_cleanup();
+    }
+}
+
+}//anonymous namespace end
+
+Request::Request() : curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+    ensureCurlGlobalInit();
+    
+    curlHandle = curl_easy_init();
     if (!curlHandle) {
         throw std::runtime_error("Curl initialization failed");
-    }
-    
-    if (instances++ == 0){
-        curl_global_init(CURL_GLOBAL_DEFAULT);
     }
     
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
@@ -17,13 +40,13 @@ Request::Request() : curlHandle(curl_easy_init()), list(nullptr), cookieFile("co
 
 Request::~Request() {
     clean();
-    if (--instances == 0)
-        curl_global_cleanup();
 
     if (list) {
         curl_slist_free_all(list);
         list = nullptr;
     }
+
+    maybeCleanupGlobalCurl();
 }
 
 void Request::setMethod(Method m) {
