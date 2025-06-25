@@ -74,7 +74,7 @@ size_t Request::WriteCallback(void* contents, size_t size, size_t nmemb, void* u
 }
 
 size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata) {
-    std::map<std::string, std::string>* headerMap = static_cast<std::map<std::string, std::string>*>(userdata);
+    auto* headerMap = static_cast<std::map<std::string, std::vector<std::string>>*>(userdata);
     std::string headerLine(buffer, size * nitems);
 
     if (headerLine.empty()) return 0; // skip the separation line
@@ -83,7 +83,7 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
     if (colonPos != std::string::npos) {
         std::string key = headerLine.substr(0, colonPos);
         std::string value = headerLine.substr(colonPos + 1);
-        (*headerMap)[key] = value;
+        (*headerMap)[key].push_back(value);
     }
 
     return size * nitems;
