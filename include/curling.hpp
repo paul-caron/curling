@@ -127,7 +127,7 @@ private:
     Method method;
     CURL* curlHandle;
     struct curl_slist* list;
-    std::string url, args, cookieFile, cookieJar;
+    std::string url, args, body, cookieFile, cookieJar;
 
     /**
      * @brief Callback function for handling the data received in the response body.
