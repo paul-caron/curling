@@ -117,8 +117,6 @@ Response Request::send() {
 void Request::reset() {
     curl_easy_reset(curlHandle);
     args.clear();
-    responseHeadersMap.clear();
-    response.clear();
     method = Method::GET;
     if (list) {
         curl_slist_free_all(list);
