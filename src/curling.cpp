@@ -244,4 +244,12 @@ void Request::setUserAgent(const std::string& userAgent){
     curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, userAgent.c_str());
 }
 
+void Request::addFormField(const std::string& fieldName, const std::string & value){
+    
+}
+
+void Request::addFormFile(const std::string& fieldName, const std::string & filePath){
+    
+}
+
 } // namespace curling
