@@ -58,9 +58,9 @@ void Request::setMethod(Method m) {
     curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, nullptr);
     
     method = m;
-    if(method == Method::MIME) return ;
     
     switch (method) {
+        case Method::MIME: return;
         case Method::GET:
             curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
             break;
