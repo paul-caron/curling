@@ -148,6 +148,13 @@ public:
      */
     void setConnectTimeout(long seconds);
 
+    /**
+     * @brief Sets the header "Autorization: Bearer <token>"
+     *
+     * This method sets the header with a given authorization token.
+     */
+    void setAuthToken(const std::string& token);
+
 private:
     Method method;
     CURL* curlHandle;
