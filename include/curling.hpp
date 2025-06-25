@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 #include <sstream>
 #include <atomic>
 #include <stdexcept>
@@ -29,7 +30,7 @@ struct Response {
      * Each header is stored with its name as the key and 
      * the corresponding value as the map's value.
      */
-    std::map<std::string, std::string> headers;
+    std::map<std::string, std::vector<std::string>> headers;
 };
 
 
