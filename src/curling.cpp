@@ -26,7 +26,7 @@ void maybeCleanupGlobalCurl() noexcept {
 
 }//anonymous namespace end
 
-Request::Request() : curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
     ensureCurlGlobalInit();
     
     curlHandle.reset(curl_easy_init());
