@@ -52,9 +52,6 @@ Request::Request(Request&& other) noexcept
     cookieFile(std::move(other.cookieFile)),
     cookieJar(std::move(other.cookieJar)),
     mime(std::move(other.mime)){
-    //other.curlHandle = nullptr;
-    //other.list = nullptr;
-    //other.mime = nullptr;
 }
 
 Request& Request::operator=(Request&& other) noexcept {
@@ -72,10 +69,6 @@ Request& Request::operator=(Request&& other) noexcept {
         body = std::move(other.body);
         cookieFile = std::move(other.cookieFile);
         cookieJar = std::move(other.cookieJar);
-
-        //other.curlHandle = nullptr;
-        //other.list = nullptr;
-        //other.mime = nullptr;
     }
     return *this;
 }
@@ -138,11 +131,12 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
 }
 
 Request& Request::addHeader(const std::string& header) {
-    if (list) {
-        list.reset(curl_slist_append(list.get(), header.c_str()));
-    } else {
-        list.reset(curl_slist_append(nullptr, header.c_str()));
+    auto newList = curl_slist_append(list.get(), header.c_str());
+    if(!newList){
+        throw std::runtime_error("Failed to append header to curl_slist");
     }
+    list.release();
+    list.reset(newList);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, list.get());
     return *this;
 }
