@@ -60,6 +60,7 @@ Conan
 🚀 Basic Usage
 
 ```cpp
+//main.cpp
 #include "curling.hpp"
 #include <iostream>
 
@@ -74,6 +75,10 @@ int main() {
     std::cout << res.toString();
     return 0;
 }
+```
+compile
+```bash
+g++ main.cpp -lcurling
 ```
 
 ---
