@@ -12,8 +12,8 @@ int main(){
            .setUserAgent("Bond/James-Bond/007")
            .addFormField("formKey", "formValue")
            .addFormFile("file", "test.txt")
-           .setConnectTimeout(5);
-           .setTimeout(10)
+           .setConnectTimeout(5)
+           .setTimeout(10);
            
 
     auto response = request.send();
