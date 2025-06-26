@@ -1,3 +1,5 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 # Curling
 
 **Curling** is a modern C++17 wrapper around **libcurl**, designed to simplify HTTP/HTTPS requests using a clean and fluent API.
