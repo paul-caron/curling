@@ -17,14 +17,7 @@ int main(){
 
     auto response = request.send();
 
-    cout << "Response Code: " << response.httpCode << endl;
-    cout << "Response Data:\n" << response.body << endl;
-
-    auto responseHeadersMap = response.headers;
-    cout << "\nResponse Headers Map:" << endl;
-    for (const auto& header : responseHeadersMap) {
-        cout << header.first << ": " << header.second[0] << endl;
-    }
+    cout << response.toString();
 
     return 0;
 
