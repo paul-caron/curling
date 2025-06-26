@@ -91,28 +91,28 @@ Request& Request::setMethod(Method m) {
     }
     
     //reset CUSTOMREQUEST and others so they dont interfere with each other when curl sends request
-    curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 0L);
-    curl_easy_setopt(curlHandle, CURLOPT_POST, 0L);
-    curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 0L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_POST, 0L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, nullptr);
     
     method = m;
     
     switch (method) {
         case Method::MIME: break;
         case Method::GET:
-            curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
             break;
         case Method::POST:
-            curl_easy_setopt(curlHandle, CURLOPT_POST, 1L);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_POST, 1L);
             break;
         case Method::PUT:
-            curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, "PUT");
             break;
         case Method::PATCH:
-            curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PATCH");
+            curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, "PATCH");
             break;
         case Method::DEL:
-            curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "DELETE");
+            curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
     }
     return *this;
@@ -124,8 +124,8 @@ Request& Request::setURL(const std::string& URL) {
 }
 
 Request& Request::addArg(const std::string& key, const std::string& value) {
-    char* escapedKey = curl_easy_escape(curlHandle, key.c_str(), 0);
-    char* escapedValue = curl_easy_escape(curlHandle, value.c_str(), 0);
+    char* escapedKey = curl_easy_escape(curlHandle.get(), key.c_str(), 0);
+    char* escapedValue = curl_easy_escape(curlHandle.get(), value.c_str(), 0);
 
     if(escapedKey && escapedValue){
         std::string arg = std::string(escapedKey) + "=" + escapedValue;
@@ -143,15 +143,15 @@ Request& Request::addHeader(const std::string& header) {
     } else {
         list = curl_slist_append(nullptr, header.c_str());
     }
-    curl_easy_setopt(curlHandle, CURLOPT_HTTPHEADER, list);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, list);
     return *this;
 }
 
 Request& Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT || method == Method::PATCH) {
-        curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
-        curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, this->body.data());
+        curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
+        curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, this->body.data());
     }
     return *this;
 }
@@ -184,20 +184,20 @@ Response Request::send() {
     std::ostringstream responseStream;
     Response response;
 
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &responseStream);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
 
     // Use responseHeadersMap to store headers
-    curl_easy_setopt(curlHandle, CURLOPT_HEADERFUNCTION, HeaderCallback);
-    curl_easy_setopt(curlHandle, CURLOPT_HEADERDATA, &(response.headers));
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, HeaderCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
     
     updateURL();
-    CURLcode res = curl_easy_perform(curlHandle);
+    CURLcode res = curl_easy_perform(curlHandle.get());
     if (res != CURLE_OK) {
         throw std::runtime_error("Curl perform failed: " + std::string(curl_easy_strerror(res)));
     }
  
-    curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &(response.httpCode)); // store the http code from the response
+    curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode)); // store the http code from the response
 
     response.body = responseStream.str(); // Store the response body
 
@@ -218,9 +218,9 @@ void Request::reset() {
     body.clear();
     method = Method::GET;
 
-    curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
 }
 
 void Request::clean() {
@@ -240,7 +240,7 @@ void Request::clean() {
 
 void Request::updateURL() {
     std::string s = args.empty() ? url : url + "?" + args;
-    curl_easy_setopt(curlHandle, CURLOPT_URL, s.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_URL, s.c_str());
 }
 
 void Request::trim(std::string &s){
@@ -253,28 +253,28 @@ void Request::trim(std::string &s){
 }
 
 Request& Request::setTimeout(long seconds){
-    curl_easy_setopt(curlHandle, CURLOPT_TIMEOUT, seconds);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_TIMEOUT, seconds);
     return *this;
 }
 
 Request& Request::setProxy(const std::string& url){
-    curl_easy_setopt(curlHandle, CURLOPT_PROXY, url.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXY, url.c_str());
     return *this;
 }
 
 Request& Request::setProxyAuth(const std::string& username, const std::string & password){
-    curl_easy_setopt(curlHandle, CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
     return *this;
 }
 
 Request& Request::setProxyAuthMethod(long method){
     //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST, CURLAUTH_ANY
-    curl_easy_setopt(curlHandle, CURLOPT_PROXYAUTH, method);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYAUTH, method);
     return *this;
 }
 
 Request& Request::setConnectTimeout(long seconds){
-    curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, seconds);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_CONNECTTIMEOUT, seconds);
     return *this;
 }
 
@@ -285,15 +285,15 @@ Request& Request::setAuthToken(const std::string& token){
 }
 
 Request& Request::setFollowRedirects(bool follow){
-    curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, follow ? 1L : 0L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_FOLLOWLOCATION, follow ? 1L : 0L);
     return *this;
 }
 
 Request& Request::setCookiePath(const std::string& path){
     //set path to read cookies from
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, path.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, path.c_str());
     //set path to write cookies to
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, path.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, path.c_str());
     //set member variables
     cookieFile = path;
     cookieJar = path;
@@ -301,17 +301,17 @@ Request& Request::setCookiePath(const std::string& path){
 }
 
 Request& Request::setUserAgent(const std::string& userAgent){
-    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, userAgent.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_USERAGENT, userAgent.c_str());
     return *this;
 }
 
 Request& Request::addFormField(const std::string& fieldName, const std::string & value){
     if(!mime){
-        mime = curl_mime_init(curlHandle);
+        mime = curl_mime_init(curlHandle.get());
         if(!mime) throw std::runtime_error("Failed to initialize MIME");
-        curl_easy_setopt(curlHandle, CURLOPT_MIMEPOST, mime);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, mime);
     }
-    curl_mimepart* part = curl_mime_addpart(mime);
+    curl_mimepart* part = curl_mime_addpart(mime.get());
     if(!part) throw std::runtime_error("Failed to add MIME part");
     curl_mime_name(part, fieldName.c_str());
     curl_mime_data(part, value.c_str(), CURL_ZERO_TERMINATED);
@@ -320,11 +320,11 @@ Request& Request::addFormField(const std::string& fieldName, const std::string &
 
 Request& Request::addFormFile(const std::string& fieldName, const std::string & filePath){
     if(!mime){
-        mime = curl_mime_init(curlHandle);
+        mime = curl_mime_init(curlHandle.get());
         if(!mime) throw std::runtime_error("Failed to initialize MIME");
-        curl_easy_setopt(curlHandle, CURLOPT_MIMEPOST, mime);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, mime);
     }
-    curl_mimepart* part = curl_mime_addpart(mime);
+    curl_mimepart* part = curl_mime_addpart(mime.get());
     if(!part) throw std::runtime_error("Failed to add MIME part");
     curl_mime_name(part, fieldName.c_str());
     curl_mime_filedata(part, filePath.c_str());
@@ -332,7 +332,7 @@ Request& Request::addFormFile(const std::string& fieldName, const std::string & 
 }
 
 Request& Request::enableVerbose(bool enabled){
-    curl_easy_setopt(curlHandle, CURLOPT_VERBOSE, enabled ? 1L : 0L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_VERBOSE, enabled ? 1L : 0L);
     return *this;
 }
 
