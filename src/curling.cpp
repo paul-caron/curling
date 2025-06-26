@@ -44,17 +44,17 @@ Request::Request() : curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt
 
 Request::Request(Request&& other) noexcept
    :method(other.method),
-    curlHandle(other.curlHandle),
-    list(other.list),
+    curlHandle(std::move(other.curlHandle)),
+    list(std::move(other.list)),
     url(std::move(other.url)),
     args(std::move(other.args)),
     body(std::move(other.body)),
     cookieFile(std::move(other.cookieFile)),
     cookieJar(std::move(other.cookieJar)),
     mime(std::move(other.mime)){
-    other.curlHandle = nullptr;
-    other.list = nullptr;
-    other.mime = nullptr;
+    //other.curlHandle = nullptr;
+    //other.list = nullptr;
+    //other.mime = nullptr;
 }
 
 Request& Request::operator=(Request&& other) noexcept {
