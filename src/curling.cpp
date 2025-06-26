@@ -224,6 +224,7 @@ void Request::reset() {
 }
 
 void Request::clean() {
+    /*
     if (mime) {
         curl_mime_free(mime);
         mime = nullptr;
@@ -235,7 +236,7 @@ void Request::clean() {
     if (curlHandle) {
         curl_easy_cleanup(curlHandle);
         curlHandle = nullptr;
-    }
+    }*/
 }
 
 void Request::updateURL() {
