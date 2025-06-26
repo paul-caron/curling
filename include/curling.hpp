@@ -231,7 +231,7 @@ public:
      * @brief Enable or disable curl's verbose mode
      *
      */
-    Request& enableVerbose(bool enabled);
+    Request& enableVerbose(bool enabled = true);
 
 private:
     Method method;
