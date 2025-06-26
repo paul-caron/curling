@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cctype>
 #include <locale>
+#include <memory>
 #include <curl/curl.h>
 
 namespace curling {
