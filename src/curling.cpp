@@ -200,6 +200,9 @@ Response Request::send() {
     curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &(response.httpCode)); // store the http code from the response
 
     response.body = responseStream.str(); // Store the response body
+
+    reset();
+    
     return response;
 }
 
