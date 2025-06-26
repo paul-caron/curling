@@ -35,11 +35,11 @@ Request::Request() : curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt
     }
 
     //setup cookies
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIEJAR, cookieJar.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
 
     //set default method
-    curl_easy_setopt(curlHandle, CURLOPT_HTTPGET, 1L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
 }
 
 Request::Request(Request&& other) noexcept
