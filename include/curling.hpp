@@ -37,7 +37,7 @@ struct Response {
     std::map<std::string, std::vector<std::string>> headers;
     std::string toString() const {
         std::ostringstream oss;
-        oss << "status: " << httpCode << "\n Body: \n" << body << "\n Headers: \n";
+        oss << "status: " << httpCode << "\nBody: \n" << body << "\nHeaders: \n";
         for(const auto& h: headers){
             oss << h.first << ": ";
             for(const auto& value: h.second){
