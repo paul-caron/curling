@@ -9,6 +9,7 @@ LIB_DIR := lib
 BUILD_DIR := build
 DOC_DIR := doc
 
+ARCH := amd64
 PACKAGE_NAME := curling
 VERSION := 1.0
 MAINTAINER := Your Name <you@example.com>
@@ -48,15 +49,15 @@ deb: install
 	chmod 0755 $(PKG_BUILD_DIR)/DEBIAN
 	echo "Package: $(PACKAGE_NAME)" > $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Version: $(VERSION)" >> $(PKG_BUILD_DIR)/DEBIAN/control
-	echo "Architecture: arm64" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Architecture: $(ARCH)" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Maintainer: $(MAINTAINER)" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Description: Static C++ wrapper for libcurl" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Section: libs" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Priority: optional" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Depends: libcurl4, libcurl4-openssl-dev" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	dpkg-deb --build $(PKG_BUILD_DIR)
-	@mv $(PKG_BUILD_DIR).deb $(PACKAGE_NAME)_$(VERSION)_amd64.deb
-	@echo "Package created: $(PACKAGE_NAME)_$(VERSION)_amd64.deb"
+	@mv $(PKG_BUILD_DIR).deb $(PACKAGE_NAME)_$(VERSION)_$(ARCH).deb
+	@echo "Package created: $(PACKAGE_NAME)_$(VERSION)_$(ARCH).deb"
 
 # ========== Documentation ==========
 
