@@ -224,19 +224,9 @@ void Request::reset() {
 }
 
 void Request::clean() {
-    /*
-    if (mime) {
-        curl_mime_free(mime);
-        mime = nullptr;
-    }
-    if (list) {
-        curl_slist_free_all(list);
-        list = nullptr;
-    }
-    if (curlHandle) {
-        curl_easy_cleanup(curlHandle);
-        curlHandle = nullptr;
-    }*/
+    mime.reset();
+    list.reset();
+    curlHandle.reset();
 }
 
 void Request::updateURL() {
