@@ -60,6 +60,7 @@ int main() {
 
     auto res = req.setMethod(curling::Request::Method::GET)
                   .setURL("https://example.com")
+                  .setUserAgent("Lizardzilla/6.9 (Reptillian Humanoid)")
                   .send();
 
     std::cout << res.toString();
