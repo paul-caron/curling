@@ -111,7 +111,7 @@ Request& Request::setMethod(Method m) {
         case Method::PATCH:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "PATCH");
             break;
-        case Method::DELETE_:
+        case Method::DEL:
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
     }
