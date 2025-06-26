@@ -208,7 +208,7 @@ Response Request::send() {
 
 void Request::reset() {
     clean();
-    curlHandle = curl_easy_init();
+    curlHandle.reset(curl_easy_init());
     if(!curlHandle){
         throw std::runtime_error("Curl re-initialization failed");
     }
