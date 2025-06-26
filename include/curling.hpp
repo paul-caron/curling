@@ -258,10 +258,10 @@ public:
 
 private:
     Method method;
-    CURL* curlHandle;
-    struct curl_slist* list;
+    CurlPtr curlHandle;
+    CurlSlistPtr list;
     std::string url, args, body, cookieFile, cookieJar;
-    curl_mime* mime = nullptr;
+    CurlMimePtr mime = nullptr;
 
     /**
      * @brief Callback function for handling the data received in the response body.
