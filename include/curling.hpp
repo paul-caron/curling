@@ -89,21 +89,21 @@ public:
      *
      * @param m The method to set (e.g., Method::GET, Method::POST).
      */
-    void setMethod(Method m);
+    Request& setMethod(Method m);
 
     /**
      * @brief Sets the URL for the request.
      *
      * @param URL The URL string to be used in the HTTP request.
      */
-    void setURL(const std::string& URL);
+    Request& setURL(const std::string& URL);
 
     /**
      * @brief Sets the URL for the request.
      *
      * @param URL The URL of the Proxy, a string.
      */
-    void setProxy(const std::string& URL);
+    Request& setProxy(const std::string& URL);
 
     /**
      * @brief Sets the auth credentials for the proxy
@@ -111,7 +111,7 @@ public:
      * @param username
      * @param password
      */
-    void setProxyAuth(const std::string& username, const std::string & password);
+    Request& setProxyAuth(const std::string& username, const std::string & password);
 
 
     /**
@@ -119,7 +119,7 @@ public:
      *
      * @param method
      */
-    void setProxyAuthMethod(long method);
+    Request& setProxyAuthMethod(long method);
 
     /**
      * @brief Adds an argument to the query string of the request.
@@ -128,21 +128,21 @@ public:
      *
      * @param value The arg value
      */
-    void addArg(const std::string& key, const std::string& value);
+    Request& addArg(const std::string& key, const std::string& value);
 
     /**
      * @brief Adds a header to the request.
      *
      * @param header The header string to be added (e.g., "Content-Type: text/html").
      */
-    void addHeader(const std::string& header);
+    Request& addHeader(const std::string& header);
 
     /**
      * @brief Sets the body of the HTTP request, applicable for POST and PUT methods.
      *
      * @param body The body content as a string.
      */
-    void setBody(const std::string& body);
+    Request& setBody(const std::string& body);
 
     /**
      * @brief Sends the HTTP request using libcurl.
@@ -160,14 +160,14 @@ public:
      *
      * This method is to limit the amount of time per request
      */
-    void setTimeout(long seconds);
+    Request& setTimeout(long seconds);
 
     /**
      * @brief Sets follow redirects
      *
      * This method is to enable or disable follow redirects.
      */
-    void setFollowRedirects(bool follow);
+    Request& setFollowRedirects(bool follow);
 
 
     /**
@@ -175,21 +175,21 @@ public:
      *
      * This method is to limit the amount of time per connection
      */
-    void setConnectTimeout(long seconds);
+    Request& setConnectTimeout(long seconds);
 
     /**
      * @brief Sets the header "Autorization: Bearer <token>"
      *
      * This method sets the header with a given authorization token.
      */
-    void setAuthToken(const std::string& token);
+    Request& setAuthToken(const std::string& token);
 
     /**
      * @brief Sets the cookie file path
      *
      * This method sets the name or path of the file that curl will write cookies into. Default "cookies.txt".
      */
-    void setCookiePath(const std::string& path);
+    Request& setCookiePath(const std::string& path);
 
 
     /**
@@ -197,7 +197,7 @@ public:
      *
      * This method sets the user agent header that will be sent with the request
      */
-    void setUserAgent(const std::string& userAgent);
+    Request& setUserAgent(const std::string& userAgent);
 
 
     /**
@@ -205,14 +205,14 @@ public:
      *
      * This method adds a form field for a multipart form post request
      */
-    void addFormField(const std::string& fieldName, const std::string & value);
+    Request& addFormField(const std::string& fieldName, const std::string & value);
 
     /**
      * @brief Adds a form file
      *
      * This method add a file to upload during the multipart post request
      */
-    void addFormFile(const std::string& fieldName, const std::string & filePath);
+    Request& addFormFile(const std::string& fieldName, const std::string & filePath);
 
 
 private:
