@@ -98,13 +98,13 @@ Default cookie file is cookies.txt, configurable with .setCookiePath().
 📚 Documentation
 
 Generated with Doxygen:
-
+```bash
 make doc
-
+```
 Output will be in the doc/ folder. Clean with:
-
+```bash
 make doc-clean
-
+```
 
 ---
 
