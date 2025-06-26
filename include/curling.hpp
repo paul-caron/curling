@@ -165,7 +165,7 @@ public:
      *
      * Decrements the instances counter and performs any necessary cleanup.
      */
-    ~Request();
+    ~Request() noexcept;
 
     // move constructors
     Request(Request&& other) noexcept;
@@ -359,7 +359,7 @@ private:
      * This private method ensures that all libcurl and other allocated resources
      * are properly freed and reset.
      */
-    void clean();
+    void clean() noexcept;
 
     /**
      * @brief Updates the URL to include query arguments if present.
