@@ -35,7 +35,15 @@ make deb
 ```
 This will produce a .deb package named:
 
+```bash
 curling_1.0_amd64.deb
+```
+
+Use apt to install and update ld cache:
+```
+sudo apt install ./curling_1.0_amd64.dev
+sudo ldconfig
+```
 
 🔮 Future Install Options (planned)
 
