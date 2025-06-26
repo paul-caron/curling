@@ -85,7 +85,7 @@ Request::~Request() {
     maybeCleanupGlobalCurl();
 }
 
-void Request::setMethod(Method m) {
+Request& Request::setMethod(Method m) {
     if(method == Method::MIME && m!= Method::MIME){
         throw std::logic_error("Cannot override MIME method with another HTTP method");
     }
@@ -115,13 +115,15 @@ void Request::setMethod(Method m) {
             curl_easy_setopt(curlHandle, CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
     }
+    return *this;
 }
 
-void Request::setURL(const std::string& URL) {
+Request& Request::setURL(const std::string& URL) {
     url = URL;
+    return *this;
 }
 
-void Request::addArg(const std::string& key, const std::string& value) {
+Request& Request::addArg(const std::string& key, const std::string& value) {
     char* escapedKey = curl_easy_escape(curlHandle, key.c_str(), 0);
     char* escapedValue = curl_easy_escape(curlHandle, value.c_str(), 0);
 
@@ -132,23 +134,26 @@ void Request::addArg(const std::string& key, const std::string& value) {
     
     if(escapedKey) curl_free(escapedKey);
     if(escapedValue) curl_free(escapedValue);
+    return *this;
 }
 
-void Request::addHeader(const std::string& header) {
+Request& Request::addHeader(const std::string& header) {
     if (list) {
         list = curl_slist_append(list, header.c_str());
     } else {
         list = curl_slist_append(nullptr, header.c_str());
     }
     curl_easy_setopt(curlHandle, CURLOPT_HTTPHEADER, list);
+    return *this;
 }
 
-void Request::setBody(const std::string& body) {
+Request& Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT || method == Method::PATCH) {
         curl_easy_setopt(curlHandle, CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
         curl_easy_setopt(curlHandle, CURLOPT_COPYPOSTFIELDS, this->body.data());
     }
+    return *this;
 }
 
 size_t Request::WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -244,37 +249,44 @@ void Request::trim(std::string &s){
     }).base(), s.end());
 }
 
-void Request::setTimeout(long seconds){
+Request& Request::setTimeout(long seconds){
     curl_easy_setopt(curlHandle, CURLOPT_TIMEOUT, seconds);
+    return *this;
 }
 
-void Request::setProxy(const std::string& url){
+Request& Request::setProxy(const std::string& url){
     curl_easy_setopt(curlHandle, CURLOPT_PROXY, url.c_str());
+    return *this;
 }
 
-void Request::setProxyAuth(const std::string& username, const std::string & password){
+Request& Request::setProxyAuth(const std::string& username, const std::string & password){
     curl_easy_setopt(curlHandle, CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
+    return *this;
 }
 
-void Request::setProxyAuthMethod(long method){
+Request& Request::setProxyAuthMethod(long method){
     //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST, CURLAUTH_ANY
     curl_easy_setopt(curlHandle, CURLOPT_PROXYAUTH, method);
+    return *this;
 }
 
-void Request::setConnectTimeout(long seconds){
+Request& Request::setConnectTimeout(long seconds){
     curl_easy_setopt(curlHandle, CURLOPT_CONNECTTIMEOUT, seconds);
+    return *this;
 }
 
-void Request::setAuthToken(const std::string& token){
+Request& Request::setAuthToken(const std::string& token){
     std::string header = "Authorization: Bearer " + token;
     addHeader(header);
+    return *this;
 }
 
-void Request::setFollowRedirects(bool follow){
+Request& Request::setFollowRedirects(bool follow){
     curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, follow ? 1L : 0L);
+    return *this;
 }
 
-void Request::setCookiePath(const std::string& path){
+Request& Request::setCookiePath(const std::string& path){
     //set path to read cookies from
     curl_easy_setopt(curlHandle, CURLOPT_COOKIEFILE, path.c_str());
     //set path to write cookies to
@@ -282,13 +294,15 @@ void Request::setCookiePath(const std::string& path){
     //set member variables
     cookieFile = path;
     cookieJar = path;
+    return *this;
 }
 
-void Request::setUserAgent(const std::string& userAgent){
+Request& Request::setUserAgent(const std::string& userAgent){
     curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, userAgent.c_str());
+    return *this;
 }
 
-void Request::addFormField(const std::string& fieldName, const std::string & value){
+Request& Request::addFormField(const std::string& fieldName, const std::string & value){
     if(!mime){
         mime = curl_mime_init(curlHandle);
         curl_easy_setopt(curlHandle, CURLOPT_MIMEPOST, mime);
@@ -296,9 +310,10 @@ void Request::addFormField(const std::string& fieldName, const std::string & val
     curl_mimepart* part = curl_mime_addpart(mime);
     curl_mime_name(part, fieldName.c_str());
     curl_mime_data(part, value.c_str(), CURL_ZERO_TERMINATED);
+    return *this;
 }
 
-void Request::addFormFile(const std::string& fieldName, const std::string & filePath){
+Request& Request::addFormFile(const std::string& fieldName, const std::string & filePath){
         if(!mime){
         mime = curl_mime_init(curlHandle);
         curl_easy_setopt(curlHandle, CURLOPT_MIMEPOST, mime);
@@ -306,6 +321,7 @@ void Request::addFormFile(const std::string& fieldName, const std::string & file
     curl_mimepart* part = curl_mime_addpart(mime);
     curl_mime_name(part, fieldName.c_str());
     curl_mime_filedata(part, filePath.c_str());
+    return *this;
 }
 
 } // namespace curling
