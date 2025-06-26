@@ -211,7 +211,7 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
     
-    clean()
+    clean();
     curlHandle = std::move(newHandle);    
     args.clear();
     url.clear();
