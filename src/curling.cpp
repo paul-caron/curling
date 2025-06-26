@@ -168,6 +168,8 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
         std::string value = headerLine.substr(colonPos + 1);
         Request::trim(key);
         Request::trim(value);
+        Request::toLowerCase(key);
+        Request::toLowerCase(value);
         (*headerMap)[key].push_back(value);
     }
 
