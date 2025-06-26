@@ -90,7 +90,7 @@ public:
         GET, ///< Represents an HTTP GET request.
         POST, ///< Represents an HTTP POST request.
         PUT, ///< Represents an HTTP PUT request.
-        DEL, ///< Represents an HTTP DELETE request.
+        DEL, ///< Represents an HTTP DELETE request. Name shortened to DEL due to DELETE being a stupid macro living out there.
         PATCH, ///< Represents an HTTP PATCH request.
         MIME, ///< Represents an HTTP POST request. A pseudo method MIME for multipart forms (eg.. file upload)
     };
