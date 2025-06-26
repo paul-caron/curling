@@ -227,6 +227,12 @@ public:
     Request& addFormFile(const std::string& fieldName, const std::string & filePath);
 
 
+    /**
+     * @brief Enable or disable curl's verbose mode
+     *
+     */
+    Request& enableVerbose(bool enabled);
+
 private:
     Method method;
     CURL* curlHandle;
