@@ -1,4 +1,5 @@
 #include "curling.hpp"
+#include <iostream>
 
 using namespace curling;
 using namespace std;
