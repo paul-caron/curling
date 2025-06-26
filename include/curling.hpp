@@ -43,7 +43,7 @@ struct Response {
             for(const auto& value: h.second){
                 oss << value << " ";
             }
-            oss << endl;
+            oss << std::endl;
         }
         return oss.str();
     }
