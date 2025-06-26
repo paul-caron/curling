@@ -7,13 +7,13 @@ int main(){
 
     Request request;
 
-    request.setMethod(Request::Method::POST);
-    request.setURL("https://httpbin.org/post");
-    request.setUserAgent("Bond/James-Bond/007");
-    request.addHeader("Content-Type: application/json");
-    string jsonBody = R"({"jsonKey": "jsonValue"})";
-    request.setBody(jsonBody);
-    request.addArg("argKey","argValue");
+    request.setMethod(Request::Method::POST)
+           .setURL("https://httpbin.org/post")
+           .setUserAgent("Bond/James-Bond/007")
+           .addHeader("Content-Type: application/json")
+           .setBody(R"({"jsonKey": "jsonValue"})")
+           .addArg("argKey","argValue");
+
     auto response = request.send();
 
     cout << "Response Code: " << response.httpCode << endl;
@@ -28,4 +28,3 @@ int main(){
     return 0;
 
 }
-
