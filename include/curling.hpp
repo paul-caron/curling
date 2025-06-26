@@ -92,7 +92,7 @@ public:
         PUT, ///< Represents an HTTP PUT request.
         DEL, ///< Represents an HTTP DELETE request.
         PATCH, ///< Represents an HTTP PATCH request.
-        MIME, ///< Represents an HTTP POST request but with multipart form.
+        MIME, ///< Represents an HTTP POST request. A pseudo method MIME for multipart forms (eg.. file upload)
     };
 
     /**
