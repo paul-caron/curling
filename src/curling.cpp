@@ -237,6 +237,11 @@ void Request::trim(std::string &s){
     }).base(), s.end());
 }
 
+void Request::toLowerCase(std::string & s){
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+}
+
 Request& Request::setTimeout(long seconds){
     curl_easy_setopt(curlHandle.get(), CURLOPT_TIMEOUT, seconds);
     return *this;
