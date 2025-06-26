@@ -45,10 +45,8 @@
  */
 
 /**
- * @note Header keys in `Response::headers` are stored as-is (case-sensitive), 
- * but HTTP headers are case-insensitive. You may want to normalize them when accessing.
+ * @note Header keys in `Response::headers` are stored to lower case (case-insensitive).
  */
-
 
 /**
  * @note By default, cookies are stored in "cookies.txt". You can change this via setCookiePath().
