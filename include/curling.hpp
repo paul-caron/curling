@@ -67,7 +67,7 @@ public:
         GET, ///< Represents an HTTP GET request.
         POST, ///< Represents an HTTP POST request.
         PUT, ///< Represents an HTTP PUT request.
-        DELETE_, ///< Represents an HTTP DELETE request.
+        DEL, ///< Represents an HTTP DELETE request.
         PATCH, ///< Represents an HTTP PATCH request.
         MIME, ///< Represents an HTTP POST request but with multipart form.
     };
