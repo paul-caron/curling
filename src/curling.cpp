@@ -331,7 +331,7 @@ Request& Request::addFormFile(const std::string& fieldName, const std::string & 
     return *this;
 }
 
-Request& Request::enableVerbose(bool enabled = true){
+Request& Request::enableVerbose(bool enabled){
     curl_easy_setopt(curlHandle, CURLOPT_VERBOSE, enabled ? 1L : 0L);
     return *this;
 }
