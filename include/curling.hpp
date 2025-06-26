@@ -16,6 +16,24 @@
 
 namespace curling {
 
+struct CurlHandleDeleter {
+    void operator()(CURL * handle) const{
+        if (handle) curl_easy_cleanup(handle);
+    }
+};
+
+struct CurlSlistDeleter {
+    void operator()(curl_slist * list) const{
+        if(list) curl_slist_free_all(list);
+    }
+};
+
+struct CurlMimeDeleter {
+    void operator()(curl_mime* mime) const {
+        if(mime) curl_mime_free(mime);
+    }
+};
+
 /**
  * @struct Response
  * @brief Represents an HTTP response.
