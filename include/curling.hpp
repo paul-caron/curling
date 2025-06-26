@@ -75,19 +75,19 @@
 namespace curling {
 
 struct CurlHandleDeleter {
-    void operator()(CURL * handle) const{
+    void operator()(CURL * handle) const noexcept{
         if (handle) curl_easy_cleanup(handle);
     }
 };
 
 struct CurlSlistDeleter {
-    void operator()(curl_slist * list) const{
+    void operator()(curl_slist * list) const noexcept{
         if(list) curl_slist_free_all(list);
     }
 };
 
 struct CurlMimeDeleter {
-    void operator()(curl_mime* mime) const {
+    void operator()(curl_mime* mime) const noexcept{
         if(mime) curl_mime_free(mime);
     }
 };
