@@ -202,20 +202,22 @@ Response Request::send() {
 }
 
 void Request::reset() {
-    clean();
-    curlHandle.reset(curl_easy_init());
-    if(!curlHandle){
+    CurlPtr newHandle(curl_easy_init());
+    if(!newHandle){
         throw std::runtime_error("Curl re-initialization failed");
     }
     
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
+    
+    clean()
+    curlHandle = std::move(newHandle);    
     args.clear();
     url.clear();
     body.clear();
     method = Method::GET;
 
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
 }
 
 void Request::clean() {
