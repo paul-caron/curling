@@ -47,3 +47,42 @@ doc:
 .PHONY: doc-clean
 doc-clean:
 	rm -rf $(DOC_DIR)
+
+
+
+
+
+
+
+
+
+
+# Packaging variables
+PACKAGE_NAME = curling
+VERSION = 1.0
+ARCH = amd64
+PKG_BUILD_DIR = build/$(PACKAGE_NAME)-$(VERSION)
+DESTDIR = $(PKG_BUILD_DIR)/usr/local
+
+.PHONY: install deb
+
+# Install to a fake root (for packaging)
+install: all
+	@mkdir -p $(DESTDIR)/lib
+	@mkdir -p $(DESTDIR)/include
+	cp $(TARGET_LIB) $(DESTDIR)/lib/
+	cp include/curling.hpp $(DESTDIR)/include/
+
+# Build .deb package
+deb: install
+	@mkdir -p $(PKG_BUILD_DIR)/DEBIAN
+	echo "Package: $(PACKAGE_NAME)" > $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Version: $(VERSION)" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Section: libs" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Priority: optional" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Architecture: $(ARCH)" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Maintainer: Your Name <you@example.com>" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Description: Static C++ wrapper for libcurl" >> $(PKG_BUILD_DIR)/DEBIAN/control
+
+	dpkg-deb --build $(PKG_BUILD_DIR)
+	mv $(PKG_BUILD_DIR).deb $(PACKAGE_NAME)_$(VERSION)_$(ARCH).deb
