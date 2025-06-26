@@ -378,6 +378,12 @@ private:
      */
     static void trim(std::string & s);
 
+
+   /**
+    * @brief modifies a string to all lower case
+    */
+    static void toLowerCase(std::string & s);
+
 };
 
 } // namespace curling
