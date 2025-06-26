@@ -17,7 +17,7 @@ void ensureCurlGlobalInit(){
     ++instanceCount;
 }
 
-void maybeCleanupGlobalCurl(){
+void maybeCleanupGlobalCurl() noexcept {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
     if(--instanceCount==0){
         curl_global_cleanup();
@@ -73,7 +73,7 @@ Request& Request::operator=(Request&& other) noexcept {
     return *this;
 }
 
-Request::~Request() {
+Request::~Request() noexcept {
     clean();
     maybeCleanupGlobalCurl();
 }
@@ -220,7 +220,7 @@ void Request::reset() {
 
 }
 
-void Request::clean() {
+void Request::clean() noexcept {
     mime.reset();
     list.reset();
     curlHandle.reset();
