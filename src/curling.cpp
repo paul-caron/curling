@@ -139,11 +139,11 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
 
 Request& Request::addHeader(const std::string& header) {
     if (list) {
-        list = curl_slist_append(list.get(), header.c_str());
+        list.reset(curl_slist_append(list.get(), header.c_str()));
     } else {
-        list = curl_slist_append(nullptr, header.c_str());
+        list.reset(curl_slist_append(nullptr, header.c_str()));
     }
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, list);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, list.get());
     return *this;
 }
 
