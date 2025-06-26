@@ -7,13 +7,13 @@ int main(){
 
     Request request;
 
-    request.setMethod(Request::Method::GET);
-    request.setURL("https://httpbin.org/post");
-    request.setUserAgent("Bond/James-Bond/007");
-    request.addFormField("formKey", "formValue");
-    request.addFormFile("file", "test.txt");
-    request.setTimeout(10);
-    request.setConnectTimeout(5);
+    request.setMethod(Request::Method::GET)
+           .setURL("https://httpbin.org/post")
+           .setUserAgent("Bond/James-Bond/007")
+           .addFormField("formKey", "formValue")
+           .addFormFile("file", "test.txt")
+           .setTimeout(10)
+           .setConnectTimeout(5);
 
     auto response = request.send();
 
@@ -29,4 +29,3 @@ int main(){
     return 0;
 
 }
-
