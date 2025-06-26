@@ -1,7 +1,7 @@
 # ========== Config ==========
 CXX := g++
 CXXFLAGS := -Wall -Wextra -O2 -std=c++17 -Iinclude
-LDFLAGS := -lcurl -static-libgcc
+LDFLAGS := -lcurl -static-libgcc -static-libstdc++
 
 SRC_DIR := src
 OBJ_DIR := obj
