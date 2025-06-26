@@ -1,3 +1,30 @@
+
+/**
+ * @mainpage Curling: Modern C++ libcurl Wrapper
+ *
+ * Curling is a lightweight, header-only C++17 wrapper around libcurl for
+ * making HTTP requests with modern design and safe resource handling.
+ *
+ * @section features Features
+ * - RAII and smart-pointer-based resource management
+ * - MIME support for file uploads
+ * - Fluent API
+ * - Proxy and authentication support
+ * - Cookie persistence
+ *
+ * @section example Example
+ * @code
+ * curling::Request req;
+ * req.setMethod(Request::Method::POST)
+ *    .setURL("https://example.com")
+ *    .addHeader("Content-Type: application/json")
+ *    .setBody(R"({"key": "value"})");
+ * curling::Response res = req.send();
+ * std::cout << res.toString();
+ * @endcode
+ */
+
+
 #ifndef CURLING_HPP
 #define CURLING_HPP
 
