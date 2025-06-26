@@ -25,6 +25,41 @@
  */
 
 
+
+
+/**
+ * @note If you use Method::MIME (multipart POST), you cannot switch to other methods afterward
+ * without resetting the Request. Trying to switch will throw a logic_error.
+ */
+
+
+/**
+ * @warning This class is not thread-safe. Do not share a Request instance across threads.
+ * Each thread should use its own instance.
+ */
+
+
+/**
+ * @note Curling internally handles curl_global_init and curl_global_cleanup via std::once_flag,
+ * so you don’t need to worry about it unless you also use libcurl directly.
+ */
+
+/**
+ * @note Header keys in `Response::headers` are stored as-is (case-sensitive), 
+ * but HTTP headers are case-insensitive. You may want to normalize them when accessing.
+ */
+
+
+/**
+ * @note By default, cookies are stored in "cookies.txt". You can change this via setCookiePath().
+ */
+
+
+/**
+ * @note `enableVerbose(true)` will output all libcurl internals to stderr. Useful for debugging.
+ */
+
+
 #ifndef CURLING_HPP
 #define CURLING_HPP
 
