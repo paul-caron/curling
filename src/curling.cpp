@@ -57,6 +57,29 @@ Request::Request(Request&& other) noexcept
     other.mime = nullptr;
 }
 
+Request& Request::operator=(Request&& other) noexcept {
+    if(this != &other) {
+        clean();
+
+        //transfer ownership
+        method = other.method;
+        curlHandle = other.curlHandle;
+        list = other.list;
+        mime = other.mime;
+
+        url = std::move(other.url);
+        args = std::move(other.args);
+        body = std::move(other.body);
+        cookieFile = std::move(other.cookieFile);
+        cookieJar = std::move(other.cookieJar);
+
+        other.curlHandle = nullptr;
+        other.list = nullptr;
+        other.mime = nullptr;
+    }
+    return *this;
+}
+
 Request::~Request() {
     clean();
     maybeCleanupGlobalCurl();
