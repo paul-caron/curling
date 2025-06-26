@@ -1,17 +1,14 @@
 #ifndef CURLING_HPP
 #define CURLING_HPP
 
-#include <iostream>
 #include <string>
 #include <map>
 #include <vector>
 #include <sstream>
-#include <atomic>
 #include <mutex>
 #include <stdexcept>
 #include <algorithm>
 #include <cctype>
-#include <locale>
 #include <memory>
 #include <curl/curl.h>
 
