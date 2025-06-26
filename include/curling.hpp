@@ -34,6 +34,10 @@ struct CurlMimeDeleter {
     }
 };
 
+using CurlPtr = std::unique_ptr<CURL, CurlHandleDeleter>;
+using CurlSlistPtr = std::unique_ptr<curl_slist, CurlSlistDeleter>;
+using CurlMimePtr = std::unique_ptr<curl_mime, CurlMimeDeleter>;
+
 /**
  * @struct Response
  * @brief Represents an HTTP response.
