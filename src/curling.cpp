@@ -130,6 +130,11 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
     return *this;
 }
 
+Request& setProgressCallback(ProgressCallback cb){
+    progressCallback = cb;
+    return *this;
+}
+
 Request& Request::addHeader(const std::string& header) {
     auto newList = curl_slist_append(list.get(), header.c_str());
     if(!newList){
