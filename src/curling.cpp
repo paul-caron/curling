@@ -180,6 +180,16 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
     return size * nitems;
 }
 
+int Request::ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
+                                    curl_off_t ultotal, curl_off_t ulnow) {
+    auto* req = static_cast<Request*>(clientp);
+    if (req->progressCallback) {
+        bool shouldCancel = req->progressCallback(dltotal, dlnow, ultotal, ulnow);
+        return shouldCancel ? 1 : 0; // Returning non-zero aborts transfer
+    }
+    return 0;
+}
+
 Response Request::send() {
     Response response;
 
