@@ -67,6 +67,57 @@ TEST_CASE("GET request test with Digest authorization method and integrity prote
     CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
 }
 
+TEST_CASE("GET request test with Digest authorization method and MD5") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/md5")
+       .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
+
+TEST_CASE("GET request test with Digest authorization method with integrity protection and MD5") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword/md5")
+       .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
+
+TEST_CASE("GET request test with Digest authorization method and SHA-256") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/SHA-256")
+       .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
+
+TEST_CASE("GET request test with Digest authorization method with integrity protection and SHA-256") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword/SHA-256")
+       .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
 
 TEST_CASE("POST request test with JSON body") {
     curling::Request req;
