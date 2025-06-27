@@ -46,16 +46,6 @@ sudo apt install ./curling_1.0_amd64.dev
 sudo ldconfig
 ```
 
-🔮 Future Install Options (planned)
-
-CMake
-
-vcpkg
-
-Conan
-
-
-
 ---
 
 🚀 Basic Usage
