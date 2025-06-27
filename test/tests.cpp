@@ -2,6 +2,26 @@
 #include "doctest.h"
 #include "../include/curling.hpp"
 #include <iostream>
+#include <fstream>
+#include <filesystem>
+
+TEST_CASE("GET request to download image from httpbin") {
+    const std::string imageUrl = "https://httpbin.org/image/png";
+    const std::string outputFile = "downloaded_image.png";
+
+    curling::Request req;
+    req.setURL(imageUrl)
+       .enableVerbose(false)
+       .downloadToFile(outputFile);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(std::filesystem::exists(outputFile));
+    CHECK(std::filesystem::file_size(outputFile) > 0);
+
+    std::filesystem::remove(outputFile);
+}
 
 TEST_CASE("GET request test") {
     curling::Request req;
