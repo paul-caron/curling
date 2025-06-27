@@ -366,13 +366,13 @@ public:
     void reset();
 
 private:
-    Method method_;
-    CurlPtr curl_;
-    CurlSlistPtr headers_;
-    std::string url_, args_, body_, cookieFile_, cookieJar_;
-    CurlMimePtr mime_;
-    std::string downloadFilePath_;
-    ProgressCallback progressCallback_;
+    Method method;
+    CurlPtr curl;
+    CurlSlistPtr headers;
+    std::string url, args, body, cookieFile, cookieJar;
+    CurlMimePtr mime;
+    std::string downloadFilePath;
+    ProgressCallback progressCallback;
 
     static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
     static size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata);
