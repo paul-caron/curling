@@ -1,2 +1,5 @@
 # Ignore doctest from GitHub language and size stats
 test/doctest.h linguist-vendored
+
+# Ignore json from GitHub language and size stats
+test/json.hpp linguist-vendored
