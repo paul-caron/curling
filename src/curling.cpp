@@ -221,6 +221,7 @@ void Request::reset() {
     args.clear();
     url.clear();
     body.clear();
+    downloadFilePath.clear();
     method = Method::GET;
 
 }
