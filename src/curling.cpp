@@ -31,7 +31,7 @@ Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), co
     
     curlHandle.reset(curl_easy_init());
     if (!curlHandle) {
-        throw std::runtime_error("Curl initialization failed");
+        throw InitializationException("Curl initialization failed");
     }
 
     //setup cookies
