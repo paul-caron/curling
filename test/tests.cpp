@@ -29,6 +29,18 @@ TEST_CASE("GET request test with basic authentication") {
     CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
 }
 
+TEST_CASE("GET request test with bearer token auth") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/bearer")
+       .setAuthToken("mytokenstring")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
+
 TEST_CASE("POST request test with JSON body") {
     curling::Request req;
     req.setMethod(curling::Request::Method::POST)
