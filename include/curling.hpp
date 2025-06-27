@@ -251,7 +251,7 @@ public:
      *
      * @param method
      */
-    Request& setProxyAuthMethod(long method);
+    Request& setProxyAuthMethod(AuthMethod method);
 
     /**
      * @brief Adds an argument to the query string of the request.
