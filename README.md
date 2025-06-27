@@ -49,7 +49,7 @@ sudo ldconfig
 
 ---
 
-🚀 Basic Usage
+## 🚀 Basic Usage
 
 ```cpp
 //main.cpp
@@ -68,14 +68,14 @@ int main() {
     return 0;
 }
 ```
-compile
+### compile
 ```bash
 g++ main.cpp -lcurling
 ```
 
 ---
 
-📄 License
+## 📄 License
 
 MIT License
 
@@ -84,14 +84,14 @@ MIT License
 
 ---
 
-👤 Maintainer
+## 👤 Maintainer
 
 Paul Caron
 
 
 ---
 
-📌 Notes
+## 📌 Notes
 
 This library handles curl_global_init / curl_global_cleanup internally.
 
@@ -105,7 +105,7 @@ Default cookie file is cookies.txt, configurable with .setCookiePath().
 
 ---
 
-📚 Documentation
+## 📚 Documentation
 
 Generated with Doxygen:
 ```bash
@@ -118,11 +118,11 @@ make doc-clean
 
 ---
 
-✅ Testing
+## ✅ Testing
 
 This project uses GitHub Actions workflows to automate building and testing on every push and pull request. The workflow is defined in .github/workflows/build-and-test.yml and ensures that all tests pass before changes are merged.
 
-Running Tests Locally
+### Running Tests Locally
 
 To run tests locally, use make test:
 ```
