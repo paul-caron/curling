@@ -254,6 +254,21 @@ public:
     Request& setProxyAuthMethod(AuthMethod method);
 
     /**
+     * @brief Sets the Auth credentials used with http authentication, not for Bearer token auth (use setAuthToken)
+     *
+     * @param username
+     * @param password
+     */
+    Request& setHttpAuth(const std::string & username, const std::string & password);
+
+    /**
+     * @brief Sets the Auth Method used with http authentication, not for Bearer token auth (use setAuthToken)
+     *
+     * @param method
+     */
+    Request& setProxyAuthMethod(AuthMethod method);
+
+    /**
      * @brief Adds an argument to the query string of the request.
      *
      * @param key The arg key
