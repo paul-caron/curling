@@ -305,7 +305,7 @@ Request& Request::addFormField(const std::string& fieldName, const std::string &
         curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, mime.get());
     }
     curl_mimepart* part = curl_mime_addpart(mime.get());
-    if(!part) throw std::runtime_error("Failed to add MIME part");
+    if(!part) throw MimeException("Failed to add MIME part");
     curl_mime_name(part, fieldName.c_str());
     curl_mime_data(part, value.c_str(), CURL_ZERO_TERMINATED);
     return *this;
@@ -318,7 +318,7 @@ Request& Request::addFormFile(const std::string& fieldName, const std::string & 
         curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, mime.get());
     }
     curl_mimepart* part = curl_mime_addpart(mime.get());
-    if(!part) throw std::runtime_error("Failed to add MIME part");
+    if(!part) throw MimeException("Failed to add MIME part");
     curl_mime_name(part, fieldName.c_str());
     curl_mime_filedata(part, filePath.c_str());
     return *this;
