@@ -266,6 +266,17 @@ Request& Request::setProxyAuthMethod(AuthMethod method){
     return *this;
 }
 
+Request& Request::setHttpAuth(const std::string& username, const std::string & password){
+    curl_easy_setopt(curlHandle.get(), CURLOPT_USERPWD, (username+":"+password).c_str());
+    return *this;
+}
+
+Request& Request::setHttpAuthMethod(AuthMethod method){
+    //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPAUTH, method);
+    return *this;
+}
+
 Request& Request::setConnectTimeout(long seconds){
     curl_easy_setopt(curlHandle.get(), CURLOPT_CONNECTTIMEOUT, seconds);
     return *this;
