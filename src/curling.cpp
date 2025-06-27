@@ -196,6 +196,12 @@ Response Request::send() {
     FILE* fileOut = nullptr;
     std::ostringstream responseStream;
 
+    if (progressCallback) {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, &Request::ProgressCallbackBridge);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L); // must disable this
+    }
+
     if (!downloadFilePath.empty()) {
         fileOut = std::fopen(downloadFilePath.c_str(), "wb");
         if (!fileOut) {
