@@ -133,7 +133,7 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
 Request& Request::addHeader(const std::string& header) {
     auto newList = curl_slist_append(list.get(), header.c_str());
     if(!newList){
-        throw std::runtime_error("Failed to append header to curl_slist");
+        throw HeaderException("Failed to append header to curl_slist");
     }
     list.release(); //release is needed here to avoid double free, as newList will contain this old pointer somewhere down the list chain
     list.reset(newList);
