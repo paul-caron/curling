@@ -1,2 +1,2 @@
 # Ignore doctest from GitHub language and size stats
-tests/doctest.h linguist-vendored
+test/doctest.h linguist-vendored
