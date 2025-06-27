@@ -190,7 +190,7 @@ public:
        BASIC = CURLAUTH_BASIC,
        NTLM = CURLAUTH_NTLM,
        DIGEST = CURLAUTH_DIGEST,
-       ANY = CURLAUTH_ANY
+       ANY = CURLAUTH_ANY,
     };
 
     /**
