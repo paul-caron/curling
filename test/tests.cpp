@@ -41,6 +41,33 @@ TEST_CASE("GET request test with bearer token auth") {
     CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
 }
 
+TEST_CASE("GET request test with Digest authorization method") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword")
+       .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
+
+TEST_CASE("GET request test with Digest authorization method and integrity protection") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword")
+       .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
+}
+
+
 TEST_CASE("POST request test with JSON body") {
     curling::Request req;
     req.setMethod(curling::Request::Method::POST)
