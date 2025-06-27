@@ -1,21 +1,20 @@
-
 /**
  * @mainpage Curling: Modern C++ libcurl Wrapper
  *
  * Curling is a lightweight, header-only C++17 wrapper around libcurl for
- * making HTTP requests with modern design and safe resource handling.
+ * making HTTP requests with a modern design and safe resource handling.
  *
  * @section features Features
  * - RAII and smart-pointer-based resource management
  * - MIME support for file uploads
- * - Fluent API
+ * - Fluent API for intuitive chaining
  * - Proxy and authentication support
- * - Cookie persistence
+ * - Persistent cookie management
  *
  * @section example Example
  * @code
  * curling::Request req;
- * req.setMethod(Request::Method::POST)
+ * req.setMethod(curling::Request::Method::POST)
  *    .setURL("https://example.com")
  *    .addHeader("Content-Type: application/json")
  *    .setBody(R"({"key": "value"})");
@@ -24,39 +23,34 @@
  * @endcode
  */
 
-
-
-
 /**
- * @note If you use Method::MIME (multipart POST), you cannot switch to other methods afterward
- * without resetting the Request. Trying to switch will throw a logic_error.
+ * @note If you use Method::MIME (multipart POST), you must reset the Request
+ * before switching to another method. Attempting to change it afterward throws logic_error.
  */
-
 
 /**
  * @warning This class is not thread-safe. Do not share a Request instance across threads.
- * Each thread should use its own instance.
- */
-
-
-/**
- * @note Curling internally handles curl_global_init and curl_global_cleanup via std::once_flag,
- * so you don’t need to worry about it unless you also use libcurl directly.
+ * Each thread should use its own Request object.
  */
 
 /**
- * @note Header keys in `Response::headers` are stored to lower case (case-insensitive).
+ * @note Curling internally manages curl_global_init() and curl_global_cleanup()
+ * using std::once_flag. You don’t need to do this manually.
  */
 
 /**
- * @note By default, cookies are stored in "cookies.txt". You can change this via setCookiePath().
+ * @note Header keys in Response::headers are stored in lowercase
+ * to support case-insensitive lookup.
  */
-
 
 /**
- * @note `enableVerbose(true)` will output all libcurl internals to stderr. Useful for debugging.
+ * @note By default, cookies are persisted in "cookies.txt". Override this via setCookiePath().
  */
 
+/**
+ * @note Calling enableVerbose(true) enables libcurl's verbose output to stderr,
+ * which is useful for debugging.
+ */
 
 #ifndef CURLING_HPP
 #define CURLING_HPP
@@ -75,53 +69,59 @@
 
 namespace curling {
 
+/**
+ * @class CurlingException
+ * @brief Base exception class for Curling errors.
+ */
 class CurlingException : public std::runtime_error {
 public:
     explicit CurlingException(const std::string& msg) : std::runtime_error(msg) {}
 };
 
+/** @class InitializationException
+ * @brief Thrown when curl initialization fails.
+ */
 class InitializationException : public CurlingException {
 public:
     explicit InitializationException(const std::string& msg) : CurlingException(msg) {}
 };
 
+/** @class RequestException
+ * @brief Thrown when a request operation fails.
+ */
 class RequestException : public CurlingException {
 public:
     explicit RequestException(const std::string& msg) : CurlingException(msg) {}
 };
 
+/** @class HeaderException
+ * @brief Thrown when header operations fail.
+ */
 class HeaderException : public CurlingException {
 public:
     explicit HeaderException(const std::string& msg) : CurlingException(msg) {}
 };
 
+/** @class MimeException
+ * @brief Thrown when MIME operations fail.
+ */
 class MimeException : public CurlingException {
 public:
     explicit MimeException(const std::string& msg) : CurlingException(msg) {}
 };
 
+/** @class LogicException
+ * @brief Thrown when library logic prohibits an operation.
+ */
 class LogicException : public CurlingException {
 public:
     explicit LogicException(const std::string& msg) : CurlingException(msg) {}
 };
 
-struct CurlHandleDeleter {
-    void operator()(CURL * handle) const noexcept{
-        if (handle) curl_easy_cleanup(handle);
-    }
-};
-
-struct CurlSlistDeleter {
-    void operator()(curl_slist * list) const noexcept{
-        if(list) curl_slist_free_all(list);
-    }
-};
-
-struct CurlMimeDeleter {
-    void operator()(curl_mime* mime) const noexcept{
-        if(mime) curl_mime_free(mime);
-    }
-};
+/** SAFETY: RAII deleters for CURL handles */
+struct CurlHandleDeleter { void operator()(CURL* h) const noexcept { if (h) curl_easy_cleanup(h); }};
+struct CurlSlistDeleter { void operator()(curl_slist* l) const noexcept { if (l) curl_slist_free_all(l); }};
+struct CurlMimeDeleter { void operator()(curl_mime* m) const noexcept { if (m) curl_mime_free(m); }};
 
 using CurlPtr = std::unique_ptr<CURL, CurlHandleDeleter>;
 using CurlSlistPtr = std::unique_ptr<curl_slist, CurlSlistDeleter>;
@@ -131,333 +131,258 @@ using CurlMimePtr = std::unique_ptr<curl_mime, CurlMimeDeleter>;
  * @struct Response
  * @brief Represents an HTTP response.
  *
- * This structure holds details of an HTTP response, including 
- * the status code, body content, and headers.
+ * Contains the HTTP status code, body, and headers.
  */
 struct Response {
-    long httpCode; ///< The HTTP status code received in the response.
-
-    std::string body; ///< The body content of the HTTP response as a string.
-
-    /**
-     * @brief A map to store HTTP headers from the response.
-     *
-     * Each header is stored with its name as the key and 
-     * the corresponding value is stored into a vector, as there can be many headers with same key.
-     */
-    std::map<std::string, std::vector<std::string>> headers;
+    long httpCode; ///< HTTP status code.
+    std::string body; ///< Response body.
+    std::map<std::string, std::vector<std::string>> headers; ///< Header map (key: lowercase).
+    
     std::string toString() const {
         std::ostringstream oss;
-        oss << "status: " << httpCode << "\nbody: \n" << body << "\nheaders: \n";
-        for(const auto& h: headers){
+        oss << "status: " << httpCode << "\nbody:\n" << body << "\nheaders:\n";
+        for (auto const& h : headers) {
             oss << h.first << ": ";
-            for(const auto& value: h.second){
-                oss << value << " ";
-            }
-            oss << std::endl;
+            for (auto const& v : h.second) oss << v << " ";
+            oss << "\n";
         }
         return oss.str();
     }
 };
 
-
 /**
  * @class Request
- * @brief Handles HTTP requests using libcurl.
- *
- * This class provides functionality to perform HTTP operations such as GET, POST,
- * PUT, and DELETE. It manages the setup and execution of these requests with libcurl.
+ * @brief Provides a fluent wrapper for HTTP requests via libcurl.
  */
 class Request {
 public:
-     
-     using ProgressCallback = std::function<bool(curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)>;
+    using ProgressCallback = std::function<bool(curl_off_t dltotal, curl_off_t dlnow,
+                                                curl_off_t ultotal, curl_off_t ulnow)>;
 
     /**
      * @enum Method
-     * @brief Enumerates the supported HTTP methods.
+     * @brief Supported HTTP methods.
      */
-    enum class Method { 
-        GET, ///< Represents an HTTP GET request.
-        POST, ///< Represents an HTTP POST request.
-        PUT, ///< Represents an HTTP PUT request.
-        DEL, ///< Represents an HTTP DELETE request. Name shortened to DEL due to DELETE being a stupid macro living out there.
-        PATCH, ///< Represents an HTTP PATCH request.
-        MIME, ///< Represents an HTTP POST request. A pseudo method MIME for multipart forms (eg.. file upload)
-    };
-
-   /**
-    * @enum AuthMethod
-    * @brief Enumerates the supported authentication types, to use with setProxyAuthMethod(AuthMethod auth)
-    */
-    enum class AuthMethod {
-       BASIC = CURLAUTH_BASIC,
-       NTLM = CURLAUTH_NTLM,
-       DIGEST = CURLAUTH_DIGEST,
+    enum class Method {
+        GET,    ///< Standard GET
+        POST,   ///< Standard POST
+        PUT,    ///< PUT
+        DEL,    ///< DELETE (named DEL to avoid macro clash)
+        PATCH,  ///< PATCH
+        MIME    ///< Multipart/form-data POST
     };
 
     /**
-     * @brief Constructor for the Request class.
-     *
-     * Initializes a new instance of the Request class and increments the 
-     * instances counter.
+     * @enum AuthMethod
+     * @brief HTTP authentication schemes.
+     */
+    enum class AuthMethod {
+        BASIC = CURLAUTH_BASIC,
+        NTLM = CURLAUTH_NTLM,
+        DIGEST = CURLAUTH_DIGEST
+    };
+
+    /**
+     * @brief Constructor initializes curl global state.
+     * @throws InitializationException if initialization fails.
      */
     Request();
 
     /**
-     * @brief Destructor for the Request class.
-     *
-     * Decrements the instances counter and performs any necessary cleanup.
+     * @brief Destructor cleans up curl state if last instance.
      */
     ~Request() noexcept;
 
-    // move constructors
-    Request(Request&& other) noexcept;
+    Request(Request&&) noexcept;
     Request& operator=(Request&&) noexcept;
 
-    // deleted copy constructors
     Request(const Request&) = delete;
     Request& operator=(const Request&) = delete;
 
+    /**
+     * @brief Sets the progress callback function.
+     * @param cb Callback receiving download/upload progress. Return true to abort.
+     * @return *this
+     */
     Request& setProgressCallback(ProgressCallback cb);
-
 
     /**
      * @brief Sets the HTTP method for the request.
-     *
-     * @param m The method to set (e.g., Method::GET, Method::POST).
+     * @param m Enum value for HTTP method.
+     * @return *this
      */
     Request& setMethod(Method m);
 
     /**
-     * @brief Sets the URL for the request.
-     *
-     * @param URL The URL string to be used in the HTTP request.
+     * @brief Sets the request URL.
+     * @param url URL to fetch.
+     * @return *this
      */
-    Request& setURL(const std::string& URL);
+    Request& setURL(const std::string& url);
 
     /**
-     * @brief Sets the URL for the request.
-     *
-     * @param URL The URL of the Proxy, a string.
+     * @brief Enables proxy usage.
+     * @param url Proxy URL.
+     * @return *this
      */
-    Request& setProxy(const std::string& URL);
+    Request& setProxy(const std::string& url);
 
     /**
-     * @brief Sets the auth credentials for the proxy
-     *
-     * @param username
-     * @param password
+     * @brief Sets credentials for proxy authentication.
+     * @param username Proxy username.
+     * @param password Proxy password.
+     * @return *this
      */
-    Request& setProxyAuth(const std::string& username, const std::string & password);
-
+    Request& setProxyAuth(const std::string& username, const std::string& password);
 
     /**
-     * @brief Sets the Auth Method used with proxies
-     *
-     * @param method
+     * @brief Sets proxy authentication scheme.
+     * @param method Authentication method.
+     * @return *this
      */
     Request& setProxyAuthMethod(AuthMethod method);
 
     /**
-     * @brief Sets the Auth credentials used with http authentication, not for Bearer token auth (use setAuthToken)
-     *
-     * @param username
-     * @param password
+     * @brief Sets credentials for HTTP auth (Basic/Digest/NTLM).
+     * @param username Username.
+     * @param password Password.
+     * @return *this
      */
-    Request& setHttpAuth(const std::string & username, const std::string & password);
+    Request& setHttpAuth(const std::string& username, const std::string& password);
 
     /**
-     * @brief Sets the Auth Method used with http authentication, not for Bearer token auth (use setAuthToken)
-     *
-     * @param method
+     * @brief Sets HTTP authentication scheme.
+     * @param method Authentication method.
+     * @return *this
      */
     Request& setHttpAuthMethod(AuthMethod method);
 
     /**
-     * @brief Adds an argument to the query string of the request.
-     *
-     * @param key The arg key
-     *
-     * @param value The arg value
+     * @brief Adds a query parameter to the URL.
+     * @param key Parameter name.
+     * @param value Parameter value.
+     * @return *this
      */
     Request& addArg(const std::string& key, const std::string& value);
 
     /**
-     * @brief Adds a header to the request.
-     *
-     * @param header The header string to be added (e.g., "Content-Type: text/html").
+     * @brief Adds a custom HTTP header.
+     * @param header A full header line, e.g. "Accept: application/json".
+     * @return *this
      */
     Request& addHeader(const std::string& header);
 
     /**
-     * @brief Sets the body of the HTTP request, applicable for POST and PUT methods.
-     *
-     * @param body The body content as a string.
+     * @brief Sets the body of the request (for POST/PUT/PATCH).
+     * @param body Request body content.
+     * @return *this
      */
     Request& setBody(const std::string& body);
 
     /**
-     * @brief Sends the HTTP request using libcurl.
+     * @brief Enables download streaming to a file.
+     * @param path Local file path for saving response.
+     * @return *this
      */
-    Response send();
+    Request& downloadToFile(const std::string& path);
 
     /**
-     * @brief Resets the internal state for reuse of this Request instance.
-     */
-    void reset();
-
-
-    /**
-     * @brief Sets timeout of request
-     *
-     * This method is to limit the amount of time per request
+     * @brief Sets a timeout for the request (in seconds).
+     * @param seconds Timeout in seconds.
+     * @return *this
      */
     Request& setTimeout(long seconds);
 
     /**
-     * @brief Sets follow redirects
-     *
-     * This method is to enable or disable follow redirects.
-     */
-    Request& setFollowRedirects(bool follow);
-
-
-    /**
-     * @brief Sets timeout to connect
-     *
-     * This method is to limit the amount of time per connection
+     * @brief Sets connection timeout (in seconds).
+     * @param seconds Timeout in seconds.
+     * @return *this
      */
     Request& setConnectTimeout(long seconds);
 
     /**
-     * @brief Sets the header "Authorization: Bearer <token>"
-     *
-     * This method sets the header with a given authorization token.
+     * @brief Enables or disables automatic redirect-following.
+     * @param follow True to follow redirects.
+     * @return *this
+     */
+    Request& setFollowRedirects(bool follow);
+
+    /**
+     * @brief Adds a Bearer token for Authorization header.
+     * @param token Bearer token string.
+     * @return *this
      */
     Request& setAuthToken(const std::string& token);
 
     /**
-     * @brief Sets the cookie file path
-     *
-     * This method sets the name or path of the file that curl will write cookies into. Default "cookies.txt".
+     * @brief Overrides default cookie file for persistence.
+     * @param path File path for storing cookies.
+     * @return *this
      */
     Request& setCookiePath(const std::string& path);
 
-
     /**
-     * @brief Sets the User Agent header
-     *
-     * This method sets the user agent header that will be sent with the request
+     * @brief Sets the User-Agent header.
+     * @param userAgent Agent string.
+     * @return *this
      */
     Request& setUserAgent(const std::string& userAgent);
 
-
     /**
-     * @brief Adds a form field
-     *
-     * This method adds a form field for a multipart form post request
+     * @brief Adds a field to multipart/form-data.
+     * @param fieldName Field name.
+     * @param value Field value.
+     * @return *this
+     * @throws MimeException on internal curl errors.
      */
-    Request& addFormField(const std::string& fieldName, const std::string & value);
+    Request& addFormField(const std::string& fieldName, const std::string& value);
 
     /**
-     * @brief Adds a form file
-     *
-     * This method add a file to upload during the multipart post request
+     * @brief Adds a file to multipart upload.
+     * @param fieldName Field name.
+     * @param filePath Path to file on disk.
+     * @return *this
+     * @throws MimeException on internal curl errors.
      */
-    Request& addFormFile(const std::string& fieldName, const std::string & filePath);
-
+    Request& addFormFile(const std::string& fieldName, const std::string& filePath);
 
     /**
-     * @brief Enable or disable curl's verbose mode
-     *
+     * @brief Enables or disables libcurl verbose output.
+     * @param enabled True to enable verbose mode.
+     * @return *this
      */
     Request& enableVerbose(bool enabled = true);
 
+    /**
+     * @brief Executes the HTTP request.
+     * @return Response object with status, body, headers.
+     * @throws RequestException on failure.
+     */
+    Response send();
 
-   /**
-    * @brief Sets the path for file download
-    */
-    Request& downloadToFile(const std::string& path);
-
+    /**
+     * @brief Resets internal state to allow reuse.
+     */
+    void reset();
 
 private:
-    Method method;
-    CurlPtr curlHandle;
-    CurlSlistPtr list;
-    std::string url, args, body, cookieFile, cookieJar;
-    CurlMimePtr mime = nullptr;
-    std::string downloadFilePath;
-    ProgressCallback progressCallback;
+    Method method_;
+    CurlPtr curl_;
+    CurlSlistPtr headers_;
+    std::string url_, args_, body_, cookieFile_, cookieJar_;
+    CurlMimePtr mime_;
+    std::string downloadFilePath_;
+    ProgressCallback progressCallback_;
 
-
-    /**
-     * @brief Callback function for handling the data received in the response body.
-     *
-     * This static function is used as a callback to handle incoming data when
-     * writing the response body during a curl operation.
-     *
-     * @param contents Pointer to the data buffer.
-     * @param size Size of each element.
-     * @param nmemb Number of elements in the buffer.
-     * @param userp User pointer, typically pointing to an instance of Request.
-     * @return The number of bytes actually taken care of by this function,
-     *         which may differ from the size*nmemb if the data is not
-     *         completely processed here (due to a call to Curl_readdata()
-     *         for example).
-     */
     static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
-
-    /**
-     * @brief Callback function for handling response headers.
-     *
-     * This static function is used as a callback to handle incoming header data
-     * during a curl operation. It processes and stores the headers in a map.
-     *
-     * @param buffer The header line being processed.
-     * @param size Size of each character.
-     * @param nitems Number of items (characters) in the buffer.
-     * @param userdata User pointer, typically pointing to an instance of Request.
-     * @return The number of bytes actually taken care of by this function,
-     *         which may differ from size*nitems if the data is not completely
-     *         processed here.
-     */
     static size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata);
-
-
     static int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
-                                    curl_off_t ultotal, curl_off_t ulnow);
+                                      curl_off_t ultotal, curl_off_t ulnow);
 
-
-    /**
-     * @brief Cleans up resources associated with the current request.
-     *
-     * This private method ensures that all libcurl and other allocated resources
-     * are properly freed and reset.
-     */
     void clean() noexcept;
-
-    /**
-     * @brief Updates the URL to include query arguments if present.
-     *
-     * This method appends the stored query arguments to the base URL if any 
-     * arguments have been added using addArg().
-     */
     void updateURL();
-
-    /**
-     * @brief Trims whitespaces from string
-     *
-     * This method is used to trim spaces during parsing of the response headers
-     */
-    static void trim(std::string & s);
-
-
-   /**
-    * @brief modifies a string to all lower case
-    */
-    static void toLowerCase(std::string & s);
-
+    static void trim(std::string& s);
+    static void toLowerCase(std::string& s);
 };
 
 } // namespace curling
