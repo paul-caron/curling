@@ -368,7 +368,7 @@ public:
 private:
     Method method;
     CurlPtr curl;
-    CurlSlistPtr headers;
+    CurlSlistPtr list;//headers;
     std::string url, args, body, cookieFile, cookieJar;
     CurlMimePtr mime;
     std::string downloadFilePath;
