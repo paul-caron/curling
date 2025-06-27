@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @mainpage Curling: Modern C++ libcurl Wrapper
  *
@@ -52,8 +54,6 @@
  * which is useful for debugging.
  */
 
-#ifndef CURLING_HPP
-#define CURLING_HPP
 
 #include <string>
 #include <map>
@@ -387,4 +387,3 @@ private:
 
 } // namespace curling
 
-#endif // CURLING_HPP
