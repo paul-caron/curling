@@ -181,6 +181,48 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
 }
 
 Response Request::send() {
+    Response response;
+
+    FILE* fileOut = nullptr;
+    std::ostringstream responseStream;
+
+    if (!downloadFilePath.empty()) {
+        fileOut = std::fopen(downloadFilePath.c_str(), "wb");
+        if (!fileOut) {
+            throw RequestException("Failed to open file for writing: " + downloadFilePath);
+        }
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut);
+    } else {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
+    }
+
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, HeaderCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
+
+    updateURL();
+    CURLcode res = curl_easy_perform(curlHandle.get());
+
+    if (fileOut) std::fclose(fileOut);
+
+    if (res != CURLE_OK) {
+        throw RequestException("Curl perform failed: " + std::string(curl_easy_strerror(res)));
+    }
+
+    curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
+
+    if (downloadFilePath.empty()) {
+        response.body = responseStream.str();
+    }
+
+    reset();
+
+    return response;
+}
+
+/*
+
+Response Request::send() {
     std::ostringstream responseStream;
     Response response;
 
@@ -205,6 +247,7 @@ Response Request::send() {
     
     return response;
 }
+*/
 
 void Request::reset() {
     CurlPtr newHandle(curl_easy_init());
