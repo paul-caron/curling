@@ -187,10 +187,10 @@ public:
     * @brief Enumerates the supported authentication types, to use with setProxyAuthMethod(AuthMethod auth)
     */
     enum class AuthMethod {
-       CURLAUTH_BASIC,
-       CURLAUTH_NTLM,
-       CURLAUTH_DIGEST,
-       CURLAUTH_ANY
+       BASIC = CURLAUTH_BASIC,
+       NTLM = CURLAUTH_NTLM,
+       DIGEST = CURLAUTH_DIGEST,
+       ANY = CURLAUTH_ANY
     };
 
     /**
