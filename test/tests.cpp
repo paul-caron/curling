@@ -11,9 +11,22 @@ TEST_CASE("GET request test") {
        .enableVerbose(false);
 
     auto res = req.send();
-    
+
     CHECK(res.httpCode == 200);
     CHECK(res.body.find("\"key\": \"value\"") != std::string::npos);
+}
+
+TEST_CASE("GET request test with basic authentication") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/basic-auth/myusername/mypassword")
+       .setHttpAuthMethod(curling::Request::AuthMethod::BASIC)
+       .setHttpAuth("myusername","mypassword")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
 }
 
 TEST_CASE("POST request test with JSON body") {
@@ -97,3 +110,4 @@ TEST_CASE("Form-data (multipart) test") {
     CHECK(res.body.find("value1") != std::string::npos);
     CHECK(res.body.find("value2") != std::string::npos);
 }
+
