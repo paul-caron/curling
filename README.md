@@ -118,4 +118,15 @@ make doc-clean
 
 ---
 
+✅ Testing
 
+This project uses GitHub Actions workflows to automate building and testing on every push and pull request. The workflow is defined in .github/workflows/build-and-test.yml and ensures that all tests pass before changes are merged.
+
+Running Tests Locally
+
+To run tests locally, use make test:
+```
+make test
+```
+
+---
