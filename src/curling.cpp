@@ -130,7 +130,7 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
     return *this;
 }
 
-Request& setProgressCallback(ProgressCallback cb){
+Request& Request::setProgressCallback(ProgressCallback cb){
     progressCallback = cb;
     return *this;
 }
