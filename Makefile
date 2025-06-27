@@ -68,6 +68,20 @@ doc:
 doc-clean:
 	rm -rf $(DOC_DIR)
 
+# ========== Testing ==========
+
+TEST_DIR := test
+TEST_SRC := $(TEST_DIR)/tests.cpp
+TEST_BIN := $(BUILD_DIR)/test_runner
+
+test: $(TEST_BIN)
+	@echo "Running tests..."
+	./$(TEST_BIN)
+
+$(TEST_BIN): $(TEST_SRC) $(OBJS)
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
+
 # ========== Cleanup ==========
 
 clean:
