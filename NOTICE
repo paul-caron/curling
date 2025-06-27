@@ -1,0 +1,12 @@
+This project includes portions of the following third-party libraries:
+
+- nlohmann/json (https://github.com/nlohmann/json)
+  Licensed under the MIT License.
+  The license text is included at the top of the `json.hpp` header file.
+
+- doctest (https://github.com/doctest/doctest)
+  Licensed under the MIT License.
+  The license text is included at the top of the `doctest.h` header file.
+
+Both are permissively licensed under MIT, allowing use and redistribution
+within this project, provided their original license texts remain intact.
