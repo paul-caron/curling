@@ -80,7 +80,7 @@ Request::~Request() noexcept {
 
 Request& Request::setMethod(Method m) {
     if(method == Method::MIME && m!= Method::MIME){
-        throw std::logic_error("Cannot override MIME method with another HTTP method");
+        throw LogicException("Cannot override MIME method with another HTTP method");
     }
     
     //reset CUSTOMREQUEST and others so they dont interfere with each other when curl sends request
