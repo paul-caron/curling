@@ -1,4 +1,6 @@
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
+
+![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 
 # Curling
 
