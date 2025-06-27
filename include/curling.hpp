@@ -74,6 +74,36 @@
 
 namespace curling {
 
+class CurlingException : public std::runtime_error {
+public:
+    explicit CurlingException(const std::string& msg) : std::runtime_error(msg) {}
+};
+
+class InitializationException : public CurlingException {
+public:
+    explicit InitializationException(const std::string& msg) : CurlingException(msg) {}
+};
+
+class RequestException : public CurlingException {
+public:
+    explicit RequestException(const std::string& msg) : CurlingException(msg) {}
+};
+
+class HeaderException : public CurlingException {
+public:
+    explicit HeaderException(const std::string& msg) : CurlingException(msg) {}
+};
+
+class MimeException : public CurlingException {
+public:
+    explicit MimeException(const std::string& msg) : CurlingException(msg) {}
+};
+
+class LogicException : public CurlingException {
+public:
+    explicit LogicException(const std::string& msg) : CurlingException(msg) {}
+};
+
 struct CurlHandleDeleter {
     void operator()(CURL * handle) const noexcept{
         if (handle) curl_easy_cleanup(handle);
