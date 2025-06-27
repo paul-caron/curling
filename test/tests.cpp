@@ -148,6 +148,21 @@ TEST_CASE("PUT request test") {
     CHECK(res.body.find("Hello PUT") != std::string::npos);
 }
 
+TEST_CASE("PATCH request test with JSON body") {
+    curling::Request req;
+    req.setMethod(curling::Request::Method::PATCH)
+       .setURL("https://httpbin.org/patch")
+       .addHeader("Content-Type: application/json")
+       .setBody(R"({"name":"Lizardzilla","type":"Monster"})")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find(R"("name": "Lizardzilla")") != std::string::npos);
+    CHECK(res.body.find(R"("type": "Monster")") != std::string::npos);
+}
+
 TEST_CASE("DELETE request test") {
     curling::Request req;
     req.setMethod(curling::Request::Method::DEL)
