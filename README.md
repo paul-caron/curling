@@ -18,6 +18,7 @@ It supports common web request features including JSON payloads, file uploads, c
 - 🛡 **Proxy and authentication support**
 - 🌐 **Full HTTP verb support** — `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `MIME`
 - 📦 **Linux `.deb` package support**
+- 🧪 CI-tested
 
 ---
 
