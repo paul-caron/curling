@@ -241,35 +241,6 @@ Response Request::send() {
     return response;
 }
 
-/*
-
-Response Request::send() {
-    std::ostringstream responseStream;
-    Response response;
-
-    curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
-
-    // Use responseHeadersMap to store headers
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, HeaderCallback);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
-    
-    updateURL();
-    CURLcode res = curl_easy_perform(curlHandle.get());
-    if (res != CURLE_OK) {
-        throw RequestException("Curl perform failed: " + std::string(curl_easy_strerror(res)));
-    }
- 
-    curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode)); // store the http code from the response
-
-    response.body = responseStream.str(); // Store the response body
-
-    reset();
-    
-    return response;
-}
-*/
-
 void Request::reset() {
     CurlPtr newHandle(curl_easy_init());
     if(!newHandle){
