@@ -260,8 +260,8 @@ Request& Request::setProxyAuth(const std::string& username, const std::string & 
     return *this;
 }
 
-Request& Request::setProxyAuthMethod(long method){
-    //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST, CURLAUTH_ANY
+Request& Request::setProxyAuthMethod(AuthMethod method){
+    //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST
     curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYAUTH, method);
     return *this;
 }
