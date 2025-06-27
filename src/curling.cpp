@@ -141,7 +141,7 @@ Request& Request::addHeader(const std::string& header) {
     return *this;
 }
 
-Request& downloadToFile(const std::string& path) {
+Request& Request::downloadToFile(const std::string& path) {
     downloadFilePath = path;
     return *this;
 }
