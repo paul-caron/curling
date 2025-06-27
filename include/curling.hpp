@@ -325,7 +325,7 @@ public:
     Request& setConnectTimeout(long seconds);
 
     /**
-     * @brief Sets the header "Autorization: Bearer <token>"
+     * @brief Sets the header "Authorization: Bearer <token>"
      *
      * This method sets the header with a given authorization token.
      */
