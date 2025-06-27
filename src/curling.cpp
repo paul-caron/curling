@@ -301,7 +301,7 @@ Request& Request::setUserAgent(const std::string& userAgent){
 Request& Request::addFormField(const std::string& fieldName, const std::string & value){
     if(!mime){
         mime.reset(curl_mime_init(curlHandle.get()));
-        if(!mime) throw std::runtime_error("Failed to initialize MIME");
+        if(!mime) throw MimeException("Failed to initialize MIME");
         curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, mime.get());
     }
     curl_mimepart* part = curl_mime_addpart(mime.get());
@@ -314,7 +314,7 @@ Request& Request::addFormField(const std::string& fieldName, const std::string &
 Request& Request::addFormFile(const std::string& fieldName, const std::string & filePath){
     if(!mime){
         mime.reset(curl_mime_init(curlHandle.get()));
-        if(!mime) throw std::runtime_error("Failed to initialize MIME");
+        if(!mime) throw MimeException("Failed to initialize MIME");
         curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, mime.get());
     }
     curl_mimepart* part = curl_mime_addpart(mime.get());
