@@ -1,6 +1,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)
 ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 [![Build and Test](https://github.com/paul-caron/curling/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/paul-caron/curling/actions/workflows/build-and-test.yml)
+[C++17](https://img.shields.io/badge/C%2B%2B-17-blue)
 
 # Curling
 
