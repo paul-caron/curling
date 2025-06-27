@@ -70,6 +70,7 @@
 #include <algorithm>
 #include <cctype>
 #include <memory>
+#include <functional>
 #include <curl/curl.h>
 
 namespace curling {
@@ -169,6 +170,9 @@ struct Response {
  */
 class Request {
 public:
+     
+     using ProgressCallback = std::function<bool(curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)>;
+
     /**
      * @enum Method
      * @brief Enumerates the supported HTTP methods.
@@ -214,6 +218,8 @@ public:
     // deleted copy constructors
     Request(const Request&) = delete;
     Request& operator=(const Request&) = delete;
+
+    Request& setProgressCallback(ProgressCallback cb);
 
 
     /**
@@ -382,6 +388,8 @@ private:
     std::string url, args, body, cookieFile, cookieJar;
     CurlMimePtr mime = nullptr;
     std::string downloadFilePath;
+    ProgressCallback progressCallback;
+
 
     /**
      * @brief Callback function for handling the data received in the response body.
@@ -415,6 +423,11 @@ private:
      *         processed here.
      */
     static size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata);
+
+
+    static int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
+                                    curl_off_t ultotal, curl_off_t ulnow);
+
 
     /**
      * @brief Cleans up resources associated with the current request.
