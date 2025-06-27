@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "curling.hpp"
+#include "../include/curling.hpp"
 #include <iostream>
 
 TEST_CASE("GET request test") {
