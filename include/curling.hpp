@@ -368,12 +368,20 @@ public:
      */
     Request& enableVerbose(bool enabled = true);
 
+
+   /**
+    * @brief Sets the path for file download
+    */
+    Request& downloadToFile(const std::string& path);
+
+
 private:
     Method method;
     CurlPtr curlHandle;
     CurlSlistPtr list;
     std::string url, args, body, cookieFile, cookieJar;
     CurlMimePtr mime = nullptr;
+    std::string downloadFilePath;
 
     /**
      * @brief Callback function for handling the data received in the response body.
