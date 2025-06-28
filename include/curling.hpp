@@ -394,7 +394,7 @@ private:
 };
 
 // utils
-namespace curling::detail {
+namespace detail {
 
 inline void trim(std::string& s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch){
