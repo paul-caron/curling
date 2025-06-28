@@ -2,7 +2,7 @@
 
 ## [1.1.0] - 2025-xx-xx future release
 ### Added
-- `package::version()` — a new public function that returns the current version of the library.
+- `curling::version()` — a new public function that returns the current version of the library.
 
 ### Changed
 - Refactored several private methods within classes to improve code maintainability and readability.
