@@ -1,3 +1,7 @@
+// Copyright (c) 2025 Paul Caron
+// Licensed under the MIT License.
+// See LICENSE file in the root of the repository.
+
 #include "curling.hpp"
 
 namespace curling {
