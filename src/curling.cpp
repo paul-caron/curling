@@ -30,6 +30,12 @@ void maybeCleanupGlobalCurl() noexcept {
 
 }//anonymous namespace end
 
+std::string version() {
+    std::ostringstream oss;
+    oss << version_major << '.' << version_minor << '.' << version_patch;
+    return oss.str();
+}
+
 Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
     ensureCurlGlobalInit();
     
