@@ -49,6 +49,7 @@ Use apt to install and update ld cache:
 sudo apt install ./curling_1.0_amd64.dev
 sudo ldconfig
 ```
+The library should be installed in /usr/local/lib and the header file into /usr/local/include
 
 ## 🔧 Build header-only library with `make`
 
