@@ -6,9 +6,6 @@
 
 namespace curling {
 
-using detail::trim;
-using detail::toLowerCase;
-
 namespace {
 
 std::once_flag curlGlobalInitFlag;
@@ -183,9 +180,9 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
     if (colonPos != std::string::npos) {
         std::string key = headerLine.substr(0, colonPos);
         std::string value = headerLine.substr(colonPos + 1);
-        trim(key);
-        trim(value);
-        toLowerCase(key);
+        curling::detail::trim(key);
+        curling::detail::trim(value);
+        curling::detail::toLowerCase(key);
         (*headerMap)[key].push_back(value);
     }
 
