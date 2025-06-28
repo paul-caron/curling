@@ -1,5 +1,5 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
+#include "../vendor/doctest/doctest.h"
 #include "../include/curling.hpp"
 #include <iostream>
 #include <fstream>
