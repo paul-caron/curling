@@ -8,15 +8,17 @@ namespace curling {
 
 namespace {
 
-std::once_flag curlGlobalInitFlag;
-std::mutex curlGlobalMutex;
 
-int instanceCount = 0;
 
 }//anonymous namespace end
 
 
 namespace detail{
+
+std::once_flag curlGlobalInitFlag;
+std::mutex curlGlobalMutex;
+
+int instanceCount = 0;
 
 void ensureCurlGlobalInit(){
     std::call_once(curlGlobalInitFlag, []{
