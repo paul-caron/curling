@@ -233,7 +233,7 @@ Response Request::send() {
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
     }
 
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detaill::HeaderCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detail::HeaderCallback);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
 
     updateURL();
