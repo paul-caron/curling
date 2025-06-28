@@ -279,20 +279,6 @@ void Request::updateURL() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_URL, s.c_str());
 }
 
-void Request::trim(std::string &s){
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch){
-        return !std::isspace(ch);
-    }));
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch){
-        return !std::isspace(ch);
-    }).base(), s.end());
-}
-
-void Request::toLowerCase(std::string & s){
-    std::transform(s.begin(), s.end(), s.begin(),
-                   [](unsigned char c) { return std::tolower(c); });
-}
-
 Request& Request::setTimeout(long seconds){
     curl_easy_setopt(curlHandle.get(), CURLOPT_TIMEOUT, seconds);
     return *this;
