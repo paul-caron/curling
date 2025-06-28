@@ -4,10 +4,10 @@
 
 #include "curling.hpp"
 
-using curling::detail::trim;
-using curling::detail::toLowerCase;
-
 namespace curling {
+
+using detail::trim;
+using detail::toLowerCase;
 
 namespace {
 
