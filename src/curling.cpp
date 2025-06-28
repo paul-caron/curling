@@ -30,6 +30,46 @@ void maybeCleanupGlobalCurl() noexcept {
 
 }//anonymous namespace end
 
+
+namespace detail{
+
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+    auto responseStream = static_cast<std::ostringstream*>(userp);
+    responseStream->write(static_cast<char*>(contents), size * nmemb);
+    return size * nmemb;
+}
+
+size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata) {
+    auto* headerMap = static_cast<std::map<std::string, std::vector<std::string>>*>(userdata);
+    std::string headerLine(buffer, size * nitems);
+
+    if (headerLine.empty()) return 0; // skip the separation line
+
+    auto colonPos = headerLine.find(":");
+    if (colonPos != std::string::npos) {
+        std::string key = headerLine.substr(0, colonPos);
+        std::string value = headerLine.substr(colonPos + 1);
+        detail::trim(key);
+        detail::trim(value);
+        detail::toLowerCase(key);
+        (*headerMap)[key].push_back(value);
+    }
+
+    return size * nitems;
+}
+
+int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
+                                    curl_off_t ultotal, curl_off_t ulnow) {
+    auto* req = static_cast<Request*>(clientp);
+    if (req->progressCallback) {
+        bool shouldCancel = req->progressCallback(dltotal, dlnow, ultotal, ulnow);
+        return shouldCancel ? 1 : 0; // Returning non-zero aborts transfer
+    }
+    return 0;
+}
+
+}//end of detail namespace
+
 std::string version() {
     std::ostringstream oss;
     oss << version_major << '.' << version_minor << '.' << version_patch;
@@ -170,41 +210,6 @@ Request& Request::setBody(const std::string& body) {
     return *this;
 }
 
-size_t Request::WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    auto responseStream = static_cast<std::ostringstream*>(userp);
-    responseStream->write(static_cast<char*>(contents), size * nmemb);
-    return size * nmemb;
-}
-
-size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata) {
-    auto* headerMap = static_cast<std::map<std::string, std::vector<std::string>>*>(userdata);
-    std::string headerLine(buffer, size * nitems);
-
-    if (headerLine.empty()) return 0; // skip the separation line
-
-    auto colonPos = headerLine.find(":");
-    if (colonPos != std::string::npos) {
-        std::string key = headerLine.substr(0, colonPos);
-        std::string value = headerLine.substr(colonPos + 1);
-        detail::trim(key);
-        detail::trim(value);
-        detail::toLowerCase(key);
-        (*headerMap)[key].push_back(value);
-    }
-
-    return size * nitems;
-}
-
-int Request::ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
-                                    curl_off_t ultotal, curl_off_t ulnow) {
-    auto* req = static_cast<Request*>(clientp);
-    if (req->progressCallback) {
-        bool shouldCancel = req->progressCallback(dltotal, dlnow, ultotal, ulnow);
-        return shouldCancel ? 1 : 0; // Returning non-zero aborts transfer
-    }
-    return 0;
-}
-
 Response Request::send() {
     Response response;
 
@@ -212,7 +217,7 @@ Response Request::send() {
     std::ostringstream responseStream;
 
     if (progressCallback) {
-        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, &Request::ProgressCallbackBridge);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
         curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
         curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L); // must disable this
     }
@@ -224,11 +229,11 @@ Response Request::send() {
         }
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut);
     } else {
-        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, detail::WriteCallback);
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
     }
 
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, HeaderCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detaill::HeaderCallback);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
 
     updateURL();
