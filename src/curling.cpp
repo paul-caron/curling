@@ -180,9 +180,9 @@ size_t Request::HeaderCallback(char* buffer, size_t size, size_t nitems, void* u
     if (colonPos != std::string::npos) {
         std::string key = headerLine.substr(0, colonPos);
         std::string value = headerLine.substr(colonPos + 1);
-        curling::detail::trim(key);
-        curling::detail::trim(value);
-        curling::detail::toLowerCase(key);
+        detail::trim(key);
+        detail::trim(value);
+        detail::toLowerCase(key);
         (*headerMap)[key].push_back(value);
     }
 
