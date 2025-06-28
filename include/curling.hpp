@@ -1,5 +1,15 @@
 #pragma once
 
+/*
+ * Copyright (c) 2025 Paul Caron
+ *
+ * This file is part of Curling - a modern C++ wrapper for libcurl.
+ *
+ * Licensed under the MIT License. You may obtain a copy of the license at
+ * https://opensource.org/licenses/MIT
+ */
+
+
 /**
  * @mainpage Curling: Modern C++ libcurl Wrapper
  *
