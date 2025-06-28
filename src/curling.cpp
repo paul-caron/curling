@@ -13,6 +13,11 @@ std::mutex curlGlobalMutex;
 
 int instanceCount = 0;
 
+}//anonymous namespace end
+
+
+namespace detail{
+
 void ensureCurlGlobalInit(){
     std::call_once(curlGlobalInitFlag, []{
         curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -27,11 +32,6 @@ void maybeCleanupGlobalCurl() noexcept {
         curl_global_cleanup();
     }
 }
-
-}//anonymous namespace end
-
-
-namespace detail{
 
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     auto responseStream = static_cast<std::ostringstream*>(userp);
@@ -77,7 +77,7 @@ std::string version() {
 }
 
 Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
-    ensureCurlGlobalInit();
+    detail::ensureCurlGlobalInit();
     
     curlHandle.reset(curl_easy_init());
     if (!curlHandle) {
@@ -125,7 +125,7 @@ Request& Request::operator=(Request&& other) noexcept {
 
 Request::~Request() noexcept {
     clean();
-    maybeCleanupGlobalCurl();
+    detail::maybeCleanupGlobalCurl();
 }
 
 Request& Request::setMethod(Method m) {
