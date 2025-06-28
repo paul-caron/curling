@@ -26,7 +26,7 @@ It supports common web request features including JSON payloads, file uploads, c
 
 ## 🛠 Installation 
 
-### 🔧 Build library with `make`
+### 🔧 Build shared library with `make`
 
 ```bash
 make
