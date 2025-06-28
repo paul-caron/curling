@@ -391,8 +391,6 @@ private:
 
     void clean() noexcept;
     void updateURL();
-    static void trim(std::string& s);
-    static void toLowerCase(std::string& s);
 };
 
 // utils
