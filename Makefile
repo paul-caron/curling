@@ -34,6 +34,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+header-only: ./src/curling.cpp ./include/curling.hpp
+	@mkdir -p header_only
+	(cat ./include/curling.hpp; tail -n +6 ./src/curling.cpp) > ./header_only/curling.hpp
+
+
+
+
 # ========== Install Stage (for deb) ==========
 
 install: $(TARGET_LIB_SHARED)
