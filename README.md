@@ -24,9 +24,9 @@ It supports common web request features including JSON payloads, file uploads, c
 
 ---
 
-## 🛠 Installation
+## 🛠 Installation 
 
-### 🔧 Build with `make`
+### 🔧 Build library with `make`
 
 ```bash
 make
@@ -50,6 +50,13 @@ sudo apt install ./curling_1.0_amd64.dev
 sudo ldconfig
 ```
 
+## 🔧 Build header-only library with `make`
+
+```bash
+make header-only
+```
+The header-only library will be stored in curling/header-only/ folder
+
 ---
 
 ## 🚀 Basic Usage
@@ -72,8 +79,13 @@ int main() {
 }
 ```
 ### compile
+(shared library installed)
 ```bash
 g++ main.cpp -lcurling
+```
+(with header-only)
+```bash
+g++ main.cpp -lcurl
 ```
 
 ---
