@@ -6,13 +6,6 @@
 
 namespace curling {
 
-namespace {
-
-
-
-}//anonymous namespace end
-
-
 namespace detail{
 
 std::once_flag curlGlobalInitFlag;
