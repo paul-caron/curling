@@ -85,7 +85,10 @@ inline constexpr int version_patch = 0;
 
 std::string version();
 
-// utils
+/**
+ * @brief Util/helper section
+ * @note meant for internal library use only
+ */
 namespace detail {
 
 inline size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
