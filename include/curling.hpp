@@ -79,6 +79,25 @@
 
 namespace curling {
 
+// utils
+namespace detail {
+
+inline void trim(std::string& s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch){
+        return !std::isspace(ch);
+    }));
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch){
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+inline void toLowerCase(std::string& s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+}
+
+}//detail end
+
 /**
  * @class CurlingException
  * @brief Base exception class for Curling errors.
@@ -399,24 +418,6 @@ private:
     void updateURL();
 };
 
-// utils
-namespace detail {
-
-inline void trim(std::string& s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch){
-        return !std::isspace(ch);
-    }));
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch){
-        return !std::isspace(ch);
-    }).base(), s.end());
-}
-
-inline void toLowerCase(std::string& s) {
-    std::transform(s.begin(), s.end(), s.begin(),
-                   [](unsigned char c) { return std::tolower(c); });
-}
-
-}
 
 
 } // namespace curling
