@@ -179,7 +179,7 @@ struct Response {
     }
     std::vector<std::string> getHeader(const std::string& key) const {
         std::string lowered = key;
-        curling::detail::toLowerCase(lowered);
+        detail::toLowerCase(lowered);
         auto it = headers.find(lowered);
         return (it != headers.end()) ? it->second : std::vector<std::string>{};
     }
