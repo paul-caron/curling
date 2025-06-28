@@ -105,8 +105,6 @@ inline void toLowerCase(std::string& s) {
                    [](unsigned char c) { return std::tolower(c); });
 }
 
-//inline size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
-//inline size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata);
 inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                   curl_off_t ultotal, curl_off_t ulnow);
 
