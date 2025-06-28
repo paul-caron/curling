@@ -4,6 +4,9 @@
 
 #include "curling.hpp"
 
+using curling::detail::trim;
+using curling::detail::toLowerCase;
+
 namespace curling {
 
 namespace {
