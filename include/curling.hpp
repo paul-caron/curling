@@ -395,5 +395,25 @@ private:
     static void toLowerCase(std::string& s);
 };
 
+// utils
+namespace curling::detail {
+
+inline void trim(std::string& s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch){
+        return !std::isspace(ch);
+    }));
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch){
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+inline void toLowerCase(std::string& s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+}
+
+}
+
+
 } // namespace curling
 
