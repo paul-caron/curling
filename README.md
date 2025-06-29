@@ -113,7 +113,7 @@ int main() {
 }
 ```
 
-🔨 Compile
+### 🔨 Compile
 
 With shared library:
 ```bash
@@ -126,7 +126,7 @@ g++ main.cpp -lcurl
 
 ---
 
-✅ Example Test Case
+## ✅ Example Test Case
 
 Tests run automatically on every push via GitHub Actions.
 
@@ -168,7 +168,7 @@ Key principles:
 
 ---
 
-🤔 Why Curling?
+## 🤔 Why Curling?
 
 Libcurl is powerful, but its C API is verbose and error-prone.
 
@@ -205,7 +205,7 @@ Curling aims to strike a balance between modern C++ design, fine-grained control
 | Community           | Active, popular              | Aging, low activity        | Growing with CI, automation, and tests      |
 
 
-Why Choose Curling Over CPR or curlpp?
+## Why Choose Curling Over CPR or curlpp?
 
 More control, less complexity: Full access to advanced libcurl options via a modern interface.
 
@@ -223,22 +223,25 @@ Safe defaults: Redirects and verbose logging are disabled by default, encouragin
 
 ---
 
-📚 Documentation
+## 📚 Documentation
 
 Generate API documentation with Doxygen:
 
+```bash
 make doc
+```
 
 HTML output will appear in the doc/ folder.
 
 To clean:
 
+```bash
 make doc-clean
-
+```
 
 ---
 
-🧪 Testing
+## 🧪 Testing
 
 Tests use Doctest and cover:
 
@@ -257,14 +260,16 @@ Tests use Doctest and cover:
 
 Run locally:
 
+```bash
 make test
+```
 
 GitHub Actions ensures tests pass on every push and pull request.
 
 
 ---
 
-🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please:
 
@@ -278,14 +283,14 @@ Use atomic and focused commits
 
 ---
 
-📄 License
+## 📄 License
 
 This project is licensed under the MIT License.
 
 
 ---
 
-👤 Maintainer
+## 👤 Maintainer
 
 Paul Caron
 GitHub Profile
@@ -293,7 +298,7 @@ GitHub Profile
 
 ---
 
-📌 Notes
+## 📌 Notes
 
 Curl global init/cleanup is handled automatically.
 
