@@ -35,19 +35,19 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ## ✨ Features
 
-🔁 Fluent API — chainable and expressive
+- 🔁 Fluent API — chainable and expressive
 
-📤 Multipart/MIME support — for file uploads
+- 📤 Multipart/MIME support — for file uploads
 
-🍪 Cookie management — with persistent storage
+- 🍪 Cookie management — with persistent storage
 
-🛡 Proxy and authentication support — including Basic, Bearer, and Digest
+- 🛡 Proxy and authentication support — including Basic, Bearer, and Digest
 
-🌐 Full HTTP verb support — GET, POST, PUT, DELETE, PATCH, MIME
+- 🌐 Full HTTP verb support — GET, POST, PUT, DELETE, PATCH, MIME
 
-📦 Linux .deb packaging
+- 📦 Linux .deb packaging
 
-🧪 CI-tested with Doctest framework and GitHub Actions
+- 🧪 CI-tested with Doctest framework and GitHub Actions
 
 
 
