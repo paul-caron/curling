@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 🌀 Curling
 
 Curling is a modern C++17 wrapper around libcurl, designed to simplify HTTP/HTTPS requests using a clean, fluent API.
@@ -179,27 +172,26 @@ Easy file & MIME upload	Manual	✅
 Modern build integration	❌	✅
 
 
-
 ---
 
-⚖️ Comparisons with Other Popular C++ libcurl Wrappers
+## ⚖️ Comparisons with Other Popular C++ libcurl Wrappers
 
-Curling is designed to strike a balance between modern C++ design, fine-grained control, and usability.
+Curling aims to strike a balance between modern C++ design, fine-grained control, and ease of use. Here's how it compares to other popular libcurl wrappers:
 
-Aspect	CPR	curlpp	Curling (this project)
-
-API Style	High-level, intuitive	Classic wrapper, less modern	Modern C++17 fluent API with chaining
-Abstraction Level	Heavy abstraction, hides internals	Moderate, but outdated	Balanced abstraction, exposes control
-Memory Management	Manual (raw pointers used internally)	Manual	RAII with smart pointers
-Features	Common HTTP (GET/POST/JSON/auth)	Full libcurl coverage, less ergonomic	All HTTP verbs, MIME, advanced auth
-File/MIME Upload	Partial, verbose	Supported, clunky	Fully integrated, fluent MIME support
-Authentication	Basic, Bearer	Basic, Digest	Basic, Bearer, Digest (incl. SHA-256)
-Build & Packaging	Shared/static library via CMake	Static/shared library	Header-only mode + .deb packaging
-Test Coverage	Minimal	Minimal	Full coverage with Doctest + CI
-Thread Safety	Not guaranteed	Not guaranteed	Not thread-safe (documented)
-Customization	Limited	Moderate	Extensive fine-tuned libcurl control
-Docs & Examples	Good docs, simple examples	Sparse	Rich examples + auto-generated Doxygen docs
-Community	Active, popular	Aging, low activity	Growing with CI, automation, and tests
+| Aspect              | CPR                           | curlpp                      | Curling (this project)                     |
+|---------------------|-------------------------------|-----------------------------|--------------------------------------------|
+| API Style           | High-level, intuitive          | Classic wrapper, less modern| Modern C++17 fluent API with chaining      |
+| Abstraction Level   | Heavy abstraction, hides internals | Moderate abstraction, outdated | Balanced abstraction, exposes fine control|
+| Memory Management   | Manual (raw pointers internally) | Manual                      | RAII with smart pointers                    |
+| Feature Completeness| Common HTTP (GET/POST/JSON/auth)| Full libcurl coverage, less ergonomic | Full HTTP verbs, MIME, advanced auth       |
+| File/MIME Upload    | Partial support, verbose       | Supported, clunky           | Fully integrated, fluent MIME support      |
+| Authentication      | Basic, Bearer                 | Basic, Digest               | Basic, Bearer, Digest (incl. SHA-256)      |
+| Build & Packaging   | Shared/static via CMake        | Static/shared library       | Header-only mode + Debian `.deb` packaging |
+| Test Coverage       | Minimal                      | Minimal                    | Full coverage with Doctest + CI             |
+| Thread Safety       | Not guaranteed                | Not guaranteed             | Not thread-safe (documented)                |
+| Customization       | Limited                      | Moderate                   | Extensive fine-tuned libcurl control        |
+| Docs & Examples     | Good docs, simple examples    | Sparse                     | Rich examples + auto-generated Doxygen docs|
+| Community           | Active, popular              | Aging, low activity        | Growing with CI, automation, and tests      |
 
 
 Why Choose Curling Over CPR or curlpp?
