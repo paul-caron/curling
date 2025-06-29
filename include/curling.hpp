@@ -446,6 +446,7 @@ private:
     CurlMimePtr mime;
     std::string downloadFilePath;
     ProgressCallback progressCallback;
+    HttpVersion httpVersion = HttpVersion::DEFAULT;
 
     void clean() noexcept;
     void updateURL();
