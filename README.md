@@ -174,13 +174,13 @@ Libcurl is powerful, but its C API is verbose and error-prone.
 
 Curling offers:
 
-Feature	libcurl	Curling
+|Feature	|libcurl	|Curling|
 
-Fluent C++ API	❌	✅
-RAII memory management	❌	✅
-Built-in test coverage	❌	✅
-Easy file & MIME upload	Manual	✅
-Modern build integration	❌	✅
+|Fluent C++ API	|❌	|✅|
+|RAII memory management	|❌	|✅|
+|Built-in test coverage	|❌	|✅|
+|Easy file & MIME upload	|Manual	|✅|
+|Modern build integration	|❌	|✅|
 
 
 ---
@@ -205,7 +205,7 @@ Curling aims to strike a balance between modern C++ design, fine-grained control
 | Community           | Active, popular              | Aging, low activity        | Growing with CI, automation, and tests      |
 
 
-## Why Choose Curling Over CPR or curlpp?
+### Why Choose Curling Over CPR or curlpp?
 
 More control, less complexity: Full access to advanced libcurl options via a modern interface.
 
