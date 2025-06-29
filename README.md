@@ -1,5 +1,4 @@
-
-🌀 Curling
+# 🌀 Curling
 
 Curling is a modern C++17 wrapper around libcurl, designed to simplify HTTP/HTTPS requests using a clean, fluent API.
 
@@ -8,7 +7,7 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ---
 
-📚 Table of Contents
+## 📚 Table of Contents
 
 ✨ Features
 
@@ -40,7 +39,7 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ---
 
-✨ Features
+## ✨ Features
 
 🔁 Fluent API — chainable and expressive
 
@@ -60,35 +59,44 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ---
 
-🛠 Installation
+## 🛠 Installation
 
-🔧 Build shared library
+### 🔧 Build shared library
 
+```bash
 make
+```
 
 To install and package as a Debian .deb:
 
+```bash
 make install
 make deb
+```
 
 Install it locally:
 
+```bash
 sudo apt install ./curling_1.0_amd64.deb
 sudo ldconfig
+```
 
-🪶 Header-only version
+### 🪶 Header-only version
 
+```bash
 make header-only
+```
 
 This produces a header-only version in:
 
-curling/header-only/
+`curling/header-only/`
 
 
 ---
 
-🚀 Basic Usage
+## 🚀 Basic Usage
 
+```cpp
 #include "curling.hpp"
 #include <iostream>
 
@@ -103,17 +111,18 @@ int main() {
     std::cout << res.toString();
     return 0;
 }
+```
 
 🔨 Compile
 
 With shared library:
-
+```bash
 g++ main.cpp -lcurling
-
+```
 With header-only:
-
+```bash
 g++ main.cpp -lcurl
-
+```
 
 ---
 
@@ -121,6 +130,7 @@ g++ main.cpp -lcurl
 
 Tests run automatically on every push via GitHub Actions.
 
+```cpp
 TEST_CASE("GET request to download image") {
     curling::Request req;
     req.setURL("https://httpbin.org/image/png")
@@ -131,15 +141,16 @@ TEST_CASE("GET request to download image") {
     CHECK(res.httpCode == 200);
     CHECK(std::filesystem::exists("out.png"));
 }
+```
 
 Run tests locally:
-
+```bash
 make test
-
+```
 
 ---
 
-🧠 Internals & Design
+## 🧠 Internals & Design
 
 Curling centers around the curling::Request class, which wraps libcurl functionality in a fluent, type-safe, modern C++ API.
 
