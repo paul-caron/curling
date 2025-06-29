@@ -42,7 +42,6 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 - 🌐 **Full HTTP verb support** — GET, POST, PUT, DELETE, PATCH, HEAD, MIME  
 - 🚀 **HTTP/2 and HTTP/3 support** — via libcurl  
 - 🧩 **Header-only library** — just include and go, no linking needed  
-- 🔌 **Extensible design** — plug in custom hooks, callbacks, and middleware-style logic  
 - 📦 **.deb packaging** — for easy installation on Debian-based systems  
 - 🧪 **CI-tested** — with [Doctest](https://github.com/doctest/doctest) and GitHub Actions
 
