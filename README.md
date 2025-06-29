@@ -36,7 +36,7 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 ## ✨ Features
 
 - 🔁 **Fluent API** — chainable and expressive request building  
-- 📤 **Multipart/MIME support** — for file uploads  
+- 📤 **Multipart and MIME support** — for multipart forms and file uploads  
 - 🍪 **Cookie management** — with optional persistent storage  
 - 🛡 **Proxy and authentication support** — including Basic, Bearer, and Digest  
 - 🌐 **Full HTTP verb support** — GET, POST, PUT, DELETE, PATCH, HEAD
