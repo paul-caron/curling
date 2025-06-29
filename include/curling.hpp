@@ -1,5 +1,3 @@
-#pragma once
-
 /*
  * Copyright (c) 2025 Paul Caron
  *
@@ -40,10 +38,6 @@
  * before switching to another method. Attempting to change it afterward throws logic_error.
  */
 
-/**
- * @warning This class is not thread-safe. Do not share a Request instance across threads.
- * Each thread should use its own Request object.
- */
 
 /**
  * @note Curling internally manages curl_global_init() and curl_global_cleanup()
@@ -64,7 +58,12 @@
  * which is useful for debugging.
  */
 
+/**
+ * @warning This class is not thread-safe. Do not share a Request instance across threads.
+ * Each thread should use its own Request object.
+ */
 
+#pragma once
 #include <string>
 #include <map>
 #include <vector>
@@ -454,7 +453,8 @@ private:
     void updateURL();
 };
 
-
+static_assert(!std::is_copy_constructible_v<Request> && !std::is_copy_assignable_v<Request>,
+              "curling::Request is not copyable: it is thread-unsafe and must not be shared between threads. One instance per thread.");
 
 } // namespace curling
 
