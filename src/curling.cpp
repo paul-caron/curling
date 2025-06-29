@@ -377,4 +377,28 @@ Request& Request::enableVerbose(bool enabled){
     return *this;
 }
 
+
+Request& Request::setHttpVersion(HttpVersion version) {
+    
+    curl_version_info_data* info = curl_version_info(CURLVERSION_NOW);
+
+    switch (version) {
+        case HttpVersion::HTTP_2:
+            if (!(info->features & CURL_VERSION_HTTP2)) {
+                throw LogicException("HTTP/2 is not supported by the current libcurl build.");
+            }
+            break;
+        case HttpVersion::HTTP_3:
+            if (!(info->features & CURL_VERSION_HTTP3)) {
+                throw LogicException("HTTP/3 is not supported by the current libcurl build.");
+            }
+            break;
+        default:
+            break; // No check needed for DEFAULT or HTTP_1_1
+    }
+
+    this->httpVersion = version;
+    return *this;
+}
+
 } // namespace curling
