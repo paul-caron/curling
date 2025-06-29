@@ -13,34 +13,22 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ---
 
+
 ## 📚 Table of Contents
 
-[✨ Features](-features)
-
-🛠 Installation
-
-🚀 Basic Usage
-
-✅ Example Test Case
-
-🧠 Internals & Design
-
-🤔 Why Curling?
-
-⚖️ Comparisons
-
-📚 Documentation
-
-🧪 Testing
-
-🤝 Contributing
-
-📄 License
-
-👤 Maintainer
-
-📌 Notes
-
+- [✨ Features](#-features)
+- [🛠 Installation](#-installation)
+- [🚀 Basic Usage](#-basic-usage)
+- [✅ Example Test Case](#-example-test-case)
+- [🧠 Internals & Design](#-internals--design)
+- [🤔 Why Curling?](#-why-curling)
+- [⚖️ Comparisons](#️-comparisons-with-other-popular-c-libcurl-wrappers)
+- [📚 Documentation](#-documentation)
+- [🧪 Testing](#-testing)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👤 Maintainer](#-maintainer)
+- [📌 Notes](#-notes)
 
 
 ---
