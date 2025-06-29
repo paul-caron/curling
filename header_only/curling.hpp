@@ -1,5 +1,3 @@
-#pragma once
-
 /*
  * Copyright (c) 2025 Paul Caron
  *
@@ -40,10 +38,6 @@
  * before switching to another method. Attempting to change it afterward throws logic_error.
  */
 
-/**
- * @warning This class is not thread-safe. Do not share a Request instance across threads.
- * Each thread should use its own Request object.
- */
 
 /**
  * @note Curling internally manages curl_global_init() and curl_global_cleanup()
@@ -64,7 +58,12 @@
  * which is useful for debugging.
  */
 
+/**
+ * @warning This class is not thread-safe. Do not share a Request instance across threads.
+ * Each thread should use its own Request object.
+ */
 
+#pragma once
 #include <string>
 #include <map>
 #include <vector>
@@ -105,7 +104,7 @@ inline void toLowerCase(std::string& s) {
                    [](unsigned char c) { return std::tolower(c); });
 }
 
-inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
+int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                   curl_off_t ultotal, curl_off_t ulnow);
 
 
@@ -434,7 +433,23 @@ public:
      */
     void reset();
 
+    /**
+     * @brief Set the HTTP protocol version (http1.1, 2 or 3)
+     */
     Request& setHttpVersion(HttpVersion version);
+
+    /**
+     * @brief Low level access to define curl options
+     *
+     * @warning Should be used with caution. Meant for the libcurl advanced users.
+     */
+    template<typename T>
+    Request& setRawOption(CURLoption opt, T value) {
+        static_assert(std::is_pointer<T>::value || std::is_arithmetic<T>::value,
+                      "setRawOption only supports pointer or arithmetic types");
+        curl_easy_setopt(curlHandle.get(), opt, value);
+        return *this;
+    }
 
     friend int detail::ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                           curl_off_t ultotal, curl_off_t ulnow);
@@ -454,7 +469,8 @@ private:
     void updateURL();
 };
 
-
+static_assert(!std::is_copy_constructible_v<Request> && !std::is_copy_assignable_v<Request>,
+              "curling::Request is not copyable: it is thread-unsafe and must not be shared between threads. One instance per thread.");
 
 } // namespace curling
 
@@ -666,16 +682,17 @@ Request& Request::setBody(const std::string& body) {
 
 Response Request::send() {
     Response response;
-
     FILE* fileOut = nullptr;
     std::ostringstream responseStream;
 
+    // Set progress callback if present
     if (progressCallback) {
         curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
         curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
-        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L); // must disable this
+        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L);
     }
 
+    // Set write target (file or memory)
     if (!downloadFilePath.empty()) {
         fileOut = std::fopen(downloadFilePath.c_str(), "wb");
         if (!fileOut) {
@@ -687,45 +704,55 @@ Response Request::send() {
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
     }
 
+    // Set headers callback
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detail::HeaderCallback);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
 
     updateURL();
 
+    // Set HTTP version
     long curl_http_version = CURL_HTTP_VERSION_NONE;
-
-    switch(httpVersion) {
-      case HttpVersion::DEFAULT:
-        curl_http_version = CURL_HTTP_VERSION_NONE;
-        break;
-      case HttpVersion::HTTP_1_1:
-        curl_http_version = CURL_HTTP_VERSION_1_1;
-        break;
-      case HttpVersion::HTTP_2:
-        curl_http_version = CURL_HTTP_VERSION_2_0;
-        break;
-      case HttpVersion::HTTP_3:
-        curl_http_version = CURL_HTTP_VERSION_3;
-        break;
+    switch (httpVersion) {
+        case HttpVersion::HTTP_1_1: curl_http_version = CURL_HTTP_VERSION_1_1; break;
+        case HttpVersion::HTTP_2:   curl_http_version = CURL_HTTP_VERSION_2_0; break;
+        case HttpVersion::HTTP_3:   curl_http_version = CURL_HTTP_VERSION_3;   break;
+        case HttpVersion::DEFAULT:
+        default:                    curl_http_version = CURL_HTTP_VERSION_NONE; break;
     }
-
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
-    
+
+    // Perform request
     CURLcode res = curl_easy_perform(curlHandle.get());
 
-    if (fileOut) std::fclose(fileOut);
-
-    if (res != CURLE_OK) {
-        throw RequestException("Curl perform failed: " + std::string(curl_easy_strerror(res)));
-    }
-
+    // Get HTTP status code regardless of result
     curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
 
+    // Close file if it was opened
+    if (fileOut) {
+        std::fclose(fileOut);
+        fileOut = nullptr;
+    }
+
+    // Handle errors
+    if (res != CURLE_OK) {
+        char* effectiveUrl = nullptr;
+        curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
+
+        std::ostringstream err;
+        err << "Curl perform failed for URL: " 
+            << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
+            << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
+            << "\nHTTP Status Code: " << response.httpCode;
+
+        throw RequestException(err.str());
+    }
+
+    // Store response body if not downloaded to file
     if (downloadFilePath.empty()) {
         response.body = responseStream.str();
     }
 
-    reset();
+    reset(); // Reset state for reuse
 
     return response;
 }

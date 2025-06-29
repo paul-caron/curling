@@ -10,7 +10,7 @@ DOC_DIR := doc
 
 ARCH := amd64
 PACKAGE_NAME := curling
-VERSION := 1.0
+VERSION := 1.2.0
 MAINTAINER := Paul Caron <you@example.com>
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PACKAGE_NAME)-$(VERSION)
 
