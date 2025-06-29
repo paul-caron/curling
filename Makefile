@@ -62,7 +62,7 @@ deb: install
 	echo "Description: Shared C++ wrapper for libcurl" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Section: libs" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	echo "Priority: optional" >> $(PKG_BUILD_DIR)/DEBIAN/control
-	echo "Depends: libcurl4, libcurl4-openssl-dev" >> $(PKG_BUILD_DIR)/DEBIAN/control
+	echo "Depends: libcurl4, libcurl4-dev" >> $(PKG_BUILD_DIR)/DEBIAN/control
 	dpkg-deb --build $(PKG_BUILD_DIR)
 	@mv $(PKG_BUILD_DIR).deb $(PACKAGE_NAME)_$(VERSION)_$(ARCH).deb
 	@echo "Package created: $(PACKAGE_NAME)_$(VERSION)_$(ARCH).deb"
