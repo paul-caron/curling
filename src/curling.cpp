@@ -261,7 +261,13 @@ Response Request::send() {
     if (fileOut) std::fclose(fileOut);
 
     if (res != CURLE_OK) {
-        throw RequestException("Curl perform failed: " + std::string(curl_easy_strerror(res)));
+        std::ostringstream err;
+        err << "Curl perform failed for URL: " << url;
+        if (!args.empty()) {
+            err << "?" << args;
+        }
+        err << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")";
+        throw RequestException(err.str());
     }
 
     curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
