@@ -217,6 +217,7 @@ public:
         PUT,    ///< PUT
         DEL,    ///< DELETE (named DEL to avoid macro clash)
         PATCH,  ///< PATCH
+        HEAD,   ///< HEAD request just headers
         MIME    ///< Multipart/form-data POST
     };
 
@@ -228,6 +229,26 @@ public:
         BASIC = CURLAUTH_BASIC,
         NTLM = CURLAUTH_NTLM,
         DIGEST = CURLAUTH_DIGEST
+    };
+
+    /**
+    * @enum HttpVersion
+    * @brief Specifies the HTTP version to be used for the request.
+    *
+    * Allows explicit control over the HTTP version that libcurl should use
+    * when performing a request. If the selected version is not supported
+    * by the libcurl build or the server, fallback behavior may occur.
+    *
+    * @note If you request a version not supported by libcurl at runtime,
+    * Curling will throw a LogicException during configuration.
+    * If the server doesn't support the version (e.g., HTTP/2),
+    * libcurl may fall back to an older version without error.
+    */
+    enum class HttpVersion {
+        DEFAULT,   ///< Let libcurl automatically negotiate the best supported HTTP version.
+        HTTP_1_1,  ///< Force HTTP/1.1 for all requests.
+        HTTP_2,    ///< Force HTTP/2 (requires libcurl built with nghttp2 support).
+        HTTP_3     ///< Force HTTP/3 (requires libcurl built with HTTP/3 support, e.g. with quiche or ngtcp2).
     };
 
     /**
@@ -413,6 +434,8 @@ public:
      */
     void reset();
 
+    Request& setHttpVersion(HttpVersion version);
+
     friend int detail::ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                           curl_off_t ultotal, curl_off_t ulnow);
 
@@ -425,6 +448,7 @@ private:
     CurlMimePtr mime;
     std::string downloadFilePath;
     ProgressCallback progressCallback;
+    HttpVersion httpVersion = HttpVersion::DEFAULT;
 
     void clean() noexcept;
     void updateURL();
@@ -583,6 +607,10 @@ Request& Request::setMethod(Method m) {
         case Method::DEL:
             curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
+        case Method::HEAD:
+            curl_easy_setopt(curlHandle.get(), CURLOPT_NOBODY, 1L);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_HEADER, 1L);
+            break;
     }
     return *this;
 }
@@ -663,6 +691,26 @@ Response Request::send() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
 
     updateURL();
+
+    long curl_http_version = CURL_HTTP_VERSION_NONE;
+
+    switch(httpVersion) {
+      case HttpVersion::DEFAULT:
+        curl_http_version = CURL_HTTP_VERSION_NONE;
+        break;
+      case HttpVersion::HTTP_1_1:
+        curl_http_version = CURL_HTTP_VERSION_1_1;
+        break;
+      case HttpVersion::HTTP_2:
+        curl_http_version = CURL_HTTP_VERSION_2_0;
+        break;
+      case HttpVersion::HTTP_3:
+        curl_http_version = CURL_HTTP_VERSION_3;
+        break;
+    }
+
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
+    
     CURLcode res = curl_easy_perform(curlHandle.get());
 
     if (fileOut) std::fclose(fileOut);
@@ -805,6 +853,30 @@ Request& Request::addFormFile(const std::string& fieldName, const std::string & 
 
 Request& Request::enableVerbose(bool enabled){
     curl_easy_setopt(curlHandle.get(), CURLOPT_VERBOSE, enabled ? 1L : 0L);
+    return *this;
+}
+
+
+Request& Request::setHttpVersion(HttpVersion version) {
+    
+    curl_version_info_data* info = curl_version_info(CURLVERSION_NOW);
+
+    switch (version) {
+        case HttpVersion::HTTP_2:
+            if (!(info->features & CURL_VERSION_HTTP2)) {
+                throw LogicException("HTTP/2 is not supported by the current libcurl build.");
+            }
+            break;
+        case HttpVersion::HTTP_3:
+            if (!(info->features & CURL_VERSION_HTTP3)) {
+                throw LogicException("HTTP/3 is not supported by the current libcurl build.");
+            }
+            break;
+        default:
+            break; // No check needed for DEFAULT or HTTP_1_1
+    }
+
+    this->httpVersion = version;
     return *this;
 }
 
