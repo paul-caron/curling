@@ -217,6 +217,7 @@ public:
         PUT,    ///< PUT
         DEL,    ///< DELETE (named DEL to avoid macro clash)
         PATCH,  ///< PATCH
+        HEAD,   ///< HEAD request just headers
         MIME    ///< Multipart/form-data POST
     };
 
