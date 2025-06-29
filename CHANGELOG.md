@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.1] - 2025-xx-xx furture release
+## [1.1.1] - 2025-xx-xx future release
 ### Added
 - static assertion / compile time check that Request cannot be copied.
 
