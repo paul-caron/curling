@@ -8,12 +8,14 @@ var searchData=
   ['setfollowredirects_5',['setFollowRedirects',['../classcurling_1_1Request.html#ac99b12012c16657026d223048e4d7475',1,'curling::Request']]],
   ['sethttpauth_6',['setHttpAuth',['../classcurling_1_1Request.html#aca73db2804c9111363a33d10db7ad266',1,'curling::Request']]],
   ['sethttpauthmethod_7',['setHttpAuthMethod',['../classcurling_1_1Request.html#ab2a7ce7acb08c9a2181522901081b0b5',1,'curling::Request']]],
-  ['setmethod_8',['setMethod',['../classcurling_1_1Request.html#ad273252a9c167bb100cdf5fa5ea17d51',1,'curling::Request']]],
-  ['setprogresscallback_9',['setProgressCallback',['../classcurling_1_1Request.html#ac2369ffa37cc3be82117fe43bcc1f53f',1,'curling::Request']]],
-  ['setproxy_10',['setProxy',['../classcurling_1_1Request.html#a67aaf2f1611ea28b8afaf621148daee6',1,'curling::Request']]],
-  ['setproxyauth_11',['setProxyAuth',['../classcurling_1_1Request.html#a511337f3a830b80fde26bbeb79b9f478',1,'curling::Request']]],
-  ['setproxyauthmethod_12',['setProxyAuthMethod',['../classcurling_1_1Request.html#aa5df92bd801535ae331def9f6c7317e1',1,'curling::Request']]],
-  ['settimeout_13',['setTimeout',['../classcurling_1_1Request.html#a40a70b017482439181cb0820d89a6285',1,'curling::Request']]],
-  ['seturl_14',['setURL',['../classcurling_1_1Request.html#a5c67ebc357b648d588182c3bde1698fa',1,'curling::Request']]],
-  ['setuseragent_15',['setUserAgent',['../classcurling_1_1Request.html#a57bd5429d90254605fcde77d8f338d91',1,'curling::Request']]]
+  ['sethttpversion_8',['setHttpVersion',['../classcurling_1_1Request.html#aaa7120aa2b2dc09613a8b462bcbd84b2',1,'curling::Request']]],
+  ['setmethod_9',['setMethod',['../classcurling_1_1Request.html#ad273252a9c167bb100cdf5fa5ea17d51',1,'curling::Request']]],
+  ['setprogresscallback_10',['setProgressCallback',['../classcurling_1_1Request.html#ac2369ffa37cc3be82117fe43bcc1f53f',1,'curling::Request']]],
+  ['setproxy_11',['setProxy',['../classcurling_1_1Request.html#a67aaf2f1611ea28b8afaf621148daee6',1,'curling::Request']]],
+  ['setproxyauth_12',['setProxyAuth',['../classcurling_1_1Request.html#a511337f3a830b80fde26bbeb79b9f478',1,'curling::Request']]],
+  ['setproxyauthmethod_13',['setProxyAuthMethod',['../classcurling_1_1Request.html#aa5df92bd801535ae331def9f6c7317e1',1,'curling::Request']]],
+  ['setrawoption_14',['setRawOption',['../classcurling_1_1Request.html#a69aa0b454ecd71e555d7e5dc3d6247b3',1,'curling::Request']]],
+  ['settimeout_15',['setTimeout',['../classcurling_1_1Request.html#a40a70b017482439181cb0820d89a6285',1,'curling::Request']]],
+  ['seturl_16',['setURL',['../classcurling_1_1Request.html#a5c67ebc357b648d588182c3bde1698fa',1,'curling::Request']]],
+  ['setuseragent_17',['setUserAgent',['../classcurling_1_1Request.html#a57bd5429d90254605fcde77d8f338d91',1,'curling::Request']]]
 ];

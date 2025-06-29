@@ -32,37 +32,38 @@
 \contentsline {subsection}{\numberline {7.8.1}Detailed Description}{19}{subsection.7.8.1}%
 \contentsline {section}{\numberline {7.9}curling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Request Class Reference}{20}{section.7.9}%
 \contentsline {subsection}{\numberline {7.9.1}Detailed Description}{21}{subsection.7.9.1}%
-\contentsline {subsection}{\numberline {7.9.2}Member Enumeration Documentation}{21}{subsection.7.9.2}%
-\contentsline {subsubsection}{\numberline {7.9.2.1}HttpVersion}{21}{subsubsection.7.9.2.1}%
+\contentsline {subsection}{\numberline {7.9.2}Member Enumeration Documentation}{22}{subsection.7.9.2}%
+\contentsline {subsubsection}{\numberline {7.9.2.1}HttpVersion}{22}{subsubsection.7.9.2.1}%
 \contentsline {subsubsection}{\numberline {7.9.2.2}Method}{22}{subsubsection.7.9.2.2}%
 \contentsline {subsection}{\numberline {7.9.3}Constructor \& Destructor Documentation}{22}{subsection.7.9.3}%
 \contentsline {subsubsection}{\numberline {7.9.3.1}Request()}{22}{subsubsection.7.9.3.1}%
-\contentsline {subsection}{\numberline {7.9.4}Member Function Documentation}{22}{subsection.7.9.4}%
-\contentsline {subsubsection}{\numberline {7.9.4.1}addArg()}{22}{subsubsection.7.9.4.1}%
+\contentsline {subsection}{\numberline {7.9.4}Member Function Documentation}{23}{subsection.7.9.4}%
+\contentsline {subsubsection}{\numberline {7.9.4.1}addArg()}{23}{subsubsection.7.9.4.1}%
 \contentsline {subsubsection}{\numberline {7.9.4.2}addFormField()}{23}{subsubsection.7.9.4.2}%
-\contentsline {subsubsection}{\numberline {7.9.4.3}addFormFile()}{23}{subsubsection.7.9.4.3}%
+\contentsline {subsubsection}{\numberline {7.9.4.3}addFormFile()}{24}{subsubsection.7.9.4.3}%
 \contentsline {subsubsection}{\numberline {7.9.4.4}addHeader()}{24}{subsubsection.7.9.4.4}%
 \contentsline {subsubsection}{\numberline {7.9.4.5}downloadToFile()}{24}{subsubsection.7.9.4.5}%
-\contentsline {subsubsection}{\numberline {7.9.4.6}enableVerbose()}{24}{subsubsection.7.9.4.6}%
+\contentsline {subsubsection}{\numberline {7.9.4.6}enableVerbose()}{25}{subsubsection.7.9.4.6}%
 \contentsline {subsubsection}{\numberline {7.9.4.7}send()}{25}{subsubsection.7.9.4.7}%
 \contentsline {subsubsection}{\numberline {7.9.4.8}setAuthToken()}{25}{subsubsection.7.9.4.8}%
-\contentsline {subsubsection}{\numberline {7.9.4.9}setBody()}{25}{subsubsection.7.9.4.9}%
+\contentsline {subsubsection}{\numberline {7.9.4.9}setBody()}{26}{subsubsection.7.9.4.9}%
 \contentsline {subsubsection}{\numberline {7.9.4.10}setConnectTimeout()}{26}{subsubsection.7.9.4.10}%
 \contentsline {subsubsection}{\numberline {7.9.4.11}setCookiePath()}{26}{subsubsection.7.9.4.11}%
-\contentsline {subsubsection}{\numberline {7.9.4.12}setFollowRedirects()}{26}{subsubsection.7.9.4.12}%
+\contentsline {subsubsection}{\numberline {7.9.4.12}setFollowRedirects()}{27}{subsubsection.7.9.4.12}%
 \contentsline {subsubsection}{\numberline {7.9.4.13}setHttpAuth()}{27}{subsubsection.7.9.4.13}%
 \contentsline {subsubsection}{\numberline {7.9.4.14}setHttpAuthMethod()}{27}{subsubsection.7.9.4.14}%
-\contentsline {subsubsection}{\numberline {7.9.4.15}setMethod()}{27}{subsubsection.7.9.4.15}%
+\contentsline {subsubsection}{\numberline {7.9.4.15}setMethod()}{28}{subsubsection.7.9.4.15}%
 \contentsline {subsubsection}{\numberline {7.9.4.16}setProgressCallback()}{28}{subsubsection.7.9.4.16}%
 \contentsline {subsubsection}{\numberline {7.9.4.17}setProxy()}{28}{subsubsection.7.9.4.17}%
-\contentsline {subsubsection}{\numberline {7.9.4.18}setProxyAuth()}{28}{subsubsection.7.9.4.18}%
+\contentsline {subsubsection}{\numberline {7.9.4.18}setProxyAuth()}{29}{subsubsection.7.9.4.18}%
 \contentsline {subsubsection}{\numberline {7.9.4.19}setProxyAuthMethod()}{29}{subsubsection.7.9.4.19}%
-\contentsline {subsubsection}{\numberline {7.9.4.20}setTimeout()}{29}{subsubsection.7.9.4.20}%
-\contentsline {subsubsection}{\numberline {7.9.4.21}setURL()}{29}{subsubsection.7.9.4.21}%
-\contentsline {subsubsection}{\numberline {7.9.4.22}setUserAgent()}{30}{subsubsection.7.9.4.22}%
-\contentsline {section}{\numberline {7.10}curling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Request\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Exception Class Reference}{30}{section.7.10}%
-\contentsline {subsection}{\numberline {7.10.1}Detailed Description}{31}{subsection.7.10.1}%
-\contentsline {section}{\numberline {7.11}curling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Response Struct Reference}{31}{section.7.11}%
+\contentsline {subsubsection}{\numberline {7.9.4.20}setRawOption()}{29}{subsubsection.7.9.4.20}%
+\contentsline {subsubsection}{\numberline {7.9.4.21}setTimeout()}{30}{subsubsection.7.9.4.21}%
+\contentsline {subsubsection}{\numberline {7.9.4.22}setURL()}{30}{subsubsection.7.9.4.22}%
+\contentsline {subsubsection}{\numberline {7.9.4.23}setUserAgent()}{30}{subsubsection.7.9.4.23}%
+\contentsline {section}{\numberline {7.10}curling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Request\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Exception Class Reference}{31}{section.7.10}%
+\contentsline {subsection}{\numberline {7.10.1}Detailed Description}{32}{subsection.7.10.1}%
+\contentsline {section}{\numberline {7.11}curling\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Response Struct Reference}{32}{section.7.11}%
 \contentsline {subsection}{\numberline {7.11.1}Detailed Description}{32}{subsection.7.11.1}%
 \contentsline {chapter}{\numberline {8}File Documentation}{33}{chapter.8}%
 \contentsline {section}{\numberline {8.1}curling.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}hpp}{33}{section.8.1}%

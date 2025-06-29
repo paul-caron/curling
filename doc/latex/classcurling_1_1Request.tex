@@ -107,7 +107,9 @@ void {\bfseries reset} ()
 \begin{DoxyCompactList}\small\item\em Resets internal state to allow reuse. \end{DoxyCompactList}\item 
 \Hypertarget{classcurling_1_1Request_aaa7120aa2b2dc09613a8b462bcbd84b2}\label{classcurling_1_1Request_aaa7120aa2b2dc09613a8b462bcbd84b2} 
 \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& {\bfseries set\+Http\+Version} (\mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{Http\+Version}} version)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Set the HTTP protocol version (http1.\+1, 2 or 3) \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a69aa0b454ecd71e555d7e5dc3d6247b3}{set\+Raw\+Option}} (CURLoption opt, T value)
+\begin{DoxyCompactList}\small\item\em Low level access to define curl options. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
@@ -576,6 +578,20 @@ Sets proxy authentication scheme.
 \begin{DoxyReturn}{Returns}
 \texorpdfstring{$\ast$}{*}this 
 \end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a69aa0b454ecd71e555d7e5dc3d6247b3}\label{classcurling_1_1Request_a69aa0b454ecd71e555d7e5dc3d6247b3} 
+\index{curling::Request@{curling::Request}!setRawOption@{setRawOption}}
+\index{setRawOption@{setRawOption}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setRawOption()}{setRawOption()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Raw\+Option (\begin{DoxyParamCaption}\item[{CURLoption}]{opt,  }\item[{T}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Low level access to define curl options. 
+
+\begin{DoxyWarning}{Warning}
+Should be used with caution. Meant for the libcurl advanced users. 
+\end{DoxyWarning}
 \Hypertarget{classcurling_1_1Request_a40a70b017482439181cb0820d89a6285}\label{classcurling_1_1Request_a40a70b017482439181cb0820d89a6285} 
 \index{curling::Request@{curling::Request}!setTimeout@{setTimeout}}
 \index{setTimeout@{setTimeout}!curling::Request@{curling::Request}}

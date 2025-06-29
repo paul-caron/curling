@@ -212,7 +212,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reset</b> ()</td></tr
 <tr class="separator:a3bc18c924d8b921944b77ac1947ea29d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa7120aa2b2dc09613a8b462bcbd84b2" id="r_aaa7120aa2b2dc09613a8b462bcbd84b2"><td class="memItemLeft" align="right" valign="top"><a id="aaa7120aa2b2dc09613a8b462bcbd84b2" name="aaa7120aa2b2dc09613a8b462bcbd84b2"></a>
 <a class="el" href="classcurling_1_1Request.html">Request</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>setHttpVersion</b> (<a class="el" href="classcurling_1_1Request.html#a7176a85fe8cab5746fd03a57f0e7cb5f">HttpVersion</a> version)</td></tr>
+<tr class="memdesc:aaa7120aa2b2dc09613a8b462bcbd84b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the HTTP protocol version (http1.1, 2 or 3) <br /></td></tr>
 <tr class="separator:aaa7120aa2b2dc09613a8b462bcbd84b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69aa0b454ecd71e555d7e5dc3d6247b3" id="r_a69aa0b454ecd71e555d7e5dc3d6247b3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a69aa0b454ecd71e555d7e5dc3d6247b3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcurling_1_1Request.html">Request</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcurling_1_1Request.html#a69aa0b454ecd71e555d7e5dc3d6247b3">setRawOption</a> (CURLoption opt, T value)</td></tr>
+<tr class="memdesc:a69aa0b454ecd71e555d7e5dc3d6247b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low level access to define curl options.  <br /></td></tr>
+<tr class="separator:a69aa0b454ecd71e555d7e5dc3d6247b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -902,6 +907,47 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>detail::ProgressCallba
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>*this </dd></dl>
+
+</div>
+</div>
+<a id="a69aa0b454ecd71e555d7e5dc3d6247b3" name="a69aa0b454ecd71e555d7e5dc3d6247b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69aa0b454ecd71e555d7e5dc3d6247b3">&#9670;&#160;</a></span>setRawOption()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcurling_1_1Request.html">Request</a> &amp; curling::Request::setRawOption </td>
+          <td>(</td>
+          <td class="paramtype">CURLoption&#160;</td>
+          <td class="paramname"><em>opt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Low level access to define curl options. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Should be used with caution. Meant for the libcurl advanced users. </dd></dl>
 
 </div>
 </div>

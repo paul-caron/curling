@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.24)  28 JUN 2025 23:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.24)  29 JUN 2025 13:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -921,12 +921,7 @@ Underfull \hbox (badness 10000) detected at line 66
  []
 
 
-Underfull \hbox (badness 10000) detected at line 69
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 72
+Underfull \hbox (badness 10000) detected at line 77
 [][][]
  []
 
@@ -940,7 +935,7 @@ Chapter 7.
 (./structcurling_1_1CurlHandleDeleter.tex)
 (./classcurling_1_1CurlingException.tex <./classcurling_1_1CurlingException__in
 herit__graph.pdf>
-<classcurling_1_1CurlingException__inherit__graph.pdf, id=524, 560.0925pt x 247
+<classcurling_1_1CurlingException__inherit__graph.pdf, id=529, 560.0925pt x 247
 .92625pt>
 File: classcurling_1_1CurlingException__inherit__graph.pdf Graphic file (type p
 df)
@@ -949,7 +944,7 @@ Package pdftex.def Info: classcurling_1_1CurlingException__inherit__graph.pdf
 used on input line 19.
 (pdftex.def)             Requested size: 350.0pt x 154.9346pt.
  <./classcurling_1_1CurlingException__coll__graph.pdf>
-<classcurling_1_1CurlingException__coll__graph.pdf, id=532, 218.8175pt x 154.57
+<classcurling_1_1CurlingException__coll__graph.pdf, id=537, 218.8175pt x 154.57
 75pt>
 File: classcurling_1_1CurlingException__coll__graph.pdf Graphic file (type pdf)
 
@@ -964,7 +959,7 @@ d on input line 29.
 (./structcurling_1_1CurlSlistDeleter.tex)
 (./classcurling_1_1HeaderException.tex <./classcurling_1_1HeaderException__inhe
 rit__graph.pdf>
-<classcurling_1_1HeaderException__inherit__graph.pdf, id=548, 219.82124pt x 209
+<classcurling_1_1HeaderException__inherit__graph.pdf, id=553, 219.82124pt x 209
 .78375pt>
 File: classcurling_1_1HeaderException__inherit__graph.pdf Graphic file (type pd
 f)
@@ -973,7 +968,7 @@ Package pdftex.def Info: classcurling_1_1HeaderException__inherit__graph.pdf  u
 sed on input line 19.
 (pdftex.def)             Requested size: 219.0pt x 209.00536pt.
  [14] <./classcurling_1_1HeaderException__coll__graph.pdf>
-<classcurling_1_1HeaderException__coll__graph.pdf, id=568, 219.82124pt x 209.78
+<classcurling_1_1HeaderException__coll__graph.pdf, id=573, 219.82124pt x 209.78
 375pt>
 File: classcurling_1_1HeaderException__coll__graph.pdf Graphic file (type pdf)
 <use classcurling_1_1HeaderException__coll__graph.pdf>
@@ -983,7 +978,7 @@ Package pdftex.def Info: classcurling_1_1HeaderException__coll__graph.pdf  used
 
 [15]) (./classcurling_1_1InitializationException.tex <./classcurling_1_1Initial
 izationException__inherit__graph.pdf>
-<classcurling_1_1InitializationException__inherit__graph.pdf, id=589, 244.915pt
+<classcurling_1_1InitializationException__inherit__graph.pdf, id=594, 244.915pt
  x 209.78375pt>
 File: classcurling_1_1InitializationException__inherit__graph.pdf Graphic file 
 (type pdf)
@@ -992,7 +987,7 @@ Package pdftex.def Info: classcurling_1_1InitializationException__inherit__grap
 h.pdf  used on input line 19.
 (pdftex.def)             Requested size: 244.0pt x 209.00536pt.
  <./classcurling_1_1InitializationException__coll__graph.pdf>
-<classcurling_1_1InitializationException__coll__graph.pdf, id=597, 244.915pt x 
+<classcurling_1_1InitializationException__coll__graph.pdf, id=602, 244.915pt x 
 209.78375pt>
 File: classcurling_1_1InitializationException__coll__graph.pdf Graphic file (ty
 pe pdf)
@@ -1002,7 +997,7 @@ df  used on input line 29.
 (pdftex.def)             Requested size: 244.0pt x 209.00536pt.
  [16]) (./classcurling_1_1LogicException.tex <./classcurling_1_1LogicException_
 _inherit__graph.pdf>
-<classcurling_1_1LogicException__inherit__graph.pdf, id=613, 218.8175pt x 209.7
+<classcurling_1_1LogicException__inherit__graph.pdf, id=618, 218.8175pt x 209.7
 8375pt>
 File: classcurling_1_1LogicException__inherit__graph.pdf Graphic file (type pdf
 )
@@ -1011,7 +1006,7 @@ Package pdftex.def Info: classcurling_1_1LogicException__inherit__graph.pdf  us
 ed on input line 19.
 (pdftex.def)             Requested size: 218.0pt x 209.00215pt.
  <./classcurling_1_1LogicException__coll__graph.pdf>
-<classcurling_1_1LogicException__coll__graph.pdf, id=621, 218.8175pt x 209.7837
+<classcurling_1_1LogicException__coll__graph.pdf, id=626, 218.8175pt x 209.7837
 5pt>
 File: classcurling_1_1LogicException__coll__graph.pdf Graphic file (type pdf)
 <use classcurling_1_1LogicException__coll__graph.pdf>
@@ -1020,7 +1015,7 @@ on input line 29.
 (pdftex.def)             Requested size: 218.0pt x 209.00215pt.
  [17]) (./classcurling_1_1MimeException.tex <./classcurling_1_1MimeException__i
 nherit__graph.pdf>
-<classcurling_1_1MimeException__inherit__graph.pdf, id=639, 218.8175pt x 209.78
+<classcurling_1_1MimeException__inherit__graph.pdf, id=644, 218.8175pt x 209.78
 375pt>
 File: classcurling_1_1MimeException__inherit__graph.pdf Graphic file (type pdf)
 
@@ -1029,7 +1024,7 @@ Package pdftex.def Info: classcurling_1_1MimeException__inherit__graph.pdf  use
 d on input line 19.
 (pdftex.def)             Requested size: 218.0pt x 209.00215pt.
  [18] <./classcurling_1_1MimeException__coll__graph.pdf>
-<classcurling_1_1MimeException__coll__graph.pdf, id=656, 218.8175pt x 209.78375
+<classcurling_1_1MimeException__coll__graph.pdf, id=661, 218.8175pt x 209.78375
 pt>
 File: classcurling_1_1MimeException__coll__graph.pdf Graphic file (type pdf)
 <use classcurling_1_1MimeException__coll__graph.pdf>
@@ -1043,130 +1038,135 @@ LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 6.29996pt on input line 74.
  [20]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.19995pt on input line 127.
+(Font)              scaled to size 7.19995pt on input line 111.
 
-Underfull \hbox (badness 10000) detected at line 135
+Underfull \hbox (badness 10000) detected at line 137
 [][][]
  []
 
-[21]
+[21] [22]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 221.
- [22]
-Underfull \hbox (badness 10000) detected at line 234
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 223.
+
+Underfull \hbox (badness 10000) detected at line 236
 [][][]
  []
 
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 241.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 243.
 
-Underfull \hbox (badness 10000) detected at line 254
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 279
+Underfull \hbox (badness 10000) detected at line 256
 [][][]
  []
 
 [23]
-Underfull \hbox (badness 10000) detected at line 302
+Underfull \hbox (badness 10000) detected at line 281
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 320
+Underfull \hbox (badness 10000) detected at line 304
 [][][]
  []
 
 [24]
-Underfull \hbox (badness 10000) detected at line 338
+Underfull \hbox (badness 10000) detected at line 322
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 351
+Underfull \hbox (badness 10000) detected at line 340
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 374
+Underfull \hbox (badness 10000) detected at line 353
 [][][]
  []
 
 [25]
-Underfull \hbox (badness 10000) detected at line 392
+Underfull \hbox (badness 10000) detected at line 376
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 410
+Underfull \hbox (badness 10000) detected at line 394
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 428
+Underfull \hbox (badness 10000) detected at line 412
 [][][]
  []
 
 [26]
-Underfull \hbox (badness 10000) detected at line 446
+Underfull \hbox (badness 10000) detected at line 430
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 466
+Underfull \hbox (badness 10000) detected at line 448
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 484
+Underfull \hbox (badness 10000) detected at line 468
 [][][]
  []
 
 [27]
-Underfull \hbox (badness 10000) detected at line 502
+Underfull \hbox (badness 10000) detected at line 486
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 520
+Underfull \hbox (badness 10000) detected at line 504
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 538
+Underfull \hbox (badness 10000) detected at line 522
 [][][]
  []
 
 [28]
-Underfull \hbox (badness 10000) detected at line 558
+Underfull \hbox (badness 10000) detected at line 540
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 576
+Underfull \hbox (badness 10000) detected at line 560
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 594
+Underfull \hbox (badness 10000) detected at line 578
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 592
 [][][]
  []
 
 [29]
-Underfull \hbox (badness 10000) detected at line 612
+Underfull \hbox (badness 10000) detected at line 610
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 630
+Underfull \hbox (badness 10000) detected at line 628
 [][][]
  []
 
-) (./classcurling_1_1RequestException.tex <./classcurling_1_1RequestException__
-inherit__graph.pdf>
-<classcurling_1_1RequestException__inherit__graph.pdf, id=906, 223.83624pt x 20
+
+Underfull \hbox (badness 10000) detected at line 646
+[][][]
+ []
+
+) (./classcurling_1_1RequestException.tex [30] <./classcurling_1_1RequestExcept
+ion__inherit__graph.pdf>
+<classcurling_1_1RequestException__inherit__graph.pdf, id=921, 223.83624pt x 20
 9.78375pt>
 File: classcurling_1_1RequestException__inherit__graph.pdf Graphic file (type p
 df)
@@ -1175,7 +1175,7 @@ Package pdftex.def Info: classcurling_1_1RequestException__inherit__graph.pdf
 used on input line 19.
 (pdftex.def)             Requested size: 223.0pt x 209.00536pt.
  <./classcurling_1_1RequestException__coll__graph.pdf>
-<classcurling_1_1RequestException__coll__graph.pdf, id=914, 223.83624pt x 209.7
+<classcurling_1_1RequestException__coll__graph.pdf, id=929, 223.83624pt x 209.7
 8375pt>
 File: classcurling_1_1RequestException__coll__graph.pdf Graphic file (type pdf)
 
@@ -1184,16 +1184,15 @@ Package pdftex.def Info: classcurling_1_1RequestException__coll__graph.pdf  use
 d on input line 29.
 (pdftex.def)             Requested size: 223.0pt x 209.00536pt.
 
-[30]) (./structcurling_1_1Response.tex [31]) [32]
+[31]) (./structcurling_1_1Response.tex) [32]
 Chapter 8.
 (./curling_8hpp_source.tex [33
 
-] [34]) [35] [36
-
-] (./refman.ind
+] [34]) [35] [36] (./refman.ind
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 22.39185pt on input line 1.
  [37
+
 
 
 ] [38
@@ -1205,29 +1204,30 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 06354007CC925832A7E89C25EDB0F6CF;13560.
+(rerunfilecheck)             Checksum: 32360379C97FF045AD3518E4129C54B6;13757.
  ) 
 Here is how much of TeX's memory you used:
- 18413 strings out of 474222
- 305030 string characters out of 5748733
+ 18441 strings out of 474222
+ 305419 string characters out of 5748733
  1946975 words of memory out of 5000000
- 40058 multiletter control sequences out of 15000+600000
- 608875 words of font info for 89 fonts, out of 8000000 for 9000
+ 40074 multiletter control sequences out of 15000+600000
+ 613567 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 101i,16n,117p,738b,744s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,16n,117p,738b,736s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/he
-lvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8
-ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (42 pages, 250973 bytes).
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
+rw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/
+uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (42 pages, 260899 bytes).
 PDF statistics:
- 1283 PDF objects out of 1440 (max. 8388607)
- 1158 compressed objects within 12 object streams
- 259 named destinations out of 1000 (max. 500000)
- 605 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1304 PDF objects out of 1440 (max. 8388607)
+ 1178 compressed objects within 12 object streams
+ 261 named destinations out of 1000 (max. 500000)
+ 613 words of extra memory for PDF output out of 10000 (max. 10000000)
 
