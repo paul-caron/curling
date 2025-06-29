@@ -43,7 +43,7 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 - 🛡 Proxy and authentication support — including Basic, Bearer, and Digest
 
-- 🌐 Full HTTP verb support — GET, POST, PUT, DELETE, PATCH, MIME
+- 🌐 Full HTTP verb support — GET, POST, PUT, DELETE, PATCH, HEAD, MIME
 
 - 📦 Linux .deb packaging
 
