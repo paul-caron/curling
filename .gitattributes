@@ -4,3 +4,4 @@ lib/** linguist-generated
 build/** linguist-generated
 doc/** linguist-documentation
 examples/** linguist-documentation
+test/** linguist-documentation
