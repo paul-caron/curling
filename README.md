@@ -175,7 +175,7 @@ Libcurl is powerful, but its C API is verbose and error-prone.
 Curling offers:
 
 |Feature	|libcurl	|Curling|
-
+|-----------|-----------|-------|
 |Fluent C++ API	|❌	|✅|
 |RAII memory management	|❌	|✅|
 |Built-in test coverage	|❌	|✅|
