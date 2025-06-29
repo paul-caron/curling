@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1] - 2025-xx-xx furture release
+### Added
+- static assertion / compile time check that Request cannot be copied.
+
+### Changed
+- The error thrown after failed curl_perform for a more detailed error message that includes error code and url.
+
+
 ## [1.1.0] - 2025-06-28
 ### Added
 - `curling::version()` — a new public function that returns the current version of the library.
