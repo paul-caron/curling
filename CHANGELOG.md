@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.0] - 2025-xx-xx future release
+## [1.1.0] - 2025-06-28
 ### Added
 - `curling::version()` — a new public function that returns the current version of the library.
 - added setHttpVersion method, to be able to specify Http 1.1, 2 or 3
