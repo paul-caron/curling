@@ -1,1 +1,3 @@
 vendor/** linguist-vendored
+header_only/** linguist-generated
+doc/** linguist-documentation
