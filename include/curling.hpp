@@ -105,7 +105,7 @@ inline void toLowerCase(std::string& s) {
                    [](unsigned char c) { return std::tolower(c); });
 }
 
-inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
+int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                   curl_off_t ultotal, curl_off_t ulnow);
 
 
