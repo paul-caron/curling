@@ -45,27 +45,34 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ```bash
 make
-
+```
 To install and package as a Debian .deb:
 
+```bash
 make install
 make deb
-
+```
 Install it locally:
 
+```bash
 sudo apt install ./curling_1.0_amd64.deb
 sudo ldconfig
+```
 
 🪶 Header-only version
 
+```bash
 make header-only
+```
 
 This produces a header-only version in:
-
+```
 curling/header-only/
+```
 
 🚀 Basic Usage
 
+```cpp
 #include "curling.hpp"
 #include <iostream>
 
@@ -80,21 +87,27 @@ int main() {
     std::cout << res.toString();
     return 0;
 }
+```
 
 🔨 Compile
 
 With shared library:
 
+```bash
 g++ main.cpp -lcurling
+```
 
 With header-only:
 
+```bash
 g++ main.cpp -lcurl
+```
 
 ✅ Example Test Case
 
 Tests run automatically on every push via GitHub Actions. Example test case:
 
+```cpp
 TEST_CASE("GET request to download image") {
     curling::Request req;
     req.setURL("https://httpbin.org/image/png")
@@ -105,9 +118,13 @@ TEST_CASE("GET request to download image") {
     CHECK(res.httpCode == 200);
     CHECK(std::filesystem::exists("out.png"));
 }
+```
 
-Run tests locally with make test.
+Run tests locally with:
 
+```bash
+make test
+```
 
 ---
 
@@ -237,6 +254,7 @@ To run tests locally:
 
 ```bash
 make test
+```
 
 GitHub Actions ensures all tests pass on every push and pull request, providing continuous integration and maintaining project stability.
 
