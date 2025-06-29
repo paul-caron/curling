@@ -433,7 +433,23 @@ public:
      */
     void reset();
 
+    /**
+     * @brief Set the HTTP protocol version (http1.1, 2 or 3)
+     */
     Request& setHttpVersion(HttpVersion version);
+
+    /**
+     * @brief Low level access to define curl options
+     *
+     * @warning Should be used with caution. Meant for the libcurl advanced users.
+     */
+    template<typename T>
+    Request& setRawOption(CURLoption opt, T value) {
+        static_assert(std::is_pointer<T>::value || std::is_arithmetic<T>::value,
+                      "setRawOption only supports pointer or arithmetic types");
+        curl_easy_setopt(curlHandle.get(), opt, value);
+        return *this;
+    }
 
     friend int detail::ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                           curl_off_t ultotal, curl_off_t ulnow);
