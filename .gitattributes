@@ -1,3 +1,5 @@
 vendor/** linguist-vendored
 header_only/** linguist-generated
+lib/** linguist-generated
+build/** linguist-generated
 doc/** linguist-documentation
