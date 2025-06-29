@@ -434,6 +434,8 @@ public:
      */
     void reset();
 
+    Request& setHttpVersion(HttpVersion version);
+
     friend int detail::ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
                                           curl_off_t ultotal, curl_off_t ulnow);
 
