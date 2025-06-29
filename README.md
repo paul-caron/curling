@@ -39,7 +39,7 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 - 📤 **Multipart/MIME support** — for file uploads  
 - 🍪 **Cookie management** — with optional persistent storage  
 - 🛡 **Proxy and authentication support** — including Basic, Bearer, and Digest  
-- 🌐 **Full HTTP verb support** — GET, POST, PUT, DELETE, PATCH, HEAD, MIME  
+- 🌐 **Full HTTP verb support** — GET, POST, PUT, DELETE, PATCH, HEAD
 - 🚀 **HTTP/2 and HTTP/3 support** — via libcurl  
 - 🧩 **Header-only library** — just include and go, no linking needed  
 - 📦 **.deb packaging** — for easy installation on Debian-based systems  
