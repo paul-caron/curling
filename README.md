@@ -293,7 +293,6 @@ This project is licensed under the MIT License.
 ## 👤 Maintainer
 
 Paul Caron
-GitHub Profile
 
 
 ---
