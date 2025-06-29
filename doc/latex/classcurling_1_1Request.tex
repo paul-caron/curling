@@ -1,0 +1,637 @@
+\doxysection{curling\+::Request Class Reference}
+\hypertarget{classcurling_1_1Request}{}\label{classcurling_1_1Request}\index{curling::Request@{curling::Request}}
+
+
+Provides a fluent wrapper for HTTP requests via libcurl.  
+
+
+
+
+{\ttfamily \#include $<$curling.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{Method}} \{ \newline
+\mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a7528035a93ee69cedb1dbddb2f0bfcc8}{GET}}
+, \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4aa02439ec229d8be0e74b0c1602392310}{POST}}
+, \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a3e75383a5992a6d15fb81e872e46e256}{PUT}}
+, \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a2bbe23c0e8b3f638f0f5aed4b6864513}{DEL}}
+, \newline
+\mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a63bc9a3997d66d835d9f3ec29451407d}{PATCH}}
+, \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4ae15e216fc1c639f787b1231ecdfa1bf8}{HEAD}}
+, \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a1903a3443a397660de69904323b54533}{MIME}}
+ \}
+\begin{DoxyCompactList}\small\item\em Supported HTTP methods. \end{DoxyCompactList}\item 
+\Hypertarget{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}\label{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617} 
+enum class \mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{Auth\+Method}} \{ {\bfseries BASIC} = CURLAUTH\+\_\+\+BASIC
+, {\bfseries NTLM} = CURLAUTH\+\_\+\+NTLM
+, {\bfseries DIGEST} = CURLAUTH\+\_\+\+DIGEST
+ \}
+\begin{DoxyCompactList}\small\item\em HTTP authentication schemes. \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{Http\+Version}} \{ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5b39c8b553c821e7cddc6da64b5bd2ee}{DEFAULT}}
+, \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5f1f9932b84e67c4a4b7e91c03335077}{HTTP\+\_\+1\+\_\+1}}
+, \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fad1ea3abbe73fec0b8ae7b3454a9430c6}{HTTP\+\_\+2}}
+, \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa1ab655a8e2067e2ae97d49e5da3713e6}{HTTP\+\_\+3}}
+ \}
+\begin{DoxyCompactList}\small\item\em Specifies the HTTP version to be used for the request. \end{DoxyCompactList}\item 
+\Hypertarget{classcurling_1_1Request_a8357d53828d285e4024ae9b84325a382}\label{classcurling_1_1Request_a8357d53828d285e4024ae9b84325a382} 
+using {\bfseries Progress\+Callback} = std\+::function$<$ bool(curl\+\_\+off\+\_\+t dltotal, curl\+\_\+off\+\_\+t dlnow, curl\+\_\+off\+\_\+t ultotal, curl\+\_\+off\+\_\+t ulnow)$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcurling_1_1Request_ac1d45f8843a0ae9170e2d9cb72fb6707}{Request}} ()
+\begin{DoxyCompactList}\small\item\em Constructor initializes curl global state. \end{DoxyCompactList}\item 
+\Hypertarget{classcurling_1_1Request_a479fbf06ebab3e4025174a0dfa8d8715}\label{classcurling_1_1Request_a479fbf06ebab3e4025174a0dfa8d8715} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Request} () noexcept
+\begin{DoxyCompactList}\small\item\em Destructor cleans up curl state if last instance. \end{DoxyCompactList}\item 
+\Hypertarget{classcurling_1_1Request_abca16cd9722524d8e3c745f6cd62bbd0}\label{classcurling_1_1Request_abca16cd9722524d8e3c745f6cd62bbd0} 
+{\bfseries Request} (\mbox{\hyperlink{classcurling_1_1Request}{Request}} \&\&) noexcept
+\item 
+\Hypertarget{classcurling_1_1Request_a8cd2b6f15b6ffb7bf063f794e3348b3a}\label{classcurling_1_1Request_a8cd2b6f15b6ffb7bf063f794e3348b3a} 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& {\bfseries operator=} (\mbox{\hyperlink{classcurling_1_1Request}{Request}} \&\&) noexcept
+\item 
+\Hypertarget{classcurling_1_1Request_acb62cff5ed9961c20f3a3c0b2d7c4308}\label{classcurling_1_1Request_acb62cff5ed9961c20f3a3c0b2d7c4308} 
+{\bfseries Request} (const \mbox{\hyperlink{classcurling_1_1Request}{Request}} \&)=delete
+\item 
+\Hypertarget{classcurling_1_1Request_a99ed62258e0e4bba3d9b8ec71ec0edbe}\label{classcurling_1_1Request_a99ed62258e0e4bba3d9b8ec71ec0edbe} 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcurling_1_1Request}{Request}} \&)=delete
+\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_ac2369ffa37cc3be82117fe43bcc1f53f}{set\+Progress\+Callback}} (Progress\+Callback cb)
+\begin{DoxyCompactList}\small\item\em Sets the progress callback function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_ad273252a9c167bb100cdf5fa5ea17d51}{set\+Method}} (\mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{Method}} m)
+\begin{DoxyCompactList}\small\item\em Sets the HTTP method for the request. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a5c67ebc357b648d588182c3bde1698fa}{set\+URL}} (const std\+::string \&url)
+\begin{DoxyCompactList}\small\item\em Sets the request URL. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a67aaf2f1611ea28b8afaf621148daee6}{set\+Proxy}} (const std\+::string \&url)
+\begin{DoxyCompactList}\small\item\em Enables proxy usage. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a511337f3a830b80fde26bbeb79b9f478}{set\+Proxy\+Auth}} (const std\+::string \&username, const std\+::string \&password)
+\begin{DoxyCompactList}\small\item\em Sets credentials for proxy authentication. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_aa5df92bd801535ae331def9f6c7317e1}{set\+Proxy\+Auth\+Method}} (\mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{Auth\+Method}} method)
+\begin{DoxyCompactList}\small\item\em Sets proxy authentication scheme. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_aca73db2804c9111363a33d10db7ad266}{set\+Http\+Auth}} (const std\+::string \&username, const std\+::string \&password)
+\begin{DoxyCompactList}\small\item\em Sets credentials for HTTP auth (Basic/\+Digest/\+NTLM). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_ab2a7ce7acb08c9a2181522901081b0b5}{set\+Http\+Auth\+Method}} (\mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{Auth\+Method}} method)
+\begin{DoxyCompactList}\small\item\em Sets HTTP authentication scheme. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a265188179ecb230db1764fe17e5a16f2}{add\+Arg}} (const std\+::string \&key, const std\+::string \&value)
+\begin{DoxyCompactList}\small\item\em Adds a query parameter to the URL. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a8e5214e821656df08a211b12329a1ab5}{add\+Header}} (const std\+::string \&header)
+\begin{DoxyCompactList}\small\item\em Adds a custom HTTP header. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_aed0d7b275f303f8b12dfd770bff688e4}{set\+Body}} (const std\+::string \&body)
+\begin{DoxyCompactList}\small\item\em Sets the body of the request (for POST/\+PUT/\+PATCH). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a1cb80aa3390df07e6ffc6e57d4d2f340}{download\+To\+File}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Enables download streaming to a file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a40a70b017482439181cb0820d89a6285}{set\+Timeout}} (long seconds)
+\begin{DoxyCompactList}\small\item\em Sets a timeout for the request (in seconds). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a0d8f37450cb261bfc3252057a8fad154}{set\+Connect\+Timeout}} (long seconds)
+\begin{DoxyCompactList}\small\item\em Sets connection timeout (in seconds). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_ac99b12012c16657026d223048e4d7475}{set\+Follow\+Redirects}} (bool follow)
+\begin{DoxyCompactList}\small\item\em Enables or disables automatic redirect-\/following. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_ab3376d99be10172592ac487d9369e437}{set\+Auth\+Token}} (const std\+::string \&token)
+\begin{DoxyCompactList}\small\item\em Adds a Bearer token for Authorization header. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a8dc52ab73cc53d9207bf784b001715a6}{set\+Cookie\+Path}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Overrides default cookie file for persistence. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a57bd5429d90254605fcde77d8f338d91}{set\+User\+Agent}} (const std\+::string \&user\+Agent)
+\begin{DoxyCompactList}\small\item\em Sets the User-\/\+Agent header. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a195f40094e3203f718f5607e95d45312}{add\+Form\+Field}} (const std\+::string \&field\+Name, const std\+::string \&value)
+\begin{DoxyCompactList}\small\item\em Adds a field to multipart/form-\/data. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a7c17a7ff6c1a5f720f12a6c717655d92}{add\+Form\+File}} (const std\+::string \&field\+Name, const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Adds a file to multipart upload. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& \mbox{\hyperlink{classcurling_1_1Request_a880e06ab8bb08cb3bd3070fb068499b0}{enable\+Verbose}} (bool enabled=true)
+\begin{DoxyCompactList}\small\item\em Enables or disables libcurl verbose output. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structcurling_1_1Response}{Response}} \mbox{\hyperlink{classcurling_1_1Request_a3fd884b79e47c9ac7cf50c0475f796c4}{send}} ()
+\begin{DoxyCompactList}\small\item\em Executes the HTTP request. \end{DoxyCompactList}\item 
+\Hypertarget{classcurling_1_1Request_a3bc18c924d8b921944b77ac1947ea29d}\label{classcurling_1_1Request_a3bc18c924d8b921944b77ac1947ea29d} 
+void {\bfseries reset} ()
+\begin{DoxyCompactList}\small\item\em Resets internal state to allow reuse. \end{DoxyCompactList}\item 
+\Hypertarget{classcurling_1_1Request_aaa7120aa2b2dc09613a8b462bcbd84b2}\label{classcurling_1_1Request_aaa7120aa2b2dc09613a8b462bcbd84b2} 
+\mbox{\hyperlink{classcurling_1_1Request}{Request}} \& {\bfseries set\+Http\+Version} (\mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{Http\+Version}} version)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcurling_1_1Request_ad4c07fc900d6dce6ac046bd54789d48c}\label{classcurling_1_1Request_ad4c07fc900d6dce6ac046bd54789d48c} 
+int {\bfseries detail\+::\+Progress\+Callback\+Bridge} (void \texorpdfstring{$\ast$}{*}clientp, curl\+\_\+off\+\_\+t dltotal, curl\+\_\+off\+\_\+t dlnow, curl\+\_\+off\+\_\+t ultotal, curl\+\_\+off\+\_\+t ulnow)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides a fluent wrapper for HTTP requests via libcurl. 
+
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}\label{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f} 
+\index{curling::Request@{curling::Request}!HttpVersion@{HttpVersion}}
+\index{HttpVersion@{HttpVersion}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{HttpVersion}{HttpVersion}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{curling\+::\+Request\+::\+Http\+Version}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Specifies the HTTP version to be used for the request. 
+
+Allows explicit control over the HTTP version that libcurl should use when performing a request. If the selected version is not supported by the libcurl build or the server, fallback behavior may occur.
+
+\begin{DoxyNote}{Note}
+If you request a version not supported by libcurl at runtime, Curling will throw a \doxylink{classcurling_1_1LogicException}{Logic\+Exception} during configuration. If the server doesn\textquotesingle{}t support the version (e.\+g., HTTP/2), libcurl may fall back to an older version without error. 
+\end{DoxyNote}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEFAULT@{DEFAULT}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!DEFAULT@{DEFAULT}}}\Hypertarget{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5b39c8b553c821e7cddc6da64b5bd2ee}\label{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5b39c8b553c821e7cddc6da64b5bd2ee} 
+DEFAULT&Let libcurl automatically negotiate the best supported HTTP version. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HTTP\_1\_1@{HTTP\_1\_1}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!HTTP\_1\_1@{HTTP\_1\_1}}}\Hypertarget{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5f1f9932b84e67c4a4b7e91c03335077}\label{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5f1f9932b84e67c4a4b7e91c03335077} 
+HTTP\+\_\+1\+\_\+1&Force HTTP/1.\+1 for all requests. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HTTP\_2@{HTTP\_2}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!HTTP\_2@{HTTP\_2}}}\Hypertarget{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fad1ea3abbe73fec0b8ae7b3454a9430c6}\label{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fad1ea3abbe73fec0b8ae7b3454a9430c6} 
+HTTP\+\_\+2&Force HTTP/2 (requires libcurl built with nghttp2 support). \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HTTP\_3@{HTTP\_3}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!HTTP\_3@{HTTP\_3}}}\Hypertarget{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa1ab655a8e2067e2ae97d49e5da3713e6}\label{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa1ab655a8e2067e2ae97d49e5da3713e6} 
+HTTP\+\_\+3&Force HTTP/3 (requires libcurl built with HTTP/3 support, e.\+g. with quiche or ngtcp2). \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4} 
+\index{curling::Request@{curling::Request}!Method@{Method}}
+\index{Method@{Method}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{Method}{Method}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{curling\+::\+Request\+::\+Method}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Supported HTTP methods. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GET@{GET}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!GET@{GET}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a7528035a93ee69cedb1dbddb2f0bfcc8}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a7528035a93ee69cedb1dbddb2f0bfcc8} 
+GET&Standard GET. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{POST@{POST}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!POST@{POST}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4aa02439ec229d8be0e74b0c1602392310}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4aa02439ec229d8be0e74b0c1602392310} 
+POST&Standard POST. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PUT@{PUT}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!PUT@{PUT}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a3e75383a5992a6d15fb81e872e46e256}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a3e75383a5992a6d15fb81e872e46e256} 
+PUT&PUT. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEL@{DEL}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!DEL@{DEL}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a2bbe23c0e8b3f638f0f5aed4b6864513}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a2bbe23c0e8b3f638f0f5aed4b6864513} 
+DEL&DELETE (named DEL to avoid macro clash) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PATCH@{PATCH}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!PATCH@{PATCH}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a63bc9a3997d66d835d9f3ec29451407d}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a63bc9a3997d66d835d9f3ec29451407d} 
+PATCH&PATCH. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HEAD@{HEAD}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!HEAD@{HEAD}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4ae15e216fc1c639f787b1231ecdfa1bf8}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4ae15e216fc1c639f787b1231ecdfa1bf8} 
+HEAD&HEAD request just headers. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MIME@{MIME}!curling::Request@{curling::Request}}\index{curling::Request@{curling::Request}!MIME@{MIME}}}\Hypertarget{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a1903a3443a397660de69904323b54533}\label{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a1903a3443a397660de69904323b54533} 
+MIME&Multipart/form-\/data POST. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcurling_1_1Request_ac1d45f8843a0ae9170e2d9cb72fb6707}\label{classcurling_1_1Request_ac1d45f8843a0ae9170e2d9cb72fb6707} 
+\index{curling::Request@{curling::Request}!Request@{Request}}
+\index{Request@{Request}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{Request()}{Request()}}
+{\footnotesize\ttfamily curling\+::\+Request\+::\+Request (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor initializes curl global state. 
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{classcurling_1_1InitializationException}{Initialization\+Exception}} & if initialization fails. \\
+\hline
+\end{DoxyExceptions}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcurling_1_1Request_a265188179ecb230db1764fe17e5a16f2}\label{classcurling_1_1Request_a265188179ecb230db1764fe17e5a16f2} 
+\index{curling::Request@{curling::Request}!addArg@{addArg}}
+\index{addArg@{addArg}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{addArg()}{addArg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::add\+Arg (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key,  }\item[{const std\+::string \&}]{value }\end{DoxyParamCaption})}
+
+
+
+Adds a query parameter to the URL. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & Parameter name. \\
+\hline
+{\em value} & Parameter value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a195f40094e3203f718f5607e95d45312}\label{classcurling_1_1Request_a195f40094e3203f718f5607e95d45312} 
+\index{curling::Request@{curling::Request}!addFormField@{addFormField}}
+\index{addFormField@{addFormField}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{addFormField()}{addFormField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::add\+Form\+Field (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{field\+Name,  }\item[{const std\+::string \&}]{value }\end{DoxyParamCaption})}
+
+
+
+Adds a field to multipart/form-\/data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em field\+Name} & Field name. \\
+\hline
+{\em value} & Field value. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{classcurling_1_1MimeException}{Mime\+Exception}} & on internal curl errors. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classcurling_1_1Request_a7c17a7ff6c1a5f720f12a6c717655d92}\label{classcurling_1_1Request_a7c17a7ff6c1a5f720f12a6c717655d92} 
+\index{curling::Request@{curling::Request}!addFormFile@{addFormFile}}
+\index{addFormFile@{addFormFile}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{addFormFile()}{addFormFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::add\+Form\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{field\+Name,  }\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})}
+
+
+
+Adds a file to multipart upload. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em field\+Name} & Field name. \\
+\hline
+{\em file\+Path} & Path to file on disk. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{classcurling_1_1MimeException}{Mime\+Exception}} & on internal curl errors. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classcurling_1_1Request_a8e5214e821656df08a211b12329a1ab5}\label{classcurling_1_1Request_a8e5214e821656df08a211b12329a1ab5} 
+\index{curling::Request@{curling::Request}!addHeader@{addHeader}}
+\index{addHeader@{addHeader}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{addHeader()}{addHeader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::add\+Header (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{header }\end{DoxyParamCaption})}
+
+
+
+Adds a custom HTTP header. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em header} & A full header line, e.\+g. "{}\+Accept\+: application/json"{}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a1cb80aa3390df07e6ffc6e57d4d2f340}\label{classcurling_1_1Request_a1cb80aa3390df07e6ffc6e57d4d2f340} 
+\index{curling::Request@{curling::Request}!downloadToFile@{downloadToFile}}
+\index{downloadToFile@{downloadToFile}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{downloadToFile()}{downloadToFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::download\+To\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Enables download streaming to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Local file path for saving response. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a880e06ab8bb08cb3bd3070fb068499b0}\label{classcurling_1_1Request_a880e06ab8bb08cb3bd3070fb068499b0} 
+\index{curling::Request@{curling::Request}!enableVerbose@{enableVerbose}}
+\index{enableVerbose@{enableVerbose}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{enableVerbose()}{enableVerbose()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::enable\+Verbose (\begin{DoxyParamCaption}\item[{bool}]{enabled = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Enables or disables libcurl verbose output. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enabled} & True to enable verbose mode. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a3fd884b79e47c9ac7cf50c0475f796c4}\label{classcurling_1_1Request_a3fd884b79e47c9ac7cf50c0475f796c4} 
+\index{curling::Request@{curling::Request}!send@{send}}
+\index{send@{send}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcurling_1_1Response}{Response}} curling\+::\+Request\+::send (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Executes the HTTP request. 
+
+\begin{DoxyReturn}{Returns}
+\doxylink{structcurling_1_1Response}{Response} object with status, body, headers. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{classcurling_1_1RequestException}{Request\+Exception}} & on failure. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classcurling_1_1Request_ab3376d99be10172592ac487d9369e437}\label{classcurling_1_1Request_ab3376d99be10172592ac487d9369e437} 
+\index{curling::Request@{curling::Request}!setAuthToken@{setAuthToken}}
+\index{setAuthToken@{setAuthToken}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setAuthToken()}{setAuthToken()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Auth\+Token (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{token }\end{DoxyParamCaption})}
+
+
+
+Adds a Bearer token for Authorization header. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & Bearer token string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_aed0d7b275f303f8b12dfd770bff688e4}\label{classcurling_1_1Request_aed0d7b275f303f8b12dfd770bff688e4} 
+\index{curling::Request@{curling::Request}!setBody@{setBody}}
+\index{setBody@{setBody}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setBody()}{setBody()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Body (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{body }\end{DoxyParamCaption})}
+
+
+
+Sets the body of the request (for POST/\+PUT/\+PATCH). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em body} & \doxylink{classcurling_1_1Request}{Request} body content. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a0d8f37450cb261bfc3252057a8fad154}\label{classcurling_1_1Request_a0d8f37450cb261bfc3252057a8fad154} 
+\index{curling::Request@{curling::Request}!setConnectTimeout@{setConnectTimeout}}
+\index{setConnectTimeout@{setConnectTimeout}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setConnectTimeout()}{setConnectTimeout()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Connect\+Timeout (\begin{DoxyParamCaption}\item[{long}]{seconds }\end{DoxyParamCaption})}
+
+
+
+Sets connection timeout (in seconds). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seconds} & Timeout in seconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a8dc52ab73cc53d9207bf784b001715a6}\label{classcurling_1_1Request_a8dc52ab73cc53d9207bf784b001715a6} 
+\index{curling::Request@{curling::Request}!setCookiePath@{setCookiePath}}
+\index{setCookiePath@{setCookiePath}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setCookiePath()}{setCookiePath()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Cookie\+Path (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Overrides default cookie file for persistence. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & File path for storing cookies. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_ac99b12012c16657026d223048e4d7475}\label{classcurling_1_1Request_ac99b12012c16657026d223048e4d7475} 
+\index{curling::Request@{curling::Request}!setFollowRedirects@{setFollowRedirects}}
+\index{setFollowRedirects@{setFollowRedirects}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setFollowRedirects()}{setFollowRedirects()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Follow\+Redirects (\begin{DoxyParamCaption}\item[{bool}]{follow }\end{DoxyParamCaption})}
+
+
+
+Enables or disables automatic redirect-\/following. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em follow} & True to follow redirects. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_aca73db2804c9111363a33d10db7ad266}\label{classcurling_1_1Request_aca73db2804c9111363a33d10db7ad266} 
+\index{curling::Request@{curling::Request}!setHttpAuth@{setHttpAuth}}
+\index{setHttpAuth@{setHttpAuth}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setHttpAuth()}{setHttpAuth()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Http\+Auth (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{const std\+::string \&}]{password }\end{DoxyParamCaption})}
+
+
+
+Sets credentials for HTTP auth (Basic/\+Digest/\+NTLM). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Username. \\
+\hline
+{\em password} & Password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_ab2a7ce7acb08c9a2181522901081b0b5}\label{classcurling_1_1Request_ab2a7ce7acb08c9a2181522901081b0b5} 
+\index{curling::Request@{curling::Request}!setHttpAuthMethod@{setHttpAuthMethod}}
+\index{setHttpAuthMethod@{setHttpAuthMethod}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setHttpAuthMethod()}{setHttpAuthMethod()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Http\+Auth\+Method (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{Auth\+Method}}}]{method }\end{DoxyParamCaption})}
+
+
+
+Sets HTTP authentication scheme. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & Authentication method. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_ad273252a9c167bb100cdf5fa5ea17d51}\label{classcurling_1_1Request_ad273252a9c167bb100cdf5fa5ea17d51} 
+\index{curling::Request@{curling::Request}!setMethod@{setMethod}}
+\index{setMethod@{setMethod}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setMethod()}{setMethod()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Method (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{Method}}}]{m }\end{DoxyParamCaption})}
+
+
+
+Sets the HTTP method for the request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & Enum value for HTTP method. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_ac2369ffa37cc3be82117fe43bcc1f53f}\label{classcurling_1_1Request_ac2369ffa37cc3be82117fe43bcc1f53f} 
+\index{curling::Request@{curling::Request}!setProgressCallback@{setProgressCallback}}
+\index{setProgressCallback@{setProgressCallback}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setProgressCallback()}{setProgressCallback()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Progress\+Callback (\begin{DoxyParamCaption}\item[{Progress\+Callback}]{cb }\end{DoxyParamCaption})}
+
+
+
+Sets the progress callback function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cb} & Callback receiving download/upload progress. Return true to abort. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a67aaf2f1611ea28b8afaf621148daee6}\label{classcurling_1_1Request_a67aaf2f1611ea28b8afaf621148daee6} 
+\index{curling::Request@{curling::Request}!setProxy@{setProxy}}
+\index{setProxy@{setProxy}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setProxy()}{setProxy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Proxy (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{url }\end{DoxyParamCaption})}
+
+
+
+Enables proxy usage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em url} & Proxy URL. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a511337f3a830b80fde26bbeb79b9f478}\label{classcurling_1_1Request_a511337f3a830b80fde26bbeb79b9f478} 
+\index{curling::Request@{curling::Request}!setProxyAuth@{setProxyAuth}}
+\index{setProxyAuth@{setProxyAuth}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setProxyAuth()}{setProxyAuth()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Proxy\+Auth (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{const std\+::string \&}]{password }\end{DoxyParamCaption})}
+
+
+
+Sets credentials for proxy authentication. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & Proxy username. \\
+\hline
+{\em password} & Proxy password. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_aa5df92bd801535ae331def9f6c7317e1}\label{classcurling_1_1Request_aa5df92bd801535ae331def9f6c7317e1} 
+\index{curling::Request@{curling::Request}!setProxyAuthMethod@{setProxyAuthMethod}}
+\index{setProxyAuthMethod@{setProxyAuthMethod}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setProxyAuthMethod()}{setProxyAuthMethod()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Proxy\+Auth\+Method (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{Auth\+Method}}}]{method }\end{DoxyParamCaption})}
+
+
+
+Sets proxy authentication scheme. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & Authentication method. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a40a70b017482439181cb0820d89a6285}\label{classcurling_1_1Request_a40a70b017482439181cb0820d89a6285} 
+\index{curling::Request@{curling::Request}!setTimeout@{setTimeout}}
+\index{setTimeout@{setTimeout}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setTimeout()}{setTimeout()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+Timeout (\begin{DoxyParamCaption}\item[{long}]{seconds }\end{DoxyParamCaption})}
+
+
+
+Sets a timeout for the request (in seconds). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seconds} & Timeout in seconds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a5c67ebc357b648d588182c3bde1698fa}\label{classcurling_1_1Request_a5c67ebc357b648d588182c3bde1698fa} 
+\index{curling::Request@{curling::Request}!setURL@{setURL}}
+\index{setURL@{setURL}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setURL()}{setURL()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+URL (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{url }\end{DoxyParamCaption})}
+
+
+
+Sets the request URL. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em url} & URL to fetch. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+\Hypertarget{classcurling_1_1Request_a57bd5429d90254605fcde77d8f338d91}\label{classcurling_1_1Request_a57bd5429d90254605fcde77d8f338d91} 
+\index{curling::Request@{curling::Request}!setUserAgent@{setUserAgent}}
+\index{setUserAgent@{setUserAgent}!curling::Request@{curling::Request}}
+\doxysubsubsection{\texorpdfstring{setUserAgent()}{setUserAgent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcurling_1_1Request}{Request}} \& curling\+::\+Request\+::set\+User\+Agent (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{user\+Agent }\end{DoxyParamCaption})}
+
+
+
+Sets the User-\/\+Agent header. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+Agent} & Agent string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\texorpdfstring{$\ast$}{*}this 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/curling.\+hpp\end{DoxyCompactItemize}

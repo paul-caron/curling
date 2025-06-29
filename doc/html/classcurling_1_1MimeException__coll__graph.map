@@ -1,0 +1,7 @@
+<map id="curling::MimeException" name="curling::MimeException">
+<area shape="rect" id="Node000001" title="Thrown when MIME operations fail." alt="" coords="10,152,185,177"/>
+<area shape="rect" id="Node000002" href="$classcurling_1_1CurlingException.html" title="Base exception class for Curling errors." alt="" coords="5,79,189,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,118,100,152,95,152,95,118"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="28,5,167,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,44,100,79,95,79,95,44"/>
+</map>

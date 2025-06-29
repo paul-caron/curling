@@ -1,0 +1,42 @@
+\doxysection{curling\+::Response Struct Reference}
+\hypertarget{structcurling_1_1Response}{}\label{structcurling_1_1Response}\index{curling::Response@{curling::Response}}
+
+
+Represents an HTTP response.  
+
+
+
+
+{\ttfamily \#include $<$curling.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcurling_1_1Response_a21957a274da6e8db4db912d0cdf921b0}\label{structcurling_1_1Response_a21957a274da6e8db4db912d0cdf921b0} 
+std\+::string {\bfseries to\+String} () const
+\item 
+\Hypertarget{structcurling_1_1Response_aac19f95046e98d71f7e7dacc0b60ef0b}\label{structcurling_1_1Response_aac19f95046e98d71f7e7dacc0b60ef0b} 
+std\+::vector$<$ std\+::string $>$ {\bfseries get\+Header} (const std\+::string \&key) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcurling_1_1Response_ab5c2cd81919f38ca8d295430022da6b6}\label{structcurling_1_1Response_ab5c2cd81919f38ca8d295430022da6b6} 
+long {\bfseries http\+Code}
+\begin{DoxyCompactList}\small\item\em HTTP status code. \end{DoxyCompactList}\item 
+\Hypertarget{structcurling_1_1Response_ac2e7c07cc8d32cbf928abefd804d1aa0}\label{structcurling_1_1Response_ac2e7c07cc8d32cbf928abefd804d1aa0} 
+std\+::string {\bfseries body}
+\begin{DoxyCompactList}\small\item\em \doxylink{structcurling_1_1Response}{Response} body. \end{DoxyCompactList}\item 
+\Hypertarget{structcurling_1_1Response_ad36bcbd66306c7625242f31f4fe39c43}\label{structcurling_1_1Response_ad36bcbd66306c7625242f31f4fe39c43} 
+std\+::map$<$ std\+::string, std\+::vector$<$ std\+::string $>$ $>$ {\bfseries headers}
+\begin{DoxyCompactList}\small\item\em Header map (key\+: lowercase). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents an HTTP response. 
+
+Contains the HTTP status code, body, and headers. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/curling.\+hpp\end{DoxyCompactItemize}

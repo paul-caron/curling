@@ -1,0 +1,229 @@
+\doxysection{curling.\+hpp}
+\hypertarget{curling_8hpp_source}{}\label{curling_8hpp_source}\index{include/curling.hpp@{include/curling.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2025\ Paul\ Caron}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ *\ This\ file\ is\ part\ of\ Curling\ -\/\ a\ modern\ C++\ wrapper\ for\ libcurl.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ *\ Licensed\ under\ the\ MIT\ License.\ You\ may\ obtain\ a\ copy\ of\ the\ license\ at}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ *\ https://opensource.org/licenses/MIT}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#include\ <cctype>}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#include\ <curl/curl.h>}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecurling}{curling}}\ \{}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_major\ =\ 1;}
+\DoxyCodeLine{00083\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_minor\ =\ 1;}
+\DoxyCodeLine{00084\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_patch\ =\ 0;}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ std::string\ version();}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{namespace\ }detail\ \{}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ trim(std::string\&\ s)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ s.erase(s.begin(),\ std::find\_if(s.begin(),\ s.end(),\ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ch)\{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ return\ !std::isspace(ch);}
+\DoxyCodeLine{00097\ \ \ \ \ \}));}
+\DoxyCodeLine{00098\ \ \ \ \ s.erase(std::find\_if(s.rbegin(),\ s.rend(),\ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ch)\{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ return\ !std::isspace(ch);}
+\DoxyCodeLine{00100\ \ \ \ \ \}).base(),\ s.end());}
+\DoxyCodeLine{00101\ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ toLowerCase(std::string\&\ s)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ std::transform(s.begin(),\ s.end(),\ s.begin(),}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)\ \{\ return\ std::tolower(c);\ \});}
+\DoxyCodeLine{00106\ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ ProgressCallbackBridge(\textcolor{keywordtype}{void}*\ clientp,\ curl\_off\_t\ dltotal,\ curl\_off\_t\ dlnow,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ curl\_off\_t\ ultotal,\ curl\_off\_t\ ulnow);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \}\textcolor{comment}{//detail\ end}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ :\ \textcolor{keyword}{public}\ std::runtime\_error\ \{}
+\DoxyCodeLine{00119\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ std::runtime\_error(msg)\ \{\}}
+\DoxyCodeLine{00121\ \};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00127\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00129\ \};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1RequestException}{RequestException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00135\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1RequestException}{RequestException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00137\ \};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00142\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1HeaderException}{HeaderException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00143\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1HeaderException}{HeaderException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00145\ \};}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00150\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1MimeException}{MimeException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00151\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1MimeException}{MimeException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00153\ \};}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00158\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1LogicException}{LogicException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00159\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1LogicException}{LogicException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00161\ \};}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00164\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcurling_1_1CurlHandleDeleter}{CurlHandleDeleter}}\ \{\ \textcolor{keywordtype}{void}\ operator()(CURL*\ h)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{if}\ (h)\ curl\_easy\_cleanup(h);\ \}\};}
+\DoxyCodeLine{00165\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcurling_1_1CurlSlistDeleter}{CurlSlistDeleter}}\ \{\ \textcolor{keywordtype}{void}\ operator()(curl\_slist*\ l)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{if}\ (l)\ curl\_slist\_free\_all(l);\ \}\};}
+\DoxyCodeLine{00166\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcurling_1_1CurlMimeDeleter}{CurlMimeDeleter}}\ \{\ \textcolor{keywordtype}{void}\ operator()(curl\_mime*\ m)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{if}\ (m)\ curl\_mime\_free(m);\ \}\};}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{using\ }CurlPtr\ =\ std::unique\_ptr<CURL,\ CurlHandleDeleter>;}
+\DoxyCodeLine{00169\ \textcolor{keyword}{using\ }CurlSlistPtr\ =\ std::unique\_ptr<curl\_slist,\ CurlSlistDeleter>;}
+\DoxyCodeLine{00170\ \textcolor{keyword}{using\ }CurlMimePtr\ =\ std::unique\_ptr<curl\_mime,\ CurlMimeDeleter>;}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00178\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcurling_1_1Response}{Response}}\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{structcurling_1_1Response_ab5c2cd81919f38ca8d295430022da6b6}{httpCode}};\ }
+\DoxyCodeLine{00180\ \ \ \ \ std::string\ \mbox{\hyperlink{structcurling_1_1Response_ac2e7c07cc8d32cbf928abefd804d1aa0}{body}};\ }
+\DoxyCodeLine{00181\ \ \ \ \ std::map<std::string,\ std::vector<std::string>>\ \mbox{\hyperlink{structcurling_1_1Response_ad36bcbd66306c7625242f31f4fe39c43}{headers}};\ }
+\DoxyCodeLine{00182\ \ \ \ \ }
+\DoxyCodeLine{00183\ \ \ \ \ std::string\ toString()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}status:\ "{}}\ <<\ \mbox{\hyperlink{structcurling_1_1Response_ab5c2cd81919f38ca8d295430022da6b6}{httpCode}}\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nbody:\(\backslash\)n"{}}\ <<\ \mbox{\hyperlink{structcurling_1_1Response_ac2e7c07cc8d32cbf928abefd804d1aa0}{body}}\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)nheaders:\(\backslash\)n"{}};}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ h\ :\ \mbox{\hyperlink{structcurling_1_1Response_ad36bcbd66306c7625242f31f4fe39c43}{headers}})\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ oss\ <<\ h.first\ <<\ \textcolor{stringliteral}{"{}:\ "{}};}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ v\ :\ h.second)\ oss\ <<\ v\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ oss.str();}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ std::vector<std::string>\ getHeader(\textcolor{keyword}{const}\ std::string\&\ key)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ std::string\ lowered\ =\ key;}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ detail::toLowerCase(lowered);}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ \mbox{\hyperlink{structcurling_1_1Response_ad36bcbd66306c7625242f31f4fe39c43}{headers}}.find(lowered);}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (it\ !=\ \mbox{\hyperlink{structcurling_1_1Response_ad36bcbd66306c7625242f31f4fe39c43}{headers}}.end())\ ?\ it-\/>second\ :\ std::vector<std::string>\{\};}
+\DoxyCodeLine{00198\ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \};}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00205\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1Request}{Request}}\ \{}
+\DoxyCodeLine{00206\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keyword}{using\ }ProgressCallback\ =\ std::function<bool(curl\_off\_t\ dltotal,\ curl\_off\_t\ dlnow,}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ curl\_off\_t\ ultotal,\ curl\_off\_t\ ulnow)>;}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{Method}}\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a7528035a93ee69cedb1dbddb2f0bfcc8}{GET}},\ \ \ \ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4aa02439ec229d8be0e74b0c1602392310}{POST}},\ \ \ }
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a3e75383a5992a6d15fb81e872e46e256}{PUT}},\ \ \ \ }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a2bbe23c0e8b3f638f0f5aed4b6864513}{DEL}},\ \ \ \ }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a63bc9a3997d66d835d9f3ec29451407d}{PATCH}},\ \ }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4ae15e216fc1c639f787b1231ecdfa1bf8}{HEAD}},\ \ \ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4a1903a3443a397660de69904323b54533}{MIME}}\ \ \ \ }
+\DoxyCodeLine{00222\ \ \ \ \ \};}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{AuthMethod}}\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ BASIC\ =\ CURLAUTH\_BASIC,}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ NTLM\ =\ CURLAUTH\_NTLM,}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ DIGEST\ =\ CURLAUTH\_DIGEST}
+\DoxyCodeLine{00232\ \ \ \ \ \};}
+\DoxyCodeLine{00233\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{HttpVersion}}\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5b39c8b553c821e7cddc6da64b5bd2ee}{DEFAULT}},\ \ \ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5f1f9932b84e67c4a4b7e91c03335077}{HTTP\_1\_1}},\ \ }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fad1ea3abbe73fec0b8ae7b3454a9430c6}{HTTP\_2}},\ \ \ \ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa1ab655a8e2067e2ae97d49e5da3713e6}{HTTP\_3}}\ \ \ \ \ }
+\DoxyCodeLine{00252\ \ \ \ \ \};}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00258\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_ac1d45f8843a0ae9170e2d9cb72fb6707}{Request}}();}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00263\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a479fbf06ebab3e4025174a0dfa8d8715}{\string~Request}}()\ noexcept;}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}(\mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\&)\ noexcept;}
+\DoxyCodeLine{00266\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ operator=(\mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\&)\ noexcept;}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}(const\ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&)\ =\ delete;}
+\DoxyCodeLine{00269\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ operator=(const\ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&)\ =\ delete;}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00276\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_ac2369ffa37cc3be82117fe43bcc1f53f}{setProgressCallback}}(ProgressCallback\ cb);}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00283\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_ad273252a9c167bb100cdf5fa5ea17d51}{setMethod}}(\mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{Method}}\ m);}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00290\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a5c67ebc357b648d588182c3bde1698fa}{setURL}}(const\ std::\textcolor{keywordtype}{string}\&\ url);}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00297\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a67aaf2f1611ea28b8afaf621148daee6}{setProxy}}(const\ std::\textcolor{keywordtype}{string}\&\ url);}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00305\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a511337f3a830b80fde26bbeb79b9f478}{setProxyAuth}}(const\ std::\textcolor{keywordtype}{string}\&\ username,\ const\ std::\textcolor{keywordtype}{string}\&\ password);}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00312\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_aa5df92bd801535ae331def9f6c7317e1}{setProxyAuthMethod}}(\mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{AuthMethod}}\ method);}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00320\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_aca73db2804c9111363a33d10db7ad266}{setHttpAuth}}(const\ std::\textcolor{keywordtype}{string}\&\ username,\ const\ std::\textcolor{keywordtype}{string}\&\ password);}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00327\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_ab2a7ce7acb08c9a2181522901081b0b5}{setHttpAuthMethod}}(\mbox{\hyperlink{classcurling_1_1Request_aa9d15b103f1f0c3a4679dabbfae2f617}{AuthMethod}}\ method);}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00335\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a265188179ecb230db1764fe17e5a16f2}{addArg}}(const\ std::\textcolor{keywordtype}{string}\&\ key,\ const\ std::\textcolor{keywordtype}{string}\&\ value);}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00342\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a8e5214e821656df08a211b12329a1ab5}{addHeader}}(const\ std::\textcolor{keywordtype}{string}\&\ header);}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00349\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_aed0d7b275f303f8b12dfd770bff688e4}{setBody}}(const\ std::\textcolor{keywordtype}{string}\&\ body);}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00356\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a1cb80aa3390df07e6ffc6e57d4d2f340}{downloadToFile}}(const\ std::\textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00363\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a40a70b017482439181cb0820d89a6285}{setTimeout}}(\textcolor{keywordtype}{long}\ seconds);}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00370\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a0d8f37450cb261bfc3252057a8fad154}{setConnectTimeout}}(\textcolor{keywordtype}{long}\ seconds);}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00377\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_ac99b12012c16657026d223048e4d7475}{setFollowRedirects}}(\textcolor{keywordtype}{bool}\ follow);}
+\DoxyCodeLine{00378\ }
+\DoxyCodeLine{00384\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_ab3376d99be10172592ac487d9369e437}{setAuthToken}}(const\ std::\textcolor{keywordtype}{string}\&\ token);}
+\DoxyCodeLine{00385\ }
+\DoxyCodeLine{00391\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a8dc52ab73cc53d9207bf784b001715a6}{setCookiePath}}(const\ std::\textcolor{keywordtype}{string}\&\ path);}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00398\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a57bd5429d90254605fcde77d8f338d91}{setUserAgent}}(const\ std::\textcolor{keywordtype}{string}\&\ userAgent);}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00407\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a195f40094e3203f718f5607e95d45312}{addFormField}}(const\ std::\textcolor{keywordtype}{string}\&\ fieldName,\ const\ std::\textcolor{keywordtype}{string}\&\ value);}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00416\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a7c17a7ff6c1a5f720f12a6c717655d92}{addFormFile}}(const\ std::\textcolor{keywordtype}{string}\&\ fieldName,\ const\ std::\textcolor{keywordtype}{string}\&\ filePath);}
+\DoxyCodeLine{00417\ }
+\DoxyCodeLine{00423\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ \mbox{\hyperlink{classcurling_1_1Request_a880e06ab8bb08cb3bd3070fb068499b0}{enableVerbose}}(\textcolor{keywordtype}{bool}\ enabled\ =\ true);}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00430\ \ \ \ \ \mbox{\hyperlink{structcurling_1_1Response}{Response}}\ \mbox{\hyperlink{classcurling_1_1Request_a3fd884b79e47c9ac7cf50c0475f796c4}{send}}();}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00435\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcurling_1_1Request_a3bc18c924d8b921944b77ac1947ea29d}{reset}}();}
+\DoxyCodeLine{00436\ }
+\DoxyCodeLine{00437\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request}{Request}}\&\ setHttpVersion(\mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{HttpVersion}}\ version);}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00439\ \ \ \ \ friend\ \textcolor{keywordtype}{int}\ detail::ProgressCallbackBridge(\textcolor{keywordtype}{void}*\ clientp,\ curl\_off\_t\ dltotal,\ curl\_off\_t\ dlnow,}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ curl\_off\_t\ ultotal,\ curl\_off\_t\ ulnow);}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ }
+\DoxyCodeLine{00443\ private:}
+\DoxyCodeLine{00444\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4}{Method}}\ method;}
+\DoxyCodeLine{00445\ \ \ \ \ CurlPtr\ curlHandle;}
+\DoxyCodeLine{00446\ \ \ \ \ CurlSlistPtr\ list;\textcolor{comment}{//headers;}}
+\DoxyCodeLine{00447\ \ \ \ \ std::\textcolor{keywordtype}{string}\ url,\ args,\ body,\ cookieFile,\ cookieJar;}
+\DoxyCodeLine{00448\ \ \ \ \ CurlMimePtr\ mime;}
+\DoxyCodeLine{00449\ \ \ \ \ std::\textcolor{keywordtype}{string}\ downloadFilePath;}
+\DoxyCodeLine{00450\ \ \ \ \ ProgressCallback\ progressCallback;}
+\DoxyCodeLine{00451\ \ \ \ \ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{HttpVersion}}\ httpVersion\ =\ \mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5f}{HttpVersion}}::\mbox{\hyperlink{classcurling_1_1Request_a7176a85fe8cab5746fd03a57f0e7cb5fa5b39c8b553c821e7cddc6da64b5bd2ee}{DEFAULT}};}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ \textcolor{keywordtype}{void}\ clean()\ noexcept;}
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keywordtype}{void}\ updateURL();}
+\DoxyCodeLine{00455\ \};}
+\DoxyCodeLine{00456\ }
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \}\ \textcolor{comment}{//\ namespace\ curling}}
+\DoxyCodeLine{00460\ }
+
+\end{DoxyCode}

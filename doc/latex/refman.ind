@@ -1,0 +1,157 @@
+\begin{theindex}
+
+  \item {addArg}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {addFormField}
+    \subitem {curling::Request}, \hyperpage{23}
+  \item {addFormFile}
+    \subitem {curling::Request}, \hyperpage{23}
+  \item {addHeader}
+    \subitem {curling::Request}, \hyperpage{24}
+
+  \indexspace
+
+  \item {curling}, \hyperpage{11}
+  \item {Curling: Modern C++ libcurl Wrapper}, \hyperpage{1}
+  \item {curling::CurlHandleDeleter}, \hyperpage{13}
+  \item {curling::CurlingException}, \hyperpage{13}
+  \item {curling::CurlMimeDeleter}, \hyperpage{14}
+  \item {curling::CurlSlistDeleter}, \hyperpage{14}
+  \item {curling::detail}, \hyperpage{12}
+  \item {curling::HeaderException}, \hyperpage{15}
+  \item {curling::InitializationException}, \hyperpage{16}
+  \item {curling::LogicException}, \hyperpage{17}
+  \item {curling::MimeException}, \hyperpage{18}
+  \item {curling::Request}, \hyperpage{20}
+    \subitem {addArg}, \hyperpage{22}
+    \subitem {addFormField}, \hyperpage{23}
+    \subitem {addFormFile}, \hyperpage{23}
+    \subitem {addHeader}, \hyperpage{24}
+    \subitem {DEFAULT}, \hyperpage{22}
+    \subitem {DEL}, \hyperpage{22}
+    \subitem {downloadToFile}, \hyperpage{24}
+    \subitem {enableVerbose}, \hyperpage{24}
+    \subitem {GET}, \hyperpage{22}
+    \subitem {HEAD}, \hyperpage{22}
+    \subitem {HTTP\_1\_1}, \hyperpage{22}
+    \subitem {HTTP\_2}, \hyperpage{22}
+    \subitem {HTTP\_3}, \hyperpage{22}
+    \subitem {HttpVersion}, \hyperpage{21}
+    \subitem {Method}, \hyperpage{22}
+    \subitem {MIME}, \hyperpage{22}
+    \subitem {PATCH}, \hyperpage{22}
+    \subitem {POST}, \hyperpage{22}
+    \subitem {PUT}, \hyperpage{22}
+    \subitem {Request}, \hyperpage{22}
+    \subitem {send}, \hyperpage{25}
+    \subitem {setAuthToken}, \hyperpage{25}
+    \subitem {setBody}, \hyperpage{25}
+    \subitem {setConnectTimeout}, \hyperpage{26}
+    \subitem {setCookiePath}, \hyperpage{26}
+    \subitem {setFollowRedirects}, \hyperpage{26}
+    \subitem {setHttpAuth}, \hyperpage{27}
+    \subitem {setHttpAuthMethod}, \hyperpage{27}
+    \subitem {setMethod}, \hyperpage{27}
+    \subitem {setProgressCallback}, \hyperpage{28}
+    \subitem {setProxy}, \hyperpage{28}
+    \subitem {setProxyAuth}, \hyperpage{28}
+    \subitem {setProxyAuthMethod}, \hyperpage{29}
+    \subitem {setTimeout}, \hyperpage{29}
+    \subitem {setURL}, \hyperpage{29}
+    \subitem {setUserAgent}, \hyperpage{30}
+  \item {curling::RequestException}, \hyperpage{30}
+  \item {curling::Response}, \hyperpage{31}
+
+  \indexspace
+
+  \item {DEFAULT}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {DEL}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {downloadToFile}
+    \subitem {curling::Request}, \hyperpage{24}
+
+  \indexspace
+
+  \item {enableVerbose}
+    \subitem {curling::Request}, \hyperpage{24}
+
+  \indexspace
+
+  \item {GET}
+    \subitem {curling::Request}, \hyperpage{22}
+
+  \indexspace
+
+  \item {HEAD}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {HTTP\_1\_1}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {HTTP\_2}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {HTTP\_3}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {HttpVersion}
+    \subitem {curling::Request}, \hyperpage{21}
+
+  \indexspace
+
+  \item {include/curling.hpp}, \hyperpage{33}
+
+  \indexspace
+
+  \item {Method}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {MIME}
+    \subitem {curling::Request}, \hyperpage{22}
+
+  \indexspace
+
+  \item {PATCH}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {POST}
+    \subitem {curling::Request}, \hyperpage{22}
+  \item {PUT}
+    \subitem {curling::Request}, \hyperpage{22}
+
+  \indexspace
+
+  \item {Request}
+    \subitem {curling::Request}, \hyperpage{22}
+
+  \indexspace
+
+  \item {send}
+    \subitem {curling::Request}, \hyperpage{25}
+  \item {setAuthToken}
+    \subitem {curling::Request}, \hyperpage{25}
+  \item {setBody}
+    \subitem {curling::Request}, \hyperpage{25}
+  \item {setConnectTimeout}
+    \subitem {curling::Request}, \hyperpage{26}
+  \item {setCookiePath}
+    \subitem {curling::Request}, \hyperpage{26}
+  \item {setFollowRedirects}
+    \subitem {curling::Request}, \hyperpage{26}
+  \item {setHttpAuth}
+    \subitem {curling::Request}, \hyperpage{27}
+  \item {setHttpAuthMethod}
+    \subitem {curling::Request}, \hyperpage{27}
+  \item {setMethod}
+    \subitem {curling::Request}, \hyperpage{27}
+  \item {setProgressCallback}
+    \subitem {curling::Request}, \hyperpage{28}
+  \item {setProxy}
+    \subitem {curling::Request}, \hyperpage{28}
+  \item {setProxyAuth}
+    \subitem {curling::Request}, \hyperpage{28}
+  \item {setProxyAuthMethod}
+    \subitem {curling::Request}, \hyperpage{29}
+  \item {setTimeout}
+    \subitem {curling::Request}, \hyperpage{29}
+  \item {setURL}
+    \subitem {curling::Request}, \hyperpage{29}
+  \item {setUserAgent}
+    \subitem {curling::Request}, \hyperpage{30}
+
+\end{theindex}

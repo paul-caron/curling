@@ -1,0 +1,23 @@
+\chapter{Curling\+: Modern C++ libcurl Wrapper}
+\hypertarget{index}{}\label{index}\index{Curling: Modern C++ libcurl Wrapper@{Curling: Modern C++ libcurl Wrapper}}
+Curling is a lightweight, header-\/only C++17 wrapper around libcurl for making HTTP requests with a modern design and safe resource handling.\hypertarget{index_features}{}\doxysection{\texorpdfstring{Features}{Features}}\label{index_features}
+
+\begin{DoxyItemize}
+\item RAII and smart-\/pointer-\/based resource management
+\item MIME support for file uploads
+\item Fluent API for intuitive chaining
+\item Proxy and authentication support
+\item Persistent cookie management
+\end{DoxyItemize}\hypertarget{index_example}{}\doxysection{\texorpdfstring{Example}{Example}}\label{index_example}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classcurling_1_1Request}{curling::Request}}\ req;}
+\DoxyCodeLine{req.\mbox{\hyperlink{classcurling_1_1Request_ad273252a9c167bb100cdf5fa5ea17d51}{setMethod}}(\mbox{\hyperlink{classcurling_1_1Request_a3820b1d0d3943785f8d1b3122e6e15d4aa02439ec229d8be0e74b0c1602392310}{curling::Request::Method::POST}})}
+\DoxyCodeLine{\ \ \ .\mbox{\hyperlink{classcurling_1_1Request_a5c67ebc357b648d588182c3bde1698fa}{setURL}}(\textcolor{stringliteral}{"{}https://example.com"{}})}
+\DoxyCodeLine{\ \ \ .\mbox{\hyperlink{classcurling_1_1Request_a8e5214e821656df08a211b12329a1ab5}{addHeader}}(\textcolor{stringliteral}{"{}Content-\/Type:\ application/json"{}})}
+\DoxyCodeLine{\ \ \ .\mbox{\hyperlink{classcurling_1_1Request_aed0d7b275f303f8b12dfd770bff688e4}{setBody}}(R\textcolor{stringliteral}{"{}(\{"{}key"{}:\ "{}value"{}\})"{});}}
+\DoxyCodeLine{\textcolor{stringliteral}{\mbox{\hyperlink{structcurling_1_1Response}{curling::Response}}\ res\ =\ req.\mbox{\hyperlink{classcurling_1_1Request_a3fd884b79e47c9ac7cf50c0475f796c4}{send}}();}}
+\DoxyCodeLine{\textcolor{stringliteral}{std::cout\ <<\ res.toString();}}
+
+\end{DoxyCode}
+ 
