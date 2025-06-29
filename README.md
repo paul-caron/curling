@@ -15,7 +15,7 @@ It supports JSON payloads, file uploads, cookie management, authentication, prox
 
 ## 📚 Table of Contents
 
-✨ Features
+[Features](### ✨ Features)
 
 🛠 Installation
 
