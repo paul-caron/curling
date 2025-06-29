@@ -1,0 +1,11 @@
+cookies.txt
+*.so
+*.o
+*.out
+*.a
+*.dll
+*.dylib
+*.log
+*.tmp
+*.swp
+*.db
