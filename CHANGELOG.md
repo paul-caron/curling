@@ -3,7 +3,8 @@
 ## [1.1.0] - 2025-xx-xx future release
 ### Added
 - `curling::version()` — a new public function that returns the current version of the library.
-- examples - including how to multithread and how to add a progress bar.
+- added setHttpVersion method, to be able to specify Http 1.1, 2 or 3
+- examples - example codes folder with different cases including how to multithread and how to add a progress bar.
 
 ### Changed
 - Refactored several private methods within classes to improve code maintainability and readability. Moved to 'detail' namespace.
