@@ -150,13 +150,13 @@ Curling centers around the curling::Request class, which wraps libcurl functiona
 
 Key principles:
 
-✅ RAII & smart pointers — automatic resource cleanup
+- ✅ RAII & smart pointers — automatic resource cleanup
 
-✅ Fluent chaining — readable and efficient method calls
+- ✅ Fluent chaining — readable and efficient method calls
 
-✅ No global state — avoids curl_global_* leaks
+- ✅ No global state — avoids curl_global_* leaks
 
-✅ Safe-by-default — redirects off by default, verbose off, etc.
+- ✅ Safe-by-default — redirects off by default, verbose off, etc.
 
 
 
@@ -239,17 +239,17 @@ make doc-clean
 
 Tests use Doctest and cover:
 
-✅ HTTP verbs: GET, POST, PUT, PATCH, DELETE, MIME
+- ✅ HTTP verbs: GET, POST, PUT, PATCH, DELETE, MIME
 
-✅ Authentication: Basic, Bearer, Digest (MD5, SHA-256, auth-int)
+- ✅ Authentication: Basic, Bearer, Digest (MD5, SHA-256, auth-int)
 
-✅ File download and upload
+- ✅ File download and upload
 
-✅ Header manipulation
+- ✅ Header manipulation
 
-✅ JSON and form-data handling
+- ✅ JSON and form-data handling
 
-✅ Redirect handling
+- ✅ Redirect handling
 
 
 Run locally:
