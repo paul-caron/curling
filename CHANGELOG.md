@@ -13,6 +13,7 @@
 - `curling::version()` — a new public function that returns the current version of the library.
 - added setHttpVersion method, to be able to specify Http 1.1, 2 or 3
 - examples - example codes folder with different cases including how to multithread and how to add a progress bar.
+- change deb control file dependency libcurl4-openssl-dev to libcurl4-dev, which now allows users to choose which ssl backend they want to use.
 
 ### Changed
 - Refactored several private methods within classes to improve code maintainability and readability. Moved to 'detail' namespace.
