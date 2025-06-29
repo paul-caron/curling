@@ -152,6 +152,10 @@ Request& Request::setMethod(Method m) {
         case Method::DEL:
             curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, "DELETE");
             break;
+        case Method::HEAD):
+            curl_easy_setopt(curlHandle.get(), CURLOPT_NOBODY, 1L);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_HEADER, 1L);
+            break;
     }
     return *this;
 }
