@@ -232,6 +232,26 @@ public:
     };
 
     /**
+    * @enum HttpVersion
+    * @brief Specifies the HTTP version to be used for the request.
+    *
+    * Allows explicit control over the HTTP version that libcurl should use
+    * when performing a request. If the selected version is not supported
+    * by the libcurl build or the server, fallback behavior may occur.
+    *
+    * @note If you request a version not supported by libcurl at runtime,
+    * Curling will throw a LogicException during configuration.
+    * If the server doesn't support the version (e.g., HTTP/2),
+    * libcurl may fall back to an older version without error.
+    */
+    enum class HttpVersion {
+        DEFAULT,   ///< Let libcurl automatically negotiate the best supported HTTP version.
+        HTTP_1_1,  ///< Force HTTP/1.1 for all requests.
+        HTTP_2,    ///< Force HTTP/2 (requires libcurl built with nghttp2 support).
+        HTTP_3     ///< Force HTTP/3 (requires libcurl built with HTTP/3 support, e.g. with quiche or ngtcp2).
+    };
+
+    /**
      * @brief Constructor initializes curl global state.
      * @throws InitializationException if initialization fails.
      */
