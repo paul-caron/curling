@@ -79,6 +79,55 @@
 
 namespace curling {
 
+/**
+ * @class CurlingException
+ * @brief Base exception class for Curling errors.
+ */
+class CurlingException : public std::runtime_error {
+public:
+    explicit CurlingException(const std::string& msg) : std::runtime_error(msg) {}
+};
+
+/** @class InitializationException
+ * @brief Thrown when curl initialization fails.
+ */
+class InitializationException : public CurlingException {
+public:
+    explicit InitializationException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class RequestException
+ * @brief Thrown when a request operation fails.
+ */
+class RequestException : public CurlingException {
+public:
+    explicit RequestException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class HeaderException
+ * @brief Thrown when header operations fail.
+ */
+class HeaderException : public CurlingException {
+public:
+    explicit HeaderException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class MimeException
+ * @brief Thrown when MIME operations fail.
+ */
+class MimeException : public CurlingException {
+public:
+    explicit MimeException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class LogicException
+ * @brief Thrown when library logic prohibits an operation.
+ */
+class LogicException : public CurlingException {
+public:
+    explicit LogicException(const std::string& msg) : CurlingException(msg) {}
+};
+
 inline constexpr int version_major = 1;
 inline constexpr int version_minor = 2;
 inline constexpr int version_patch = 0;
@@ -164,54 +213,7 @@ inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t 
 
 }//detail end
 
-/**
- * @class CurlingException
- * @brief Base exception class for Curling errors.
- */
-class CurlingException : public std::runtime_error {
-public:
-    explicit CurlingException(const std::string& msg) : std::runtime_error(msg) {}
-};
 
-/** @class InitializationException
- * @brief Thrown when curl initialization fails.
- */
-class InitializationException : public CurlingException {
-public:
-    explicit InitializationException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class RequestException
- * @brief Thrown when a request operation fails.
- */
-class RequestException : public CurlingException {
-public:
-    explicit RequestException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class HeaderException
- * @brief Thrown when header operations fail.
- */
-class HeaderException : public CurlingException {
-public:
-    explicit HeaderException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class MimeException
- * @brief Thrown when MIME operations fail.
- */
-class MimeException : public CurlingException {
-public:
-    explicit MimeException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class LogicException
- * @brief Thrown when library logic prohibits an operation.
- */
-class LogicException : public CurlingException {
-public:
-    explicit LogicException(const std::string& msg) : CurlingException(msg) {}
-};
 
 /** SAFETY: RAII deleters for CURL handles */
 struct CurlHandleDeleter { void operator()(CURL* h) const noexcept { if (h) curl_easy_cleanup(h); }};
