@@ -8,9 +8,7 @@
 TEST_CASE("Cookie persistence test (Postman Echo)") {
     const std::string cookieFile = "/tmp/test_cookies.txt";
 
-    const std::string cookieFile = "/tmp/test_cookies.txt";
-
-// Ensure file exists before libcurl touches it
+    // Ensure file exists before libcurl touches it
 {
     std::ofstream(cookieFile).close();
     REQUIRE(std::filesystem::exists(cookieFile));
