@@ -12,7 +12,7 @@
  */
 TEST_CASE("Cookie persistence test") {
     const std::string cookieFile = "test_cookies.txt";
-{
+
     curling::Request req;
     req.setURL("https://httpbin.org/cookies/set?mycookie=value")
        .setCookiePath(cookieFile)
@@ -21,22 +21,20 @@ TEST_CASE("Cookie persistence test") {
 
     auto res = req.send();
     CHECK(res.httpCode == 200);
-}
-{
-    curling::Request req;
+
     req.setURL("https://httpbin.org/cookies")
        .setCookiePath(cookieFile)
        .setFollowRedirects(true)
        .enableVerbose(false);
 
-    auto res = req.send();
+    res = req.send();
     CHECK(res.httpCode == 200);
 
     // Looser check that will match even if formatting varies
     CHECK(res.body.find("mycookie") != std::string::npos);
     CHECK(res.body.find("value") != std::string::npos);
 
-}
+
     std::filesystem::remove(cookieFile);
 }
 
