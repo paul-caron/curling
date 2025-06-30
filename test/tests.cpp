@@ -5,6 +5,11 @@
 #include <fstream>
 #include <filesystem>
 
+TEST_CASE("Library version check") {
+    std::string version = curling::version();
+    CHECK(version == "1.2.0");
+}
+
 TEST_CASE("GET request to download image from httpbin") {
     const std::string imageUrl = "https://httpbin.org/image/png";
     const std::string outputFile = "downloaded_image.png";
