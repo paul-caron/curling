@@ -12,6 +12,7 @@ TEST_CASE("Cookie persistence test") {
         curling::Request req;
         req.setURL("https://httpbin.org/cookies/set?mycookie=value")
            .setCookiePath(cookieFile)
+           .setFollowRedirects(true)
            .enableVerbose(false);
 
         auto res = req.send();
@@ -22,6 +23,7 @@ TEST_CASE("Cookie persistence test") {
         curling::Request req;
         req.setURL("https://httpbin.org/cookies")
            .setCookiePath(cookieFile)
+           .setFollowRedirects(true)
            .enableVerbose(false);
 
         auto res = req.send();
