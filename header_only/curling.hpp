@@ -24,7 +24,7 @@
  * @section example Example
  * @code
  * curling::Request req;
- inline * req.setMethod(curling::Request::Method::POST)
+ * req.setMethod(curling::Request::Method::POST)
  *    .setURL("https://example.com")
  *    .addHeader("Content-Type: application/json")
  *    .setBody(R"({"key": "value"})");
