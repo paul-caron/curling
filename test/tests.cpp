@@ -22,7 +22,11 @@ std::filesystem::permissions(cookieFile,
         auto res = req.send();
         CHECK(res.httpCode == 200);
     }
-
+CHECK(std::filesystem::exists(cookieFile));
+std::ifstream in(cookieFile);
+std::string contents((std::istreambuf_iterator<char>(in)),
+                      std::istreambuf_iterator<char>());
+std::cout << "Cookie file content:\n" << contents << std::endl;
     // 2. Read the cookie in a new request
     {
         curling::Request req;
