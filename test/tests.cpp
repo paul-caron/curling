@@ -7,7 +7,10 @@
 
 TEST_CASE("Cookie persistence test (Postman Echo)") {
     const std::string cookieFile = "/tmp/test_cookies.txt";
-
+std::ofstream(cookieFile).close(); // Create an empty file
+std::filesystem::permissions(cookieFile,
+    std::filesystem::perms::owner_all,
+    std::filesystem::perm_options::replace);
     // 1. Set the cookie
     {
         curling::Request req;
