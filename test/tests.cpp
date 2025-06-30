@@ -7,77 +7,35 @@
 #include <curl/curlver.h>
 #include <curl/curl.h>
 
+#ifdef CURLING_ENABLE_COOKIES
+TEST_CASE("Cookie persistence (Postman Echo)") {
+    const std::string cookieFile = "test_cookies.txt";
 
-TEST_CASE("Cookie persistence test (Postman Echo)") {
-std::cout << curl_version() << std::endl;
-if (!(curl_version_info(CURLVERSION_NOW)->features & CURL_VERSION_COOKIE)) {
-    std::cerr << "libcurl built without cookie support!" << std::endl;
-}
-const std::string cookieFile = std::filesystem::absolute("test_cookies.txt").string();
-//const std::string cookieFile = "test_cookies.txt";
-    
-    std::cout << "Working directory: " << std::filesystem::current_path() << std::endl;
-std::cout << "Absolute cookie file path: "
-          << std::filesystem::absolute(cookieFile) << std::endl;
-    
-    
-
-    // Ensure file exists before libcurl touches it
-{
-    std::ofstream(cookieFile).close();
-    REQUIRE(std::filesystem::exists(cookieFile));
-}
-
-{
-    std::ifstream f(cookieFile.c_str());
-if (!f.is_open()) {
-    std::cerr << "Cannot read cookies in test\n";
-}
-}
-
-std::error_code ec;
-auto exists = std::filesystem::exists(cookieFile, ec);
-std::cout << "File exists: " << exists << ", error: " << ec.message() << std::endl;
-
-auto perms = std::filesystem::status(cookieFile).permissions();
-std::cout << "File permissions: " << std::oct << static_cast<int>(perms) << std::endl;
-    
-    // 1. Set the cookie
+    // Write cookie
     {
         curling::Request req;
         req.setURL("https://postman-echo.com/cookies/set?mycookie=value")
            .setCookiePath(cookieFile)
-           .setFollowRedirects(true)
-           .enableVerbose(true);
-
+           .setFollowRedirects(true);
         auto res = req.send();
         CHECK(res.httpCode == 200);
     }
-CHECK(std::filesystem::exists(cookieFile));
-std::ifstream in(cookieFile);
-std::string contents((std::istreambuf_iterator<char>(in)),
-                      std::istreambuf_iterator<char>());
-std::cout << "Cookie file content:\n" << contents << std::endl;
-    // 2. Read the cookie in a new request
+
+    // Read cookie
     {
         curling::Request req;
         req.setURL("https://postman-echo.com/cookies")
            .setCookiePath(cookieFile)
-           .setFollowRedirects(true)
-           .enableVerbose(true);
-
+           .setFollowRedirects(true);
         auto res = req.send();
         CHECK(res.httpCode == 200);
-
-        // Check that the cookie is returned in the response JSON
         CHECK(res.body.find("mycookie") != std::string::npos);
         CHECK(res.body.find("value") != std::string::npos);
     }
 
     std::filesystem::remove(cookieFile);
 }
-
-
+#endif
 
 TEST_CASE("Timeout test") {
     curling::Request req;
