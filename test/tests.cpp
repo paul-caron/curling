@@ -12,6 +12,11 @@
  */
 TEST_CASE("Cookie persistence test") {
     const std::string cookieFile = "/tmp/test_cookies.txt";
+    std::ofstream test(cookieFile);
+if (!test) {
+    std::cerr << "[CI DEBUG] Failed to open cookie file for writing\n";
+}
+test.close();
 {
     curling::Request req;
     req.setURL("https://httpbin.org/cookies/set?mycookie=value")
