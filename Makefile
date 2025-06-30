@@ -37,7 +37,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 header-only: ./src/curling.cpp ./include/curling.hpp
 	@mkdir -p header_only
 	(cat ./include/curling.hpp; tail -n +6 ./src/curling.cpp) > ./header_only/curling.hpp
-
+	./inline.sh
 
 
 
