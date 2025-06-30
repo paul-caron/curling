@@ -23,6 +23,11 @@ jobs:
           grep -R "CURL_VERSION_COOKIE" /usr/include/curl || echo "⚠️ COOKIE macro not found in distro headers!"
           grep -R "define LIBCURL_VERSION_NUM" /usr/include/curl/curlver.h
           curl --version
+      - name: Install curl dev headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install --reinstall -y libcurl4-openssl-dev
+          dpkg -L libcurl4-openssl-dev | grep curl/curlver.h
 
       - name: Build project
         run: make
