@@ -15,7 +15,7 @@ TEST_CASE("Cookie persistence test (Postman Echo)") {
 }
 
 {
-    std::ifstream f("cookies.txt");
+    std::ifstream f(cookieFile.c_str());
 if (!f.is_open()) {
     std::cerr << "Cannot read cookies.txt in test\n";
 }
