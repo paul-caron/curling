@@ -4,6 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <curl/curlver.h>
+#include <curl/curl.h>
+
 
 TEST_CASE("Cookie persistence test (Postman Echo)") {
 std::cout << curl_version() << std::endl;
