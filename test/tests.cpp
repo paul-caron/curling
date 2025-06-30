@@ -11,7 +11,7 @@
  * @note It seems the global cleanup erases cookie content. Investigating.
  */
 TEST_CASE("Cookie persistence test") {
-    const std::string cookieFile = "test_cookies.txt";
+    const std::string cookieFile = "/tmp/test_cookies.txt";
 {
     curling::Request req;
     req.setURL("https://httpbin.org/cookies/set?mycookie=value")
