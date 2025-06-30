@@ -18,6 +18,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential libcurl4-openssl-dev
+      - name: GITHUB env variable
+        run: export GITHUB=1
 
       - name: Build project
         run: make
