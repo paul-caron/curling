@@ -13,6 +13,13 @@ TEST_CASE("Cookie persistence test (Postman Echo)") {
     std::ofstream(cookieFile).close();
     REQUIRE(std::filesystem::exists(cookieFile));
 }
+
+{
+    std::ifstream f("cookies.txt");
+if (!f.is_open()) {
+    std::cerr << "Cannot read cookies.txt in test\n";
+}
+}
     // 1. Set the cookie
     {
         curling::Request req;
