@@ -216,6 +216,8 @@ Response Request::send() {
         response.body = responseStream.str();
     }
 
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIELIST, "FLUSH");
+
     reset(); // Reset state for reuse
 
     return response;
