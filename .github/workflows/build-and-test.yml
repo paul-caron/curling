@@ -18,6 +18,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential libcurl4-openssl-dev
+      - name: Diagnose curl headers
+        run: |
+          grep -R "CURL_VERSION_COOKIE" /usr/include/curl || echo "⚠️ COOKIE macro not found in distro headers!"
+          grep -R "define LIBCURL_VERSION_NUM" /usr/include/curl/curlver.h
+          curl --version
 
       - name: Build project
         run: make
