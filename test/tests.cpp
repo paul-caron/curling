@@ -17,9 +17,17 @@ TEST_CASE("Cookie persistence test (Postman Echo)") {
 {
     std::ifstream f(cookieFile.c_str());
 if (!f.is_open()) {
-    std::cerr << "Cannot read cookies.txt in test\n";
+    std::cerr << "Cannot read cookies in test\n";
 }
 }
+
+std::error_code ec;
+auto exists = std::filesystem::exists(cookieFile, ec);
+std::cout << "File exists: " << exists << ", error: " << ec.message() << std::endl;
+
+auto perms = std::filesystem::status(cookieFile).permissions();
+std::cout << "File permissions: " << std::oct << static_cast<int>(perms) << std::endl;
+    
     // 1. Set the cookie
     {
         curling::Request req;
