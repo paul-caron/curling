@@ -10,9 +10,9 @@
 
 TEST_CASE("Cookie persistence test (Postman Echo)") {
 std::cout << curl_version() << std::endl;
-//if (!(curl_version_info(CURLVERSION_NOW)->features & CURL_VERSION_COOKIE)) {
-//    std::cerr << "libcurl built without cookie support!" << std::endl;
-//}
+if (!(curl_version_info(CURLVERSION_NOW)->features & CURL_VERSION_COOKIE)) {
+    std::cerr << "libcurl built without cookie support!" << std::endl;
+}
 const std::string cookieFile = std::filesystem::absolute("test_cookies.txt").string();
 //const std::string cookieFile = "test_cookies.txt";
     
