@@ -38,7 +38,7 @@ TEST_CASE("Cookie persistence test (Postman Echo)") {
 
     std::filesystem::remove(cookieFile);
 }
-/*
+
 
 
 TEST_CASE("Timeout test") {
