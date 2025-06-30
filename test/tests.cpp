@@ -39,6 +39,7 @@ TEST_CASE("Cookie persistence (Postman Echo)") {
     }else{
         // test case doesnt work on github
         // works else where it seems
+        SKIP("Skipping cookie test inside Github CI");
     }
 }
 
