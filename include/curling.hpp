@@ -163,7 +163,7 @@ inline void maybeCleanupGlobalCurl() noexcept {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
     if (--instanceCount == 0) {
         std::cout << "[Curling] Cleaning up global curl\n";
-       // curl_global_cleanup();
+        curl_global_cleanup();
     }
 }
 
