@@ -7,7 +7,7 @@
 #include <curl/curlver.h>
 #include <curl/curl.h>
 
-#ifdef CURLING_ENABLE_COOKIES
+#ifdef CURL_VERSION_COOKIES
 TEST_CASE("Cookie persistence (Postman Echo)") {
     const std::string cookieFile = "test_cookies.txt";
 
