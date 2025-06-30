@@ -5,12 +5,13 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch: # ✅ Allows manual triggering from the GitHub Actions UI
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     env:
-        GITHUB: "1"
+      GITHUB: "1"
 
     steps:
       - name: Checkout code
