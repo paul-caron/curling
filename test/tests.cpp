@@ -5,6 +5,33 @@
 #include <fstream>
 #include <filesystem>
 
+TEST_CASE("Cookie persistence test") {
+    const std::string cookieFile = "test_cookies.txt";
+
+    {
+        curling::Request req;
+        req.setURL("https://httpbin.org/cookies/set?mycookie=value")
+           .setCookiePath(cookieFile)
+           .enableVerbose(false);
+
+        auto res = req.send();
+        CHECK(res.httpCode == 200);
+    }
+
+    {
+        curling::Request req;
+        req.setURL("https://httpbin.org/cookies")
+           .setCookiePath(cookieFile)
+           .enableVerbose(false);
+
+        auto res = req.send();
+        CHECK(res.httpCode == 200);
+        CHECK(res.body.find("\"mycookie\": \"value\"") != std::string::npos);
+    }
+
+    std::filesystem::remove(cookieFile);
+}
+
 TEST_CASE("Timeout test") {
     curling::Request req;
     req.setURL("https://httpbin.org/delay/5") // waits 5 seconds
