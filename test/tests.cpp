@@ -7,11 +7,14 @@
 
 TEST_CASE("Cookie persistence test (Postman Echo)") {
 
+
+const std::string cookieFile = "test_cookies.txt";
+    
     std::cout << "Working directory: " << std::filesystem::current_path() << std::endl;
 std::cout << "Absolute cookie file path: "
           << std::filesystem::absolute(cookieFile) << std::endl;
     
-    const std::string cookieFile = "test_cookies.txt";
+    
 
     // Ensure file exists before libcurl touches it
 {
