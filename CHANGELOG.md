@@ -1,9 +1,10 @@
 # Changelog
 
-## [1.2.0] - 2025-xx-xx future release
+## [1.2.0] - 2025-06-29
 ### Added
 - static assertion / compile time check that Request cannot be copied.
 - Request::setRawOption(CURLoption opt, <T> value). For the advanced users.
+- helper script 'inline.sh' to help with header-only library.
 
 ### Changed
 - The error thrown after failed curl_perform for a more detailed error message that includes error code and url.
