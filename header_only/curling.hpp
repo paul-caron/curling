@@ -24,7 +24,7 @@
  * @section example Example
  * @code
  * curling::Request req;
- * req.setMethod(curling::Request::Method::POST)
+ inline * req.setMethod(curling::Request::Method::POST)
  *    .setURL("https://example.com")
  *    .addHeader("Content-Type: application/json")
  *    .setBody(R"({"key": "value"})");
@@ -539,7 +539,7 @@ inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t 
 
 namespace curling {
 
-Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+inline Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
     detail::ensureCurlGlobalInit();
 
     curlHandle.reset(curl_easy_init());
@@ -555,7 +555,7 @@ Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), co
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
 }
 
-Request::Request(Request&& other) noexcept
+inline Request::Request(Request&& other) noexcept
    :method(other.method),
     curlHandle(std::move(other.curlHandle)),
     list(std::move(other.list)),
@@ -567,7 +567,7 @@ Request::Request(Request&& other) noexcept
     mime(std::move(other.mime)){
 }
 
-Request& Request::operator=(Request&& other) noexcept {
+inline Request& Request::operator=(Request&& other) noexcept {
     if(this != &other) {
         clean();
 
@@ -586,12 +586,12 @@ Request& Request::operator=(Request&& other) noexcept {
     return *this;
 }
 
-Request::~Request() noexcept {
+inline Request::~Request() noexcept {
     clean();
     detail::maybeCleanupGlobalCurl();
 }
 
-Request& Request::setMethod(Method m) {
+inline Request& Request::setMethod(Method m) {
     if(method == Method::MIME && m!= Method::MIME){
         throw LogicException("Cannot override MIME method with another HTTP method");
     }
@@ -628,12 +628,12 @@ Request& Request::setMethod(Method m) {
     return *this;
 }
 
-Request& Request::setURL(const std::string& URL) {
+inline Request& Request::setURL(const std::string& URL) {
     url = URL;
     return *this;
 }
 
-Request& Request::addArg(const std::string& key, const std::string& value) {
+inline Request& Request::addArg(const std::string& key, const std::string& value) {
     char* escapedKey = curl_easy_escape(curlHandle.get(), key.c_str(), 0);
     char* escapedValue = curl_easy_escape(curlHandle.get(), value.c_str(), 0);
 
@@ -647,12 +647,12 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
     return *this;
 }
 
-Request& Request::setProgressCallback(ProgressCallback cb){
+inline Request& Request::setProgressCallback(ProgressCallback cb){
     progressCallback = cb;
     return *this;
 }
 
-Request& Request::addHeader(const std::string& header) {
+inline Request& Request::addHeader(const std::string& header) {
     auto newList = curl_slist_append(list.get(), header.c_str());
     if(!newList){
         throw HeaderException("Failed to append header to curl_slist");
@@ -663,12 +663,12 @@ Request& Request::addHeader(const std::string& header) {
     return *this;
 }
 
-Request& Request::downloadToFile(const std::string& path) {
+inline Request& Request::downloadToFile(const std::string& path) {
     downloadFilePath = path;
     return *this;
 }
 
-Request& Request::setBody(const std::string& body) {
+inline Request& Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT || method == Method::PATCH) {
         curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
@@ -677,7 +677,7 @@ Request& Request::setBody(const std::string& body) {
     return *this;
 }
 
-Response Request::send() {
+inline Response Request::send() {
     Response response;
     FILE* fileOut = nullptr;
     std::ostringstream responseStream;
@@ -754,7 +754,7 @@ Response Request::send() {
     return response;
 }
 
-void Request::reset() {
+inline void Request::reset() {
     CurlPtr newHandle(curl_easy_init());
     if(!newHandle){
         throw InitializationException("Curl re-initialization failed");
@@ -774,66 +774,66 @@ void Request::reset() {
 
 }
 
-void Request::clean() noexcept {
+inline void Request::clean() noexcept {
     mime.reset();
     list.reset();
     curlHandle.reset();
 }
 
-void Request::updateURL() {
+inline void Request::updateURL() {
     std::string s = args.empty() ? url : url + "?" + args;
     curl_easy_setopt(curlHandle.get(), CURLOPT_URL, s.c_str());
 }
 
-Request& Request::setTimeout(long seconds){
+inline Request& Request::setTimeout(long seconds){
     curl_easy_setopt(curlHandle.get(), CURLOPT_TIMEOUT, seconds);
     return *this;
 }
 
-Request& Request::setProxy(const std::string& url){
+inline Request& Request::setProxy(const std::string& url){
     curl_easy_setopt(curlHandle.get(), CURLOPT_PROXY, url.c_str());
     return *this;
 }
 
-Request& Request::setProxyAuth(const std::string& username, const std::string & password){
+inline Request& Request::setProxyAuth(const std::string& username, const std::string & password){
     curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYUSERPWD, (username+":"+password).c_str());
     return *this;
 }
 
-Request& Request::setProxyAuthMethod(AuthMethod method){
+inline Request& Request::setProxyAuthMethod(AuthMethod method){
     //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST
     curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYAUTH, method);
     return *this;
 }
 
-Request& Request::setHttpAuth(const std::string& username, const std::string & password){
+inline Request& Request::setHttpAuth(const std::string& username, const std::string & password){
     curl_easy_setopt(curlHandle.get(), CURLOPT_USERPWD, (username+":"+password).c_str());
     return *this;
 }
 
-Request& Request::setHttpAuthMethod(AuthMethod method){
+inline Request& Request::setHttpAuthMethod(AuthMethod method){
     //example: CURLAUTH_BASIC, CURLAUTH_NTLM, CURLAUTH_DIGEST
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPAUTH, method);
     return *this;
 }
 
-Request& Request::setConnectTimeout(long seconds){
+inline Request& Request::setConnectTimeout(long seconds){
     curl_easy_setopt(curlHandle.get(), CURLOPT_CONNECTTIMEOUT, seconds);
     return *this;
 }
 
-Request& Request::setAuthToken(const std::string& token){
+inline Request& Request::setAuthToken(const std::string& token){
     std::string header = "Authorization: Bearer " + token;
     addHeader(header);
     return *this;
 }
 
-Request& Request::setFollowRedirects(bool follow){
+inline Request& Request::setFollowRedirects(bool follow){
     curl_easy_setopt(curlHandle.get(), CURLOPT_FOLLOWLOCATION, follow ? 1L : 0L);
     return *this;
 }
 
-Request& Request::setCookiePath(const std::string& path){
+inline Request& Request::setCookiePath(const std::string& path){
     //set path to read cookies from
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, path.c_str());
     //set path to write cookies to
@@ -844,12 +844,12 @@ Request& Request::setCookiePath(const std::string& path){
     return *this;
 }
 
-Request& Request::setUserAgent(const std::string& userAgent){
+inline Request& Request::setUserAgent(const std::string& userAgent){
     curl_easy_setopt(curlHandle.get(), CURLOPT_USERAGENT, userAgent.c_str());
     return *this;
 }
 
-Request& Request::addFormField(const std::string& fieldName, const std::string & value){
+inline Request& Request::addFormField(const std::string& fieldName, const std::string & value){
     if(!mime){
         mime.reset(curl_mime_init(curlHandle.get()));
         if(!mime) throw MimeException("Failed to initialize MIME");
@@ -862,7 +862,7 @@ Request& Request::addFormField(const std::string& fieldName, const std::string &
     return *this;
 }
 
-Request& Request::addFormFile(const std::string& fieldName, const std::string & filePath){
+inline Request& Request::addFormFile(const std::string& fieldName, const std::string & filePath){
     if(!mime){
         mime.reset(curl_mime_init(curlHandle.get()));
         if(!mime) throw MimeException("Failed to initialize MIME");
@@ -875,13 +875,13 @@ Request& Request::addFormFile(const std::string& fieldName, const std::string & 
     return *this;
 }
 
-Request& Request::enableVerbose(bool enabled){
+inline Request& Request::enableVerbose(bool enabled){
     curl_easy_setopt(curlHandle.get(), CURLOPT_VERBOSE, enabled ? 1L : 0L);
     return *this;
 }
 
 
-Request& Request::setHttpVersion(HttpVersion version) {
+inline Request& Request::setHttpVersion(HttpVersion version) {
     
     curl_version_info_data* info = curl_version_info(CURLVERSION_NOW);
 
