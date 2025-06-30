@@ -14,23 +14,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libcurl4-openssl-dev
-      - name: Diagnose curl headers
+          sudo apt-get install -y \
+            build-essential \
+            autoconf \
+            libtool \
+            pkg-config \
+            libssl-dev \
+            git
+
+      - name: Build and install latest libcurl from source
         run: |
-          grep -R "CURL_VERSION_COOKIE" /usr/include/curl || echo "⚠️ COOKIE macro not found in distro headers!"
-          grep -R "define LIBCURL_VERSION_NUM" /usr/include/curl/curlver.h
+          git clone --depth=1 https://github.com/curl/curl.git
+          cd curl
+          ./buildconf
+          ./configure --with-openssl
+          make -j$(nproc)
+          sudo make install
+          sudo ldconfig
+
+      - name: Verify curl version and features
+        run: |
           curl --version
-      - name: Install curl dev headers
-        run: |
-          sudo apt-get update
-          sudo apt-get install --reinstall -y libcurl4-openssl-dev
-          dpkg -L libcurl4-openssl-dev | grep curl/curlver.h
+          grep CURL_VERSION_COOKIE /usr/local/include/curl/curlver.h || echo "❌ CURL_VERSION_COOKIE not found"
 
       - name: Build project
-        run: make
+        run: |
+          export CFLAGS="-I/usr/local/include"
+          export LDFLAGS="-L/usr/local/lib"
+          make
 
       - name: Run tests
         run: make test
