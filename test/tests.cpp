@@ -7,8 +7,8 @@
 
 TEST_CASE("Cookie persistence test (Postman Echo)") {
 
-
-const std::string cookieFile = "test_cookies.txt";
+const std::string cookieFile = std::filesystem::absolute("test_cookies.txt").string();
+//const std::string cookieFile = "test_cookies.txt";
     
     std::cout << "Working directory: " << std::filesystem::current_path() << std::endl;
 std::cout << "Absolute cookie file path: "
