@@ -5,6 +5,15 @@
 #include <fstream>
 #include <filesystem>
 
+TEST_CASE("Timeout test") {
+    curling::Request req;
+    req.setURL("https://httpbin.org/delay/5") // waits 5 seconds
+       .setTimeout(2)                         // timeout set to 2s
+       .enableVerbose(false);
+
+    CHECK_THROWS_AS(req.send(), curling::RequestException);
+}
+
 TEST_CASE("Library version check") {
     std::string version = curling::version();
     CHECK(version == "1.2.0");
