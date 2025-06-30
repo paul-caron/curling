@@ -74,6 +74,7 @@
 #include <cctype>
 #include <memory>
 #include <functional>
+#include <iostream>
 #include <curl/curl.h>
 
 namespace curling {
