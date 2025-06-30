@@ -9,6 +9,7 @@
 ### Changed
 - The error thrown after failed curl_perform for a more detailed error message that includes error code and url.
 - Changed deb control file dependency libcurl4-openssl-dev to libcurl4-dev, which now allows users to choose which ssl backend they want to use.
+- Some additional code esthetics.
 
 
 ## [1.1.0] - 2025-06-28
