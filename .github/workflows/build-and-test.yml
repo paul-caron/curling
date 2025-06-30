@@ -14,37 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install build dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            autoconf \
-            libtool \
-            pkg-config \
-            libssl-dev \
-            git
-
-      - name: Build and install latest libcurl from source
-        run: |
-          git clone --depth=1 https://github.com/curl/curl.git
-          cd curl
-          ./buildconf
-          ./configure --with-openssl
-          make -j$(nproc)
-          sudo make install
-          sudo ldconfig
-
-      - name: Verify curl version and features
-        run: |
-          curl --version
-          grep CURL_VERSION_COOKIE /usr/local/include/curl/curlver.h || echo "❌ CURL_VERSION_COOKIE not found"
+          sudo apt-get install -y build-essential libcurl4-openssl-dev
 
       - name: Build project
-        run: |
-          export CFLAGS="-I/usr/local/include"
-          export LDFLAGS="-L/usr/local/lib"
-          make
+        run: make
 
       - name: Run tests
         run: make test
