@@ -1,3 +1,4 @@
+#!/bin/bash
 sed -i '/Request::/ {
   /^[[:space:]]*inline/ ! {
     /(\|);$/ s/^[[:space:]]*/&inline /
