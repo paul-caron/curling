@@ -217,7 +217,7 @@ Response Request::send() {
     }
 
     
-    curl_easy_setopt(curlHandle, CURLOPT_COOKIELIST, "ALL");
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIELIST, "ALL");
 
     reset(); // Reset state for reuse
 
