@@ -99,17 +99,20 @@ inline std::mutex curlGlobalMutex;
 
 inline int instanceCount = 0;
 
-inline void ensureCurlGlobalInit(){
-    std::call_once(curlGlobalInitFlag, []{
-        curl_global_init(CURL_GLOBAL_DEFAULT);
-    });
+inline void ensureCurlGlobalInit() {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
-    ++instanceCount;
+    if (instanceCount++ == 0) {
+        std::cout << "[Curling] Initializing global curl\n";
+        if (curl_global_init(CURL_GLOBAL_DEFAULT) != CURLE_OK) {
+            throw InitializationException("Failed to initialize libcurl globally");
+        }
+    }
 }
 
 inline void maybeCleanupGlobalCurl() noexcept {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
-    if(--instanceCount==0){
+    if (--instanceCount == 0) {
+        std::cout << "[Curling] Cleaning up global curl\n";
         curl_global_cleanup();
     }
 }
