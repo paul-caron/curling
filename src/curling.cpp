@@ -6,74 +6,9 @@
 
 namespace curling {
 
-namespace detail{
-
-std::once_flag curlGlobalInitFlag;
-std::mutex curlGlobalMutex;
-
-int instanceCount = 0;
-
-void ensureCurlGlobalInit(){
-    std::call_once(curlGlobalInitFlag, []{
-        curl_global_init(CURL_GLOBAL_DEFAULT);
-    });
-    std::lock_guard<std::mutex> lock(curlGlobalMutex);
-    ++instanceCount;
-}
-
-void maybeCleanupGlobalCurl() noexcept {
-    std::lock_guard<std::mutex> lock(curlGlobalMutex);
-    if(--instanceCount==0){
-        curl_global_cleanup();
-    }
-}
-
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    auto responseStream = static_cast<std::ostringstream*>(userp);
-    responseStream->write(static_cast<char*>(contents), size * nmemb);
-    return size * nmemb;
-}
-
-size_t HeaderCallback(char* buffer, size_t size, size_t nitems, void* userdata) {
-    auto* headerMap = static_cast<std::map<std::string, std::vector<std::string>>*>(userdata);
-    std::string headerLine(buffer, size * nitems);
-
-    if (headerLine.empty()) return 0; // skip the separation line
-
-    auto colonPos = headerLine.find(":");
-    if (colonPos != std::string::npos) {
-        std::string key = headerLine.substr(0, colonPos);
-        std::string value = headerLine.substr(colonPos + 1);
-        detail::trim(key);
-        detail::trim(value);
-        detail::toLowerCase(key);
-        (*headerMap)[key].push_back(value);
-    }
-
-    return size * nitems;
-}
-
-int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
-                                    curl_off_t ultotal, curl_off_t ulnow) {
-    auto* req = static_cast<Request*>(clientp);
-    if (req->progressCallback) {
-        bool shouldCancel = req->progressCallback(dltotal, dlnow, ultotal, ulnow);
-        return shouldCancel ? 1 : 0; // Returning non-zero aborts transfer
-    }
-    return 0;
-}
-
-}//end of detail namespace
-
-std::string version() {
-    std::ostringstream oss;
-    oss << version_major << '.' << version_minor << '.' << version_patch;
-    return oss.str();
-}
-
 Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
     detail::ensureCurlGlobalInit();
-    
+
     curlHandle.reset(curl_easy_init());
     if (!curlHandle) {
         throw InitializationException("Curl initialization failed");
@@ -127,14 +62,14 @@ Request& Request::setMethod(Method m) {
     if(method == Method::MIME && m!= Method::MIME){
         throw LogicException("Cannot override MIME method with another HTTP method");
     }
-    
+
     //reset CUSTOMREQUEST and others so they dont interfere with each other when curl sends request
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 0L);
     curl_easy_setopt(curlHandle.get(), CURLOPT_POST, 0L);
     curl_easy_setopt(curlHandle.get(), CURLOPT_CUSTOMREQUEST, nullptr);
-    
+
     method = m;
-    
+
     switch (method) {
         case Method::MIME: break;
         case Method::GET:

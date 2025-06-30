@@ -74,7 +74,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">curling::detail Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -84,15 +85,39 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a989d7747fa6994f4a29521725a1ca1c4" id="r_a989d7747fa6994f4a29521725a1ca1c4"><td class="memItemLeft" align="right" valign="top"><a id="a989d7747fa6994f4a29521725a1ca1c4" name="a989d7747fa6994f4a29521725a1ca1c4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ensureCurlGlobalInit</b> ()</td></tr>
+<tr class="separator:a989d7747fa6994f4a29521725a1ca1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab06c1595c95d3da96357c3f2de5a6eea" id="r_ab06c1595c95d3da96357c3f2de5a6eea"><td class="memItemLeft" align="right" valign="top"><a id="ab06c1595c95d3da96357c3f2de5a6eea" name="ab06c1595c95d3da96357c3f2de5a6eea"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>maybeCleanupGlobalCurl</b> () noexcept</td></tr>
+<tr class="separator:ab06c1595c95d3da96357c3f2de5a6eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af03a4a11ec57ad74376685f54537b4ea" id="r_af03a4a11ec57ad74376685f54537b4ea"><td class="memItemLeft" align="right" valign="top"><a id="af03a4a11ec57ad74376685f54537b4ea" name="af03a4a11ec57ad74376685f54537b4ea"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>trim</b> (std::string &amp;s)</td></tr>
 <tr class="separator:af03a4a11ec57ad74376685f54537b4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1d2881b3f3a1ca69c0ad696d11f4ecc" id="r_ac1d2881b3f3a1ca69c0ad696d11f4ecc"><td class="memItemLeft" align="right" valign="top"><a id="ac1d2881b3f3a1ca69c0ad696d11f4ecc" name="ac1d2881b3f3a1ca69c0ad696d11f4ecc"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>toLowerCase</b> (std::string &amp;s)</td></tr>
 <tr class="separator:ac1d2881b3f3a1ca69c0ad696d11f4ecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10eb0d49416ebee06c6bac2685d42f8b" id="r_a10eb0d49416ebee06c6bac2685d42f8b"><td class="memItemLeft" align="right" valign="top"><a id="a10eb0d49416ebee06c6bac2685d42f8b" name="a10eb0d49416ebee06c6bac2685d42f8b"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>WriteCallback</b> (void *contents, size_t size, size_t nmemb, void *userp)</td></tr>
+<tr class="separator:a10eb0d49416ebee06c6bac2685d42f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8157cb0828b51ed8856a6f4e6e2f2f14" id="r_a8157cb0828b51ed8856a6f4e6e2f2f14"><td class="memItemLeft" align="right" valign="top"><a id="a8157cb0828b51ed8856a6f4e6e2f2f14" name="a8157cb0828b51ed8856a6f4e6e2f2f14"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>HeaderCallback</b> (char *buffer, size_t size, size_t nitems, void *userdata)</td></tr>
+<tr class="separator:a8157cb0828b51ed8856a6f4e6e2f2f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afbf08f1ef504738850832bcba6c8c9d7" id="r_afbf08f1ef504738850832bcba6c8c9d7"><td class="memItemLeft" align="right" valign="top"><a id="afbf08f1ef504738850832bcba6c8c9d7" name="afbf08f1ef504738850832bcba6c8c9d7"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>ProgressCallbackBridge</b> (void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)</td></tr>
 <tr class="separator:afbf08f1ef504738850832bcba6c8c9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a3d934b64748705a716316a306862f0e5" id="r_a3d934b64748705a716316a306862f0e5"><td class="memItemLeft" align="right" valign="top"><a id="a3d934b64748705a716316a306862f0e5" name="a3d934b64748705a716316a306862f0e5"></a>
+std::once_flag&#160;</td><td class="memItemRight" valign="bottom"><b>curlGlobalInitFlag</b></td></tr>
+<tr class="separator:a3d934b64748705a716316a306862f0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f67e2ca91a30853f126872205ea3d5c" id="r_a6f67e2ca91a30853f126872205ea3d5c"><td class="memItemLeft" align="right" valign="top"><a id="a6f67e2ca91a30853f126872205ea3d5c" name="a6f67e2ca91a30853f126872205ea3d5c"></a>
+std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>curlGlobalMutex</b></td></tr>
+<tr class="separator:a6f67e2ca91a30853f126872205ea3d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f99cec75f614d1e7f685c48b0d09459" id="r_a8f99cec75f614d1e7f685c48b0d09459"><td class="memItemLeft" align="right" valign="top"><a id="a8f99cec75f614d1e7f685c48b0d09459" name="a8f99cec75f614d1e7f685c48b0d09459"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>instanceCount</b> = 0</td></tr>
+<tr class="separator:a8f99cec75f614d1e7f685c48b0d09459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Util/helper section. </p>
