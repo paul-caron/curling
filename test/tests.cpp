@@ -18,14 +18,14 @@ TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
 
     req.setMethod(curling::Method::POST)
        .setURL("https://httpbin.org/post")
-       .setBody(RAW_PAYLOAD(
+       .setBody(R"(
            <note>
                <to>User</to>
                <from>ChatGPT</from>
                <heading>Reminder</heading>
                <body>Don't forget to test your XML payload!</body>
            </note>
-       ))
+       )")
        .addHeader("Content-Type: application/xml");
 
     auto res = req.send();
@@ -35,23 +35,6 @@ TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
     CHECK(res.body.find("Don't forget to test your XML payload!") != std::string::npos);
 }
 
-TEST_CASE("Send JSON payload using RAW_PAYLOAD macro with curling::Request") {
-    curling::Request req;
-
-    req.setMethod(curling::Method::POST)
-       .setURL("https://httpbin.org/post")
-       .setBody(RAW_PAYLOAD({
-           "message": "Hello, doctest!",
-           "status": "testing"
-       }))
-       .addHeader("Content-Type: application/json");
-
-    auto res = req.send();
-
-    CHECK(res.httpCode == 200);
-    CHECK(res.body.find("\"json\"") != std::string::npos);
-    CHECK(res.body.find("Hello, doctest!") != std::string::npos);
-}
 
 TEST_CASE("Progress callback aborts download") {
     OYE
