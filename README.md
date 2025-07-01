@@ -108,11 +108,11 @@ int main() {
 
 With shared library:
 ```bash
-g++ main.cpp -lcurling
+g++ main.cpp -lcurling -std=c++17
 ```
 With header-only:
 ```bash
-g++ main.cpp -lcurl
+g++ main.cpp -lcurl -std=c++17
 ```
 
 ---
