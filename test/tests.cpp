@@ -13,6 +13,27 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Reusing Request object with different URLs and methods") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/get")
+       .setMethod(curling::Request::Method::GET)
+       .enableVerbose(false);
+
+    auto res1 = req.send();
+    CHECK(res1.httpCode == 200);
+
+    req.setURL("https://httpbin.org/put")
+       .setMethod(curling::Request::Method::PUT)
+       .setBody("Updated")
+       .addHeader("Content-Type: text/plain");
+
+    auto res2 = req.send();
+    CHECK(res2.httpCode == 200);
+    CHECK(res2.body.find("Updated") != std::string::npos);
+}
+
+
 TEST_CASE("HEAD request test") {
     OYE
     curling::Request req;
