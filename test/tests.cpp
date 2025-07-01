@@ -20,11 +20,14 @@ const std::string SPYS_LIST_URL = "http://spys.me/proxy.txt";
 const std::string HTTPBIN_IP = "https://httpbin.org/ip";
 
 TEST_CASE("Fetch proxy from Spys.one and use it to GET httpbin.org/ip") {
+    OYE
     // Step 1: fetch proxy list
     auto res1 = curling::Request()
         .setMethod(curling::Request::Method::GET)
         .setURL(SPYS_LIST_URL)
         .setFollowRedirects(true)
+        .setConnectTimeout(10)
+        .setTimeout(10)
         .send();
     REQUIRE(res1.httpCode == 200);
 
