@@ -8,10 +8,49 @@
 #include <curl/curlver.h>
 #include <curl/curl.h>
 #include <cstdlib>
+#include <sstream>
+#include <regex>
 
 int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
+
+
+const std::string SPYS_LIST_URL = "http://spys.me/proxy.txt";
+const std::string HTTPBIN_IP = "https://httpbin.org/ip";
+
+TEST_CASE("Fetch proxy from Spys.one and use it to GET httpbin.org/ip") {
+    // Step 1: fetch proxy list
+    auto res1 = curling::Request()
+        .setMethod(curling::Method::GET)
+        .setURL(SPYS_LIST_URL)
+        .send();
+    REQUIRE(res1.httpCode == 200);
+
+    // Step 2: parse first HTTP proxy (format "IP:PORT")
+    std::smatch m;
+    std::string proxy;
+    std::istringstream in(res1.body);
+    std::regex re(R"((\d{1,3}(?:\.\d{1,3}){3}:\d{2,5}))");
+    while (std::getline(in, proxy)) {
+        if (std::regex_search(proxy, m, re)) {
+            proxy = m.str(1);
+            break;
+        }
+    }
+    REQUIRE(!proxy.empty());
+
+    // Step 3: use proxy to GET httpbin.org/ip
+    auto res2 = curling::Request()
+        .setMethod(curling::Method::GET)
+        .setURL(HTTPBIN_IP)
+        .setProxy(proxy)
+        .addHeader("Accept: application/json")
+        .send();
+
+    CHECK(res2.httpCode == 200);
+    CHECK(res2.body.find(proxy.substr(0, proxy.find(':'))) != std::string::npos);
+}
 
 TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
     OYE
