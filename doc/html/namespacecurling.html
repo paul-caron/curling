@@ -142,7 +142,7 @@ Variables</h2></td></tr>
 constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>version_major</b> = 1</td></tr>
 <tr class="separator:a5f64ee28c325050215a1b9af1488b3e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7f5b61aecafe26c242a10146b10fd3c" id="r_ab7f5b61aecafe26c242a10146b10fd3c"><td class="memItemLeft" align="right" valign="top"><a id="ab7f5b61aecafe26c242a10146b10fd3c" name="ab7f5b61aecafe26c242a10146b10fd3c"></a>
-constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>version_minor</b> = 1</td></tr>
+constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>version_minor</b> = 2</td></tr>
 <tr class="separator:ab7f5b61aecafe26c242a10146b10fd3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91940649bbe588bfd1ec07437091781c" id="r_a91940649bbe588bfd1ec07437091781c"><td class="memItemLeft" align="right" valign="top"><a id="a91940649bbe588bfd1ec07437091781c" name="a91940649bbe588bfd1ec07437091781c"></a>
 constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>version_patch</b> = 0</td></tr>
@@ -151,11 +151,9 @@ constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>version_patc
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section note"><dt>Note</dt><dd>If you use Method::MIME (multipart POST), you must reset the <a class="el" href="classcurling_1_1Request.html" title="Provides a fluent wrapper for HTTP requests via libcurl.">Request</a> before switching to another method. Attempting to change it afterward throws logic_error. </dd>
 <dd>
-Curling internally manages curl_global_init() and curl_global_cleanup() using std::once_flag. You don’t need to do this manually. </dd>
+Curling internally manages curl_global_init() and curl_global_cleanup() one cleanup per init. </dd>
 <dd>
 Header keys in <a class="el" href="structcurling_1_1Response.html#ad36bcbd66306c7625242f31f4fe39c43" title="Header map (key: lowercase).">Response::headers</a> are stored in lowercase to support case-insensitive lookup. </dd>
-<dd>
-By default, cookies are persisted in "cookies.txt". Override this via setCookiePath(). </dd>
 <dd>
 Calling enableVerbose(true) enables libcurl's verbose output to stderr, which is useful for debugging. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This class is not thread-safe. Do not share a <a class="el" href="classcurling_1_1Request.html" title="Provides a fluent wrapper for HTTP requests via libcurl.">Request</a> instance across threads. Each thread should use its own <a class="el" href="classcurling_1_1Request.html" title="Provides a fluent wrapper for HTTP requests via libcurl.">Request</a> object. </dd></dl>

@@ -6,17 +6,13 @@
 
 namespace curling {
 
-Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile(""), cookieJar("") {
     detail::ensureCurlGlobalInit();
 
     curlHandle.reset(curl_easy_init());
     if (!curlHandle) {
         throw InitializationException("Curl initialization failed");
     }
-
-    //setup cookies
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
 
     //set default method
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
@@ -108,7 +104,7 @@ Request& Request::addArg(const std::string& key, const std::string& value) {
         std::string arg = std::string(escapedKey) + "=" + escapedValue;
         args.append(args.empty() ? "" : "&").append(arg);
     }
-    
+
     if(escapedKey) curl_free(escapedKey);
     if(escapedValue) curl_free(escapedValue);
     return *this;
@@ -216,8 +212,6 @@ Response Request::send() {
         response.body = responseStream.str();
     }
 
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIELIST, "FLUSH");
-
     reset(); // Reset state for reuse
 
     return response;
@@ -228,13 +222,10 @@ void Request::reset() {
     if(!newHandle){
         throw InitializationException("Curl re-initialization failed");
     }
-    
     clean();
     curlHandle = std::move(newHandle);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
-    
+
     args.clear();
     url.clear();
     body.clear();
@@ -303,13 +294,13 @@ Request& Request::setFollowRedirects(bool follow){
 }
 
 Request& Request::setCookiePath(const std::string& path){
+    //set member variables
+    cookieFile = path;
+    cookieJar = path;
     //set path to read cookies from
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, path.c_str());
     //set path to write cookies to
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, path.c_str());
-    //set member variables
-    cookieFile = path;
-    cookieJar = path;
     return *this;
 }
 

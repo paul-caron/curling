@@ -41,16 +41,12 @@
 
 /**
  * @note Curling internally manages curl_global_init() and curl_global_cleanup()
- * using std::once_flag. You don’t need to do this manually.
+ * one cleanup per init.
  */
 
 /**
  * @note Header keys in Response::headers are stored in lowercase
  * to support case-insensitive lookup.
- */
-
-/**
- * @note By default, cookies are persisted in "cookies.txt". Override this via setCookiePath().
  */
 
 /**
@@ -152,7 +148,6 @@ inline int instanceCount = 0;
 inline void ensureCurlGlobalInit() {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
     if (instanceCount++ == 0) {
-        std::cout << "[Curling] Initializing global curl\n";
         if (curl_global_init(CURL_GLOBAL_DEFAULT) != CURLE_OK) {
             throw InitializationException("Failed to initialize libcurl globally");
         }
@@ -162,7 +157,6 @@ inline void ensureCurlGlobalInit() {
 inline void maybeCleanupGlobalCurl() noexcept {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
     if (--instanceCount == 0) {
-        std::cout << "[Curling] Cleaning up global curl\n";
         curl_global_cleanup();
     }
 }

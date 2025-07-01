@@ -24,7 +24,7 @@
  * @section example Example
  * @code
  * curling::Request req;
- * req.setMethod(curling::Request::Method::POST)
+ inline * req.setMethod(curling::Request::Method::POST)
  *    .setURL("https://example.com")
  *    .addHeader("Content-Type: application/json")
  *    .setBody(R"({"key": "value"})");
@@ -41,16 +41,12 @@
 
 /**
  * @note Curling internally manages curl_global_init() and curl_global_cleanup()
- * using std::once_flag. You don’t need to do this manually.
+ * one cleanup per init.
  */
 
 /**
  * @note Header keys in Response::headers are stored in lowercase
  * to support case-insensitive lookup.
- */
-
-/**
- * @note By default, cookies are persisted in "cookies.txt". Override this via setCookiePath().
  */
 
 /**
@@ -74,9 +70,59 @@
 #include <cctype>
 #include <memory>
 #include <functional>
+#include <iostream>
 #include <curl/curl.h>
 
 namespace curling {
+
+/**
+ * @class CurlingException
+ * @brief Base exception class for Curling errors.
+ */
+class CurlingException : public std::runtime_error {
+public:
+    explicit CurlingException(const std::string& msg) : std::runtime_error(msg) {}
+};
+
+/** @class InitializationException
+ * @brief Thrown when curl initialization fails.
+ */
+class InitializationException : public CurlingException {
+public:
+    explicit InitializationException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class RequestException
+ * @brief Thrown when a request operation fails.
+ */
+class RequestException : public CurlingException {
+public:
+    explicit RequestException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class HeaderException
+ * @brief Thrown when header operations fail.
+ */
+class HeaderException : public CurlingException {
+public:
+    explicit HeaderException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class MimeException
+ * @brief Thrown when MIME operations fail.
+ */
+class MimeException : public CurlingException {
+public:
+    explicit MimeException(const std::string& msg) : CurlingException(msg) {}
+};
+
+/** @class LogicException
+ * @brief Thrown when library logic prohibits an operation.
+ */
+class LogicException : public CurlingException {
+public:
+    explicit LogicException(const std::string& msg) : CurlingException(msg) {}
+};
 
 inline constexpr int version_major = 1;
 inline constexpr int version_minor = 2;
@@ -99,17 +145,18 @@ inline std::mutex curlGlobalMutex;
 
 inline int instanceCount = 0;
 
-inline void ensureCurlGlobalInit(){
-    std::call_once(curlGlobalInitFlag, []{
-        curl_global_init(CURL_GLOBAL_DEFAULT);
-    });
+inline void ensureCurlGlobalInit() {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
-    ++instanceCount;
+    if (instanceCount++ == 0) {
+        if (curl_global_init(CURL_GLOBAL_DEFAULT) != CURLE_OK) {
+            throw InitializationException("Failed to initialize libcurl globally");
+        }
+    }
 }
 
 inline void maybeCleanupGlobalCurl() noexcept {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
-    if(--instanceCount==0){
+    if (--instanceCount == 0) {
         curl_global_cleanup();
     }
 }
@@ -160,54 +207,7 @@ inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t 
 
 }//detail end
 
-/**
- * @class CurlingException
- * @brief Base exception class for Curling errors.
- */
-class CurlingException : public std::runtime_error {
-public:
-    explicit CurlingException(const std::string& msg) : std::runtime_error(msg) {}
-};
 
-/** @class InitializationException
- * @brief Thrown when curl initialization fails.
- */
-class InitializationException : public CurlingException {
-public:
-    explicit InitializationException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class RequestException
- * @brief Thrown when a request operation fails.
- */
-class RequestException : public CurlingException {
-public:
-    explicit RequestException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class HeaderException
- * @brief Thrown when header operations fail.
- */
-class HeaderException : public CurlingException {
-public:
-    explicit HeaderException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class MimeException
- * @brief Thrown when MIME operations fail.
- */
-class MimeException : public CurlingException {
-public:
-    explicit MimeException(const std::string& msg) : CurlingException(msg) {}
-};
-
-/** @class LogicException
- * @brief Thrown when library logic prohibits an operation.
- */
-class LogicException : public CurlingException {
-public:
-    explicit LogicException(const std::string& msg) : CurlingException(msg) {}
-};
 
 /** SAFETY: RAII deleters for CURL handles */
 struct CurlHandleDeleter { void operator()(CURL* h) const noexcept { if (h) curl_easy_cleanup(h); }};
@@ -539,17 +539,13 @@ inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t 
 
 namespace curling {
 
-inline Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile("cookies.txt"), cookieJar("cookies.txt") {
+inline Request::Request() : method(Method::GET), curlHandle(nullptr), list(nullptr), cookieFile(""), cookieJar("") {
     detail::ensureCurlGlobalInit();
 
     curlHandle.reset(curl_easy_init());
     if (!curlHandle) {
         throw InitializationException("Curl initialization failed");
     }
-
-    //setup cookies
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
 
     //set default method
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
@@ -641,7 +637,7 @@ inline Request& Request::addArg(const std::string& key, const std::string& value
         std::string arg = std::string(escapedKey) + "=" + escapedValue;
         args.append(args.empty() ? "" : "&").append(arg);
     }
-    
+
     if(escapedKey) curl_free(escapedKey);
     if(escapedValue) curl_free(escapedValue);
     return *this;
@@ -759,13 +755,10 @@ inline void Request::reset() {
     if(!newHandle){
         throw InitializationException("Curl re-initialization failed");
     }
-    
     clean();
     curlHandle = std::move(newHandle);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, cookieFile.c_str());
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, cookieJar.c_str());
-    
+
     args.clear();
     url.clear();
     body.clear();
@@ -834,13 +827,13 @@ inline Request& Request::setFollowRedirects(bool follow){
 }
 
 inline Request& Request::setCookiePath(const std::string& path){
+    //set member variables
+    cookieFile = path;
+    cookieJar = path;
     //set path to read cookies from
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, path.c_str());
     //set path to write cookies to
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, path.c_str());
-    //set member variables
-    cookieFile = path;
-    cookieJar = path;
     return *this;
 }
 

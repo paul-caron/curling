@@ -8,17 +8,26 @@
 #include <curl/curl.h>
 #include <cstdlib>
 
-TEST_CASE("Cookie persistence (Postman Echo)") {
+#define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
+
+TEST_CASE("Cookie persistence") {
+    OYE
     const char * github = std::getenv("GITHUB");
-    if(!github){
-    const std::string cookieFile = "test_cookies.txt";
+    if(github){
+        // test case doesnt work on github
+        std::cout << "[doctest] Skipping cookie test inside CI environment\n";
+        return;
+    }
+
+    const std::string cookieFile = "/tmp/cookies.txt";
 
     // Write cookie
     {
         curling::Request req;
-        req.setURL("https://postman-echo.com/cookies/set?mycookie=value")
+        req.setURL("https://httpbin.org/cookies/set/mycookie/value")
            .setCookiePath(cookieFile)
-           .setFollowRedirects(true);
+           .setFollowRedirects(true)
+           .enableVerbose(false);
         auto res = req.send();
         CHECK(res.httpCode == 200);
     }
@@ -26,9 +35,10 @@ TEST_CASE("Cookie persistence (Postman Echo)") {
     // Read cookie
     {
         curling::Request req;
-        req.setURL("https://postman-echo.com/cookies")
+        req.setURL("https://httpbin.org/cookies")
            .setCookiePath(cookieFile)
-           .setFollowRedirects(true);
+           .enableVerbose(false);
+
         auto res = req.send();
         CHECK(res.httpCode == 200);
         CHECK(res.body.find("mycookie") != std::string::npos);
@@ -36,16 +46,49 @@ TEST_CASE("Cookie persistence (Postman Echo)") {
     }
 
     std::filesystem::remove(cookieFile);
-    }else{
+}
+
+TEST_CASE("Cookie persistence - Reusing the same object") {
+    OYE
+    const char * github = std::getenv("GITHUB");
+    if(github){
         // test case doesnt work on github
-        // works else where it seems
         std::cout << "[doctest] Skipping cookie test inside CI environment\n";
         return;
     }
+
+    const std::string cookieFile = "/tmp/cookies2.txt";
+
+    // Write cookie
+
+    curling::Request req;
+    req.setURL("https://httpbin.org/cookies/set/mycookie/value")
+       .setCookiePath(cookieFile)
+       .setFollowRedirects(true)
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+
+    // Read cookie
+
+    req.setURL("https://httpbin.org/cookies")
+       .setCookiePath(cookieFile)
+       .enableVerbose(false);
+
+    res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("mycookie") != std::string::npos);
+    CHECK(res.body.find("value") != std::string::npos);
+
+    std::filesystem::remove(cookieFile);
 }
 
 
 TEST_CASE("Timeout test") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/delay/5") // waits 5 seconds
        .setTimeout(2)                         // timeout set to 2s
@@ -55,11 +98,13 @@ TEST_CASE("Timeout test") {
 }
 
 TEST_CASE("Library version check") {
+    OYE
     std::string version = curling::version();
     CHECK(version == "1.2.0");
 }
 
 TEST_CASE("GET request to download image from httpbin") {
+    OYE
     const std::string imageUrl = "https://httpbin.org/image/png";
     const std::string outputFile = "downloaded_image.png";
 
@@ -78,6 +123,7 @@ TEST_CASE("GET request to download image from httpbin") {
 }
 
 TEST_CASE("GET request test") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::GET)
        .setURL("https://httpbin.org/get")
@@ -91,6 +137,7 @@ TEST_CASE("GET request test") {
 }
 
 TEST_CASE("GET request test with basic authentication") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/basic-auth/myusername/mypassword")
        .setHttpAuthMethod(curling::Request::AuthMethod::BASIC)
@@ -104,6 +151,7 @@ TEST_CASE("GET request test with basic authentication") {
 }
 
 TEST_CASE("GET request test with bearer token auth") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/bearer")
        .setAuthToken("mytokenstring")
@@ -116,6 +164,7 @@ TEST_CASE("GET request test with bearer token auth") {
 }
 
 TEST_CASE("GET request test with Digest authorization method") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
@@ -142,6 +191,7 @@ TEST_CASE("GET request test with Digest authorization method and integrity prote
 }
 
 TEST_CASE("GET request test with Digest authorization method and MD5") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/md5")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
@@ -155,6 +205,7 @@ TEST_CASE("GET request test with Digest authorization method and MD5") {
 }
 
 TEST_CASE("GET request test with Digest authorization method with integrity protection and MD5") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword/md5")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
@@ -168,6 +219,7 @@ TEST_CASE("GET request test with Digest authorization method with integrity prot
 }
 
 TEST_CASE("GET request test with Digest authorization method and SHA-256") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/SHA-256")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
@@ -181,6 +233,7 @@ TEST_CASE("GET request test with Digest authorization method and SHA-256") {
 }
 
 TEST_CASE("GET request test with Digest authorization method with integrity protection and SHA-256") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword/SHA-256")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
@@ -194,6 +247,7 @@ TEST_CASE("GET request test with Digest authorization method with integrity prot
 }
 
 TEST_CASE("POST request test with JSON body") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::POST)
        .setURL("https://httpbin.org/post")
@@ -202,13 +256,14 @@ TEST_CASE("POST request test with JSON body") {
        .enableVerbose(false);
 
     auto res = req.send();
-    
+
     CHECK(res.httpCode == 200);
     CHECK(res.body.find(R"("name": "chatgpt")") != std::string::npos);
     CHECK(res.body.find(R"("type": "AI")") != std::string::npos);
 }
 
 TEST_CASE("PUT request test") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::PUT)
        .setURL("https://httpbin.org/put")
@@ -223,6 +278,7 @@ TEST_CASE("PUT request test") {
 }
 
 TEST_CASE("PATCH request test with JSON body") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::PATCH)
        .setURL("https://httpbin.org/patch")
@@ -238,6 +294,7 @@ TEST_CASE("PATCH request test with JSON body") {
 }
 
 TEST_CASE("DELETE request test") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::DEL)
        .setURL("https://httpbin.org/delete")
@@ -250,6 +307,7 @@ TEST_CASE("DELETE request test") {
 }
 
 TEST_CASE("Redirect follow test") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::GET)
        .setURL("https://httpbin.org/redirect/1")
@@ -263,6 +321,7 @@ TEST_CASE("Redirect follow test") {
 }
 
 TEST_CASE("Headers test") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::GET)
        .setURL("https://httpbin.org/headers")
@@ -276,6 +335,7 @@ TEST_CASE("Headers test") {
 }
 
 TEST_CASE("Form-data (multipart) test") {
+    OYE
     curling::Request req;
     req.setMethod(curling::Request::Method::MIME)
        .setURL("https://httpbin.org/post")

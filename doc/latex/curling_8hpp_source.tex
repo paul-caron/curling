@@ -12,128 +12,132 @@
 \DoxyCodeLine{00008\ \textcolor{comment}{\ */}}
 \DoxyCodeLine{00009\ }
 \DoxyCodeLine{00010\ }
-\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#include\ <map>}}
-\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#include\ <sstream>}}
-\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#include\ <mutex>}}
-\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
-\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#include\ <algorithm>}}
-\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#include\ <cctype>}}
-\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#include\ <functional>}}
-\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#include\ <curl/curl.h>}}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecurling}{curling}}\ \{}
-\DoxyCodeLine{00080\ }
-\DoxyCodeLine{00081\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_major\ =\ 1;}
-\DoxyCodeLine{00082\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_minor\ =\ 1;}
-\DoxyCodeLine{00083\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_patch\ =\ 0;}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \textcolor{keyword}{inline}\ std::string\ version()\ \{}
-\DoxyCodeLine{00086\ \ \ \ \ std::ostringstream\ oss;}
-\DoxyCodeLine{00087\ \ \ \ \ oss\ <<\ version\_major\ <<\ \textcolor{charliteral}{'.'}\ <<\ version\_minor\ <<\ \textcolor{charliteral}{'.'}\ <<\ version\_patch;}
-\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordflow}{return}\ oss.str();}
-\DoxyCodeLine{00089\ \}}
-\DoxyCodeLine{00090\ }
-\DoxyCodeLine{00095\ \textcolor{keyword}{namespace\ }detail\ \{}
-\DoxyCodeLine{00096\ }
-\DoxyCodeLine{00097\ \textcolor{keyword}{inline}\ std::once\_flag\ curlGlobalInitFlag;}
-\DoxyCodeLine{00098\ \textcolor{keyword}{inline}\ std::mutex\ curlGlobalMutex;}
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ instanceCount\ =\ 0;}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ensureCurlGlobalInit()\{}
-\DoxyCodeLine{00103\ \ \ \ \ std::call\_once(curlGlobalInitFlag,\ []\{}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ curl\_global\_init(CURL\_GLOBAL\_DEFAULT);}
-\DoxyCodeLine{00105\ \ \ \ \ \});}
-\DoxyCodeLine{00106\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(curlGlobalMutex);}
-\DoxyCodeLine{00107\ \ \ \ \ ++instanceCount;}
-\DoxyCodeLine{00108\ \}}
-\DoxyCodeLine{00109\ }
-\DoxyCodeLine{00110\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ maybeCleanupGlobalCurl()\ \textcolor{keyword}{noexcept}\ \{}
-\DoxyCodeLine{00111\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(curlGlobalMutex);}
-\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{if}(-\/-\/instanceCount==0)\{}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ curl\_global\_cleanup();}
-\DoxyCodeLine{00114\ \ \ \ \ \}}
-\DoxyCodeLine{00115\ \}}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ trim(std::string\&\ s)\ \{}
-\DoxyCodeLine{00118\ \ \ \ \ s.erase(s.begin(),\ std::find\_if(s.begin(),\ s.end(),\ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ch)\{}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ return\ !std::isspace(ch);}
-\DoxyCodeLine{00120\ \ \ \ \ \}));}
-\DoxyCodeLine{00121\ \ \ \ \ s.erase(std::find\_if(s.rbegin(),\ s.rend(),\ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ch)\{}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ return\ !std::isspace(ch);}
-\DoxyCodeLine{00123\ \ \ \ \ \}).base(),\ s.end());}
-\DoxyCodeLine{00124\ \}}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ toLowerCase(std::string\&\ s)\ \{}
-\DoxyCodeLine{00127\ \ \ \ \ std::transform(s.begin(),\ s.end(),\ s.begin(),}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)\ \{\ return\ std::tolower(c);\ \});}
-\DoxyCodeLine{00129\ \}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#include\ <cctype>}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#include\ <curl/curl.h>}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecurling}{curling}}\ \{}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ :\ \textcolor{keyword}{public}\ std::runtime\_error\ \{}
+\DoxyCodeLine{00083\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ std::runtime\_error(msg)\ \{\}}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00091\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00093\ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1RequestException}{RequestException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00099\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1RequestException}{RequestException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00101\ \};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00106\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1HeaderException}{HeaderException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00107\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1HeaderException}{HeaderException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00109\ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00114\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1MimeException}{MimeException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00115\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1MimeException}{MimeException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1LogicException}{LogicException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
+\DoxyCodeLine{00123\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1LogicException}{LogicException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
+\DoxyCodeLine{00125\ \};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_major\ =\ 1;}
+\DoxyCodeLine{00128\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_minor\ =\ 2;}
+\DoxyCodeLine{00129\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ version\_patch\ =\ 0;}
 \DoxyCodeLine{00130\ }
-\DoxyCodeLine{00131\ }
-\DoxyCodeLine{00132\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{size\_t}\ WriteCallback(\textcolor{keywordtype}{void}*\ contents,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{void}*\ userp)\ \{}
-\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keyword}{auto}\ responseStream\ =\ \textcolor{keyword}{static\_cast<}std::ostringstream*\textcolor{keyword}{>}(userp);}
-\DoxyCodeLine{00134\ \ \ \ \ responseStream-\/>write(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(contents),\ size\ *\ nmemb);}
-\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{return}\ size\ *\ nmemb;}
-\DoxyCodeLine{00136\ \}}
-\DoxyCodeLine{00137\ }
-\DoxyCodeLine{00138\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{size\_t}\ HeaderCallback(\textcolor{keywordtype}{char}*\ buffer,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ nitems,\ \textcolor{keywordtype}{void}*\ userdata)\ \{}
-\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{auto}*\ headerMap\ =\ \textcolor{keyword}{static\_cast<}std::map<std::string,\ std::vector<std::string>\textcolor{keyword}{>}*>(userdata);}
-\DoxyCodeLine{00140\ \ \ \ \ std::string\ headerLine(buffer,\ size\ *\ nitems);}
-\DoxyCodeLine{00141\ }
-\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (headerLine.empty())\ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ skip\ the\ separation\ line}}
-\DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{auto}\ colonPos\ =\ headerLine.find(\textcolor{stringliteral}{"{}:"{}});}
-\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordflow}{if}\ (colonPos\ !=\ std::string::npos)\ \{}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ std::string\ key\ =\ headerLine.substr(0,\ colonPos);}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ std::string\ value\ =\ headerLine.substr(colonPos\ +\ 1);}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ detail::trim(key);}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ detail::trim(value);}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ detail::toLowerCase(key);}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ (*headerMap)[key].push\_back(value);}
-\DoxyCodeLine{00152\ \ \ \ \ \}}
-\DoxyCodeLine{00153\ }
-\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{return}\ size\ *\ nitems;}
+\DoxyCodeLine{00131\ \textcolor{keyword}{inline}\ std::string\ version()\ \{}
+\DoxyCodeLine{00132\ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00133\ \ \ \ \ oss\ <<\ version\_major\ <<\ \textcolor{charliteral}{'.'}\ <<\ version\_minor\ <<\ \textcolor{charliteral}{'.'}\ <<\ version\_patch;}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{return}\ oss.str();}
+\DoxyCodeLine{00135\ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{namespace\ }detail\ \{}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{keyword}{inline}\ std::once\_flag\ curlGlobalInitFlag;}
+\DoxyCodeLine{00144\ \textcolor{keyword}{inline}\ std::mutex\ curlGlobalMutex;}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ instanceCount\ =\ 0;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ensureCurlGlobalInit()\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(curlGlobalMutex);}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordflow}{if}\ (instanceCount++\ ==\ 0)\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (curl\_global\_init(CURL\_GLOBAL\_DEFAULT)\ !=\ CURLE\_OK)\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}(\textcolor{stringliteral}{"{}Failed\ to\ initialize\ libcurl\ globally"{}});}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \}}
 \DoxyCodeLine{00155\ \}}
 \DoxyCodeLine{00156\ }
-\DoxyCodeLine{00157\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ ProgressCallbackBridge(\textcolor{keywordtype}{void}*\ clientp,\ curl\_off\_t\ dltotal,\ curl\_off\_t\ dlnow,}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ curl\_off\_t\ ultotal,\ curl\_off\_t\ ulnow);}
-\DoxyCodeLine{00159\ }
-\DoxyCodeLine{00160\ }
-\DoxyCodeLine{00161\ \}\textcolor{comment}{//detail\ end}}
-\DoxyCodeLine{00162\ }
-\DoxyCodeLine{00167\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ :\ \textcolor{keyword}{public}\ std::runtime\_error\ \{}
-\DoxyCodeLine{00168\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ std::runtime\_error(msg)\ \{\}}
-\DoxyCodeLine{00170\ \};}
-\DoxyCodeLine{00171\ }
-\DoxyCodeLine{00175\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
-\DoxyCodeLine{00176\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1InitializationException}{InitializationException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
-\DoxyCodeLine{00178\ \};}
-\DoxyCodeLine{00179\ }
-\DoxyCodeLine{00183\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1RequestException}{RequestException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
-\DoxyCodeLine{00184\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1RequestException}{RequestException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
-\DoxyCodeLine{00186\ \};}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00191\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1HeaderException}{HeaderException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
-\DoxyCodeLine{00192\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1HeaderException}{HeaderException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
-\DoxyCodeLine{00194\ \};}
-\DoxyCodeLine{00195\ }
-\DoxyCodeLine{00199\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1MimeException}{MimeException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
-\DoxyCodeLine{00200\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1MimeException}{MimeException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
-\DoxyCodeLine{00202\ \};}
+\DoxyCodeLine{00157\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ maybeCleanupGlobalCurl()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ std::lock\_guard<std::mutex>\ lock(curlGlobalMutex);}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{if}\ (-\/-\/instanceCount\ ==\ 0)\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ curl\_global\_cleanup();}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ trim(std::string\&\ s)\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ s.erase(s.begin(),\ std::find\_if(s.begin(),\ s.end(),\ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ch)\{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ return\ !std::isspace(ch);}
+\DoxyCodeLine{00167\ \ \ \ \ \}));}
+\DoxyCodeLine{00168\ \ \ \ \ s.erase(std::find\_if(s.rbegin(),\ s.rend(),\ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ ch)\{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ return\ !std::isspace(ch);}
+\DoxyCodeLine{00170\ \ \ \ \ \}).base(),\ s.end());}
+\DoxyCodeLine{00171\ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ toLowerCase(std::string\&\ s)\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ std::transform(s.begin(),\ s.end(),\ s.begin(),}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c)\ \{\ return\ std::tolower(c);\ \});}
+\DoxyCodeLine{00176\ \}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{size\_t}\ WriteCallback(\textcolor{keywordtype}{void}*\ contents,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{void}*\ userp)\ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keyword}{auto}\ responseStream\ =\ \textcolor{keyword}{static\_cast<}std::ostringstream*\textcolor{keyword}{>}(userp);}
+\DoxyCodeLine{00181\ \ \ \ \ responseStream-\/>write(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(contents),\ size\ *\ nmemb);}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{return}\ size\ *\ nmemb;}
+\DoxyCodeLine{00183\ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{size\_t}\ HeaderCallback(\textcolor{keywordtype}{char}*\ buffer,\ \textcolor{keywordtype}{size\_t}\ size,\ \textcolor{keywordtype}{size\_t}\ nitems,\ \textcolor{keywordtype}{void}*\ userdata)\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{auto}*\ headerMap\ =\ \textcolor{keyword}{static\_cast<}std::map<std::string,\ std::vector<std::string>\textcolor{keyword}{>}*>(userdata);}
+\DoxyCodeLine{00187\ \ \ \ \ std::string\ headerLine(buffer,\ size\ *\ nitems);}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{if}\ (headerLine.empty())\ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ skip\ the\ separation\ line}}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{auto}\ colonPos\ =\ headerLine.find(\textcolor{stringliteral}{"{}:"{}});}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{if}\ (colonPos\ !=\ std::string::npos)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ std::string\ key\ =\ headerLine.substr(0,\ colonPos);}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ std::string\ value\ =\ headerLine.substr(colonPos\ +\ 1);}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ detail::trim(key);}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ detail::trim(value);}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ detail::toLowerCase(key);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ (*headerMap)[key].push\_back(value);}
+\DoxyCodeLine{00199\ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ size\ *\ nitems;}
+\DoxyCodeLine{00202\ \}}
 \DoxyCodeLine{00203\ }
-\DoxyCodeLine{00207\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcurling_1_1LogicException}{LogicException}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}\ \{}
-\DoxyCodeLine{00208\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classcurling_1_1LogicException}{LogicException}}(\textcolor{keyword}{const}\ std::string\&\ msg)\ :\ \mbox{\hyperlink{classcurling_1_1CurlingException}{CurlingException}}(msg)\ \{\}}
-\DoxyCodeLine{00210\ \};}
+\DoxyCodeLine{00204\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ ProgressCallbackBridge(\textcolor{keywordtype}{void}*\ clientp,\ curl\_off\_t\ dltotal,\ curl\_off\_t\ dlnow,}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ curl\_off\_t\ ultotal,\ curl\_off\_t\ ulnow);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \}\textcolor{comment}{//detail\ end}}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ }
 \DoxyCodeLine{00211\ }
 \DoxyCodeLine{00213\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcurling_1_1CurlHandleDeleter}{CurlHandleDeleter}}\ \{\ \textcolor{keywordtype}{void}\ operator()(CURL*\ h)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{if}\ (h)\ curl\_easy\_cleanup(h);\ \}\};}
 \DoxyCodeLine{00214\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcurling_1_1CurlSlistDeleter}{CurlSlistDeleter}}\ \{\ \textcolor{keywordtype}{void}\ operator()(curl\_slist*\ l)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{keywordflow}{if}\ (l)\ curl\_slist\_free\_all(l);\ \}\};}

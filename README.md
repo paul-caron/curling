@@ -165,13 +165,13 @@ Libcurl is powerful, but its C API is verbose and error-prone.
 
 Curling offers:
 
-|Feature	|libcurl	|Curling|
-|-----------|-----------|-------|
-|Fluent C++ API	|❌	|✅|
-|RAII memory management	|❌	|✅|
-|Built-in test coverage	|❌	|✅|
-|Easy file & MIME upload	|Manual	|✅|
-|Modern build integration	|❌	|✅|
+|Feature                 |libcurl    |Curling|
+|------------------------|-----------|-------|
+|Fluent C++ API          |❌         |✅     |
+|RAII memory management	 |❌         |✅     |
+|Built-in test coverage	 |❌	     |✅     |
+|Easy file & MIME upload |Manual     |✅     |
+|Modern build integration|❌         |✅     |
 
 
 ---
@@ -295,10 +295,6 @@ Curl global init/cleanup is handled automatically.
 Not thread-safe — avoid sharing curling::Request across threads.
 
 MIME is a distinct HTTP method type (not used with POST/PUT).
-
-Cookie persistence defaults to cookies.txt, but is configurable.
-
-
 
 ---
 
