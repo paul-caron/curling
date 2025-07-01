@@ -2,6 +2,7 @@
 #include "../vendor/doctest/doctest.h"
 #include "../include/curling.hpp"
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <filesystem>
 #include <curl/curlver.h>
