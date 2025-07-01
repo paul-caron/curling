@@ -10,6 +10,7 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+
 TEST_CASE("Redirect not followed test") {
     OYE
     curling::Request req;
@@ -20,7 +21,18 @@ TEST_CASE("Redirect not followed test") {
     auto res = req.send();
 
     CHECK(res.httpCode == 302);
-    CHECK(res.body.empty() == false); // May contain Location header in body
+
+    // Check that the "Location" header exists
+    const auto& headers = res.headers;
+    bool hasLocation = false;
+    for (const auto& h : headers) {
+        if (h.find("Location:") != std::string::npos || h.find("location:") != std::string::npos) {
+            hasLocation = true;
+            break;
+        }
+    }
+
+    CHECK(hasLocation);
 }
 
 TEST_CASE("Connect timeout test") {
