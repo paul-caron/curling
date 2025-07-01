@@ -8,7 +8,9 @@
 #include <curl/curl.h>
 #include <cstdlib>
 
-#define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
+int testN{1};
+
+#define OYE std::cout << testN++ << " " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
 TEST_CASE("HEAD request test") {
     OYE
