@@ -14,6 +14,7 @@ int testN{1};
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
 TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
+    OYE
     curling::Request req;
 
     req.setMethod(curling::Method::POST)
