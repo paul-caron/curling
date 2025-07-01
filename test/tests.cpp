@@ -23,7 +23,7 @@ TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
                <to>User</to>
                <from>ChatGPT</from>
                <heading>Reminder</heading>
-               <body>Don\'t forget to test your XML payload!</body>
+               <body>Don't forget to test your XML payload!</body>
            </note>
        ))
        .addHeader("Content-Type: application/xml");
@@ -32,7 +32,7 @@ TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
 
     CHECK(res.httpCode == 200);
     CHECK(res.body.find("<note>") != std::string::npos);
-    CHECK(res.body.find("Don\'t forget to test your XML payload!") != std::string::npos);
+    CHECK(res.body.find("Don't forget to test your XML payload!") != std::string::npos);
 }
 
 TEST_CASE("Send JSON payload using RAW_PAYLOAD macro with curling::Request") {
