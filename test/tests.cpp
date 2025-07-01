@@ -13,6 +13,19 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Progress callback aborts download") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/stream-bytes/10000000") // large stream
+       .setTimeout(10)
+       .setProgressCallback([](curl_off_t, curl_off_t, curl_off_t, curl_off_t) {
+           return true; // abort immediately
+       })
+       .enableVerbose(false);
+
+    CHECK_THROWS_AS(req.send(), curling::RequestException);
+}
+
 TEST_CASE("Multipart form with file upload") {
     OYE
     const char * github = std::getenv("GITHUB");
