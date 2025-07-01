@@ -18,7 +18,7 @@ TEST_CASE("Multipart form with file upload") {
     const char * github = std::getenv("GITHUB");
     if(github){
         // test case doesnt work on github
-        std::cout << "[doctest] Skipping cookie test inside CI environment\n";
+        std::cout << "[doctest] Skipping file upload test inside CI environment\n";
         return;
     }
     const std::string testFile = "test_upload.txt";
