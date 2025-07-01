@@ -22,7 +22,7 @@ const std::string HTTPBIN_IP = "https://httpbin.org/ip";
 TEST_CASE("Fetch proxy from Spys.one and use it to GET httpbin.org/ip") {
     // Step 1: fetch proxy list
     auto res1 = curling::Request()
-        .setMethod(curling::Method::GET)
+        .setMethod(curling::Request::Method::GET)
         .setURL(SPYS_LIST_URL)
         .send();
     REQUIRE(res1.httpCode == 200);
@@ -42,7 +42,7 @@ TEST_CASE("Fetch proxy from Spys.one and use it to GET httpbin.org/ip") {
 
     // Step 3: use proxy to GET httpbin.org/ip
     auto res2 = curling::Request()
-        .setMethod(curling::Method::GET)
+        .setMethod(curling::Request::Method::GET)
         .setURL(HTTPBIN_IP)
         .setProxy(proxy)
         .addHeader("Accept: application/json")
