@@ -253,6 +253,7 @@ TEST_CASE("GET request test with Digest authorization method") {
 }
 
 TEST_CASE("GET request test with Digest authorization method and integrity protection") {
+    OYE
     curling::Request req;
     req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
