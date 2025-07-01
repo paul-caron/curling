@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.0] - 2025-06-29
+## [1.2.0] - 2025-06-30
 ### Added
 - static assertion / compile time check that Request cannot be copied.
 - Request::setRawOption(CURLoption opt, <T> value). For the advanced users.
