@@ -20,7 +20,7 @@ TEST_CASE("HEAD request test") {
     auto res = req.send();
 
     CHECK(res.httpCode == 200);
-    //CHECK(!res.body.empty());
+    CHECK(res.body.empty());
 }
 
 TEST_CASE("Custom User-Agent header test") {
