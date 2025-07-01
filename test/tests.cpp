@@ -239,6 +239,7 @@ TEST_CASE("GET request test with basic authentication") {
     req.setURL("https://httpbin.org/basic-auth/myusername/mypassword")
        .setHttpAuthMethod(curling::Request::AuthMethod::BASIC)
        .setHttpAuth("myusername","mypassword")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -252,6 +253,7 @@ TEST_CASE("GET request test with bearer token auth") {
     curling::Request req;
     req.setURL("https://httpbin.org/bearer")
        .setAuthToken("mytokenstring")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -266,6 +268,7 @@ TEST_CASE("GET request test with Digest authorization method") {
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -280,6 +283,7 @@ TEST_CASE("GET request test with Digest authorization method and integrity prote
     req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -294,7 +298,7 @@ TEST_CASE("GET request test with Digest authorization method and MD5") {
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/md5")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
-    .addHeader("User-Agent: CurlingClient/1.2")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -309,6 +313,7 @@ TEST_CASE("GET request test with Digest authorization method with integrity prot
     req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword/md5")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -323,6 +328,7 @@ TEST_CASE("GET request test with Digest authorization method and SHA-256") {
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/SHA-256")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
@@ -337,6 +343,7 @@ TEST_CASE("GET request test with Digest authorization method with integrity prot
     req.setURL("https://httpbin.org/digest-auth/auth-int/myusername/mypassword/SHA-256")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
+       .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
