@@ -73,6 +73,12 @@
 #include <iostream>
 #include <curl/curl.h>
 
+#pragma once
+
+#define RAW_PAYLOAD(R) R"RAW(\
+R\
+)RAW"
+
 namespace curling {
 
 /**
