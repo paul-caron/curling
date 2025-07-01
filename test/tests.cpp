@@ -10,6 +10,19 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Redirect not followed test") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/redirect-to?url=https://httpbin.org/get")
+       .setFollowRedirects(false)
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 302);
+    CHECK(res.body.empty() == false); // May contain Location header in body
+}
+
 TEST_CASE("Connect timeout test") {
     OYE
     curling::Request req;
