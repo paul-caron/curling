@@ -10,6 +10,16 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Connect timeout test") {
+    OYE
+    curling::Request req;
+    req.setURL("https://10.255.255.1")  // unreachable IP
+       .setConnectTimeout(2)
+       .setTimeout(10)
+       .enableVerbose(false);
+
+    CHECK_THROWS_AS(req.send(), curling::RequestException);
+}
 
 TEST_CASE("Invalid URL test") {
     OYE
