@@ -17,7 +17,7 @@ TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
     OYE
     curling::Request req;
 
-    req.setMethod(curling::Method::POST)
+    req.setMethod(curling::Request::Method::POST)
        .setURL("https://httpbin.org/post")
        .setBody(R"(
            <note>
