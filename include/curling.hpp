@@ -73,7 +73,7 @@
 #include <iostream>
 #include <curl/curl.h>
 
-#define RAW_BODY(R) R"(R)"
+
 
 namespace curling {
 
