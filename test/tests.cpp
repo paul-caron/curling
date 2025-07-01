@@ -13,6 +13,26 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Multipart form with file upload") {
+    OYE
+    const std::string testFile = "test_upload.txt";
+    std::ofstream(testFile) << "This is test content";
+
+    curling::Request req;
+    req.setMethod(curling::Request::Method::MIME)
+       .setURL("https://httpbin.org/post")
+       .addFormField("field", "value")
+       .addFormFile("file", testFile)
+       .enableVerbose(false);
+
+    auto res = req.send();
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("value") != std::string::npos);
+    CHECK(res.body.find("test_upload.txt") != std::string::npos); // httpbin includes filename
+
+    std::filesystem::remove(testFile);
+}
+
 TEST_CASE("Force HTTP/1.1 version") {
     OYE
     curling::Request req;
