@@ -107,7 +107,7 @@ TEST_CASE("Multipart form with file upload") {
         std::cout << "[doctest] Skipping file upload test inside CI environment\n";
         return;
     }
-    const std::string testFile = "test_upload.txt";
+    const std::string testFile = "/tmp/test_upload.txt";
     std::ofstream(testFile) << "This is test content";
 
     curling::Request req;
@@ -120,7 +120,7 @@ TEST_CASE("Multipart form with file upload") {
     auto res = req.send();
     CHECK(res.httpCode == 200);
     CHECK(res.body.find("value") != std::string::npos);
-    CHECK(res.body.find("test_upload.txt") != std::string::npos); // httpbin includes filename
+    CHECK(res.body.find("This is test content") != std::string::npos); // httpbin includes filename
 
     std::filesystem::remove(testFile);
 }
