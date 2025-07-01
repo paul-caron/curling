@@ -10,6 +10,20 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Custom User-Agent header test") {
+    OYE
+    curling::Request req;
+    req.setMethod(curling::Request::Method::GET)
+       .setURL("https://httpbin.org/user-agent")
+       .addHeader("User-Agent: CurlingTestClient/42.0")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("CurlingTestClient/42.0") != std::string::npos);
+}
+
 TEST_CASE("Redirect not followed test") {
     OYE
     curling::Request req;
