@@ -10,6 +10,17 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+
+TEST_CASE("Invalid URL test") {
+    OYE
+    curling::Request req;
+    req.setURL("http://nonexistent.curling.test.fake")
+       .setTimeout(3)
+       .enableVerbose(false);
+
+    CHECK_THROWS_AS(req.send(), curling::RequestException);
+}
+
 TEST_CASE("Cookie persistence") {
     OYE
     const char * github = std::getenv("GITHUB");
