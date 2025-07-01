@@ -24,6 +24,7 @@ TEST_CASE("Fetch proxy from Spys.one and use it to GET httpbin.org/ip") {
     auto res1 = curling::Request()
         .setMethod(curling::Request::Method::GET)
         .setURL(SPYS_LIST_URL)
+        .setFollowRedirects(true)
         .send();
     REQUIRE(res1.httpCode == 200);
 
