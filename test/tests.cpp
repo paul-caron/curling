@@ -10,6 +10,19 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("HEAD request test") {
+    OYE
+    curling::Request req;
+    req.setMethod(curling::Request::Method::HEAD)
+       .setURL("https://httpbin.org/get")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.empty());
+}
+
 TEST_CASE("Custom User-Agent header test") {
     OYE
     curling::Request req;
