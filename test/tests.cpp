@@ -10,7 +10,7 @@
 
 int testN{1};
 
-#define OYE std::cout << testN++ << " " << doctest::detail::g_cs->currentTest->m_name << std::endl;
+#define OYE std::cout << std::setW(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
 TEST_CASE("HEAD request test") {
     OYE
