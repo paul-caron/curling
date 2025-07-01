@@ -13,6 +13,28 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Force HTTP/1.1 version") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/get")
+       .setHttpVersion(curling::Request::HttpVersion::HTTP_1_1)
+       .enableVerbose(false);
+
+    auto res = req.send();
+    CHECK(res.httpCode == 200);
+}
+
+TEST_CASE("Force HTTP/2 version") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/get")
+       .setHttpVersion(curling::Request::HttpVersion::HTTP_2)
+       .enableVerbose(false);
+
+    auto res = req.send();
+    CHECK(res.httpCode == 200);
+}
+
 TEST_CASE("User-Agent set via setUserAgent method") {
     OYE
     curling::Request req;
