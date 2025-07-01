@@ -196,6 +196,7 @@ TEST_CASE("GET request test with Digest authorization method and MD5") {
     req.setURL("https://httpbin.org/digest-auth/auth/myusername/mypassword/md5")
        .setHttpAuthMethod(curling::Request::AuthMethod::DIGEST)
        .setHttpAuth("myusername","mypassword")
+    .addHeader("User-Agent: CurlingClient/1.2")
        .enableVerbose(false);
 
     auto res = req.send();
