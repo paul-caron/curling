@@ -10,7 +10,6 @@
 
 #define OYE std::cout << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
-
 TEST_CASE("Redirect not followed test") {
     OYE
     curling::Request req;
@@ -26,7 +25,8 @@ TEST_CASE("Redirect not followed test") {
     const auto& headers = res.headers;
     bool hasLocation = false;
     for (const auto& h : headers) {
-        if (h.find("Location:") != std::string::npos || h.find("location:") != std::string::npos) {
+        const std::string& key = h.first;
+        if (key == "Location" || key == "location") {
             hasLocation = true;
             break;
         }
