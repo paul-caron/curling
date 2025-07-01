@@ -13,6 +13,20 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("User-Agent set via setUserAgent method") {
+    OYE
+    curling::Request req;
+    req.setMethod(curling::Request::Method::GET)
+       .setURL("https://httpbin.org/user-agent")
+       .setUserAgent("CurlingUserAgent/1.0")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("CurlingUserAgent/1.0") != std::string::npos);
+}
+
 TEST_CASE("Reusing Request object with different URLs and methods") {
     OYE
     curling::Request req;
