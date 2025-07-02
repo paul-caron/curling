@@ -238,7 +238,10 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDS, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, nullptr);
-
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, nullptr);
+    
 }
 
 void Request::clean() noexcept {
