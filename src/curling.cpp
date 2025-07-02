@@ -223,14 +223,16 @@ void Request::reset() {
     }
     clean();
     curlHandle = std::move(newHandle);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-    
+    //clear Request private members
     args.clear();
     url.clear();
     body.clear();
     downloadFilePath.clear();
+    progressCallback = nullptr;
+    //set http method to dwfault get
     method = Method::GET;
-
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
+    //clear options
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, nullptr);
