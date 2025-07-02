@@ -1,6 +1,6 @@
 # ========== Config ==========
 CXX := g++
-CXXFLAGS := -Wall -Wextra -O2 -std=c++17 -Iinclude -fPIC
+CXXFLAGS := -Wall -Wextra -O2 -std=c++17 -Iinclude -fPIC -pthread
 
 SRC_DIR := src
 OBJ_DIR := obj
