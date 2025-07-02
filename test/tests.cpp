@@ -35,7 +35,7 @@ TEST_CASE("Simple Tor proxy test - GET through Tor SOCKS5 proxy") {
     }
 }
 
-TEST_CASE("Send XML payload using RAW_PAYLOAD macro with curling::Request") {
+TEST_CASE("Send XML payload") {
     OYE
     curling::Request req;
 
