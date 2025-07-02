@@ -250,6 +250,13 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_VERBOSE, 0L);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXY, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYUSERPWD, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYAUTH, CURLAUTH_NONE);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_USERPWD, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPAUTH, CURLAUTH_NONE);
+    
+    
 }
 
 void Request::clean() noexcept {
