@@ -237,6 +237,7 @@ void Request::reset() {
     httpVersion = HttpVersion::DEFAULT;
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
     //clear all other options
+    /* //manual cleaning options, no need for those since it now uses fresh handle
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, nullptr);
   //  curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, nullptr);
@@ -256,7 +257,7 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_USERPWD, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPAUTH, CURLAUTH_NONE);
     
-    
+    */
 }
 
 void Request::clean() noexcept {
