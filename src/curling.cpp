@@ -249,6 +249,7 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_VERBOSE, 0L);
 }
 
 void Request::clean() noexcept {
