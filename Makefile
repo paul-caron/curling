@@ -18,7 +18,7 @@ SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 TARGET_LIB_SHARED := $(LIB_DIR)/lib$(PACKAGE_NAME).so
 
-LDLIBS := -lcurl
+LDLIBS := -lcurl -pthread
 
 .PHONY: all clean doc deb doc-clean install
 
