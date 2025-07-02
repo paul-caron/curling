@@ -134,8 +134,6 @@ Request& Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT || method == Method::PATCH) {
         curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, this->body.c_str());
-        //curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
-        //curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, this->body.data());
     }
     return *this;
 }
@@ -241,29 +239,7 @@ void Request::reset() {
     httpVersion = HttpVersion::DEFAULT;
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
 }
-/*
-void Request::reset() {
-    CurlPtr newHandle(curl_easy_init());
-    if(!newHandle){
-        throw InitializationException("Curl re-initialization failed");
-    }
-    clean();
-    curlHandle = std::move(newHandle);
-    //clear Request private members
-    args.clear();
-    url.clear();
-    body.clear();
-    downloadFilePath.clear();
-    progressCallback = nullptr;
-    cookieFile.clear();
-    cookieJar.clear();
-    //set the defaults
-    method = Method::GET;
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-    httpVersion = HttpVersion::DEFAULT;
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
-}
-*/
+
 void Request::clean() noexcept {
     mime.reset();
     list.reset();
