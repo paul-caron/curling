@@ -1,8 +1,10 @@
 # Changelog
 
 ## [1.x.x] - 202x-xx-xx - future release
-### Added
-### Changed
+
+### Added - several new test cases added to the test suite.
+
+### Changed 
 
 ## [1.2.0] - 2025-06-30
 ### Added
