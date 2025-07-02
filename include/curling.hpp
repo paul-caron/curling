@@ -72,7 +72,8 @@
 #include <functional>
 #include <iostream>
 #include <curl/curl.h>
-
+#include <thread>
+#include <chrono>
 
 
 namespace curling {
@@ -146,6 +147,10 @@ inline std::once_flag curlGlobalInitFlag;
 inline std::mutex curlGlobalMutex;
 
 inline int instanceCount = 0;
+
+inline void waitMs(unsigned ms) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
 
 inline void ensureCurlGlobalInit() {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
