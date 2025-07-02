@@ -20,8 +20,8 @@ TEST_CASE("Simple Tor proxy test - GET through Tor SOCKS5 proxy") {
     OYE
     const char* github = std::getenv("GITHUB");
     if (github) {
-        std::cout << "[doctest] Skipping Tor proxy test inside CI environment\n";
-        return;
+        //std::cout << "[doctest] Skipping Tor proxy test inside CI environment\n";
+        //return;
     }
 
     curling::Request req;
