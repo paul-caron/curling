@@ -218,6 +218,31 @@ Response Request::send() {
 }
 
 void Request::reset() {
+    // Create and immediately assign new handle
+    curlHandle.reset(curl_easy_init());
+    if (!curlHandle) {
+        throw InitializationException("Curl re-initialization failed");
+    }
+
+    mime.reset();
+    list.reset();
+
+    args.clear();
+    url.clear();
+    body.clear();
+    downloadFilePath.clear();
+    progressCallback = nullptr;
+    cookieFile.clear();
+    cookieJar.clear();
+
+    method = Method::GET;
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
+
+    httpVersion = HttpVersion::DEFAULT;
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
+}
+/*
+void Request::reset() {
     CurlPtr newHandle(curl_easy_init());
     if(!newHandle){
         throw InitializationException("Curl re-initialization failed");
@@ -238,7 +263,7 @@ void Request::reset() {
     httpVersion = HttpVersion::DEFAULT;
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
 }
-
+*/
 void Request::clean() noexcept {
     mime.reset();
     list.reset();
