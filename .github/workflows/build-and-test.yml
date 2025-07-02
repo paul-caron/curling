@@ -5,13 +5,13 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-  workflow_dispatch: # ✅ Allows manual triggering from the GitHub Actions UI
+  workflow_dispatch:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     env:
-      GITHUB: "1"
+      GITHUB: "1"  # Used in tests to skip certain cases inside CI
 
     steps:
       - name: Checkout code
@@ -20,7 +20,24 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libcurl4-openssl-dev
+          sudo apt-get install -y build-essential libcurl4-openssl-dev tor netcat
+
+      - name: Start Tor
+        run: |
+          tor &
+          echo "Waiting for Tor to bootstrap..."
+          for i in {1..30}; do
+            if nc -z 127.0.0.1 9050; then
+              echo "Tor is running!"
+              break
+            fi
+            sleep 1
+          done
+
+          if ! nc -z 127.0.0.1 9050; then
+            echo "Tor did not start in time." >&2
+            exit 1
+          fi
 
       - name: Build project
         run: make
