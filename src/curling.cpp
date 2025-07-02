@@ -224,7 +224,7 @@ void Request::reset() {
     clean();
     curlHandle = std::move(newHandle);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, nullptr); // Clear any old header list
     args.clear();
     url.clear();
     body.clear();
