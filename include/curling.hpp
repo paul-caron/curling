@@ -78,6 +78,39 @@
 
 namespace curling {
 
+// Common browser User-Agent strings for interoperability.
+// These values are public and do not imply affiliation with the respective browser vendors.
+enum class UserAgent {
+    Curl,
+    Firefox,
+    Chrome,
+    Edge,
+    Safari,
+    Android,
+    iPhone
+};
+
+inline std::string userAgentString(UserAgent agent) {
+    switch (agent) {
+        case UserAgent::Curl:
+            return "curl/8.6.0";
+        case UserAgent::Firefox:
+            return "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0";
+        case UserAgent::Chrome:
+            return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
+        case UserAgent::Edge:
+            return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0";
+        case UserAgent::Safari:
+            return "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15";
+        case UserAgent::Android:
+            return "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36";
+        case UserAgent::iPhone:
+            return "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1";
+        default:
+            return "curling/1.2.0";
+    }
+}
+
 /**
  * @class CurlingException
  * @brief Base exception class for Curling errors.
