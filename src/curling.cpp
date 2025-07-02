@@ -238,11 +238,11 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
     //clear all other options
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, nullptr);
+  //  curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDS, nullptr);
+  //  curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, nullptr);
+   // curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDS, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, nullptr);
