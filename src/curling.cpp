@@ -229,6 +229,8 @@ void Request::reset() {
     body.clear();
     downloadFilePath.clear();
     progressCallback = nullptr;
+    cookieFile.clear();
+    cookieJar.clear();
     //set the defaults
     method = Method::GET;
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
@@ -245,7 +247,8 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, nullptr);
-    
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, nullptr);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, nullptr);
 }
 
 void Request::clean() noexcept {
