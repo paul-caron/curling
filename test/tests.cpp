@@ -18,16 +18,11 @@ int testN{1};
 
 TEST_CASE("Simple Tor proxy test - GET through Tor SOCKS5 proxy") {
     OYE
-    const char* github = std::getenv("GITHUB");
-    if (github) {
-        //std::cout << "[doctest] Skipping Tor proxy test inside CI environment\n";
-        //return;
-    }
 
     curling::Request req;
     req.setURL("https://check.torproject.org/api/ip")
        .setProxy("socks5h://127.0.0.1:9050")  // Tor SOCKS5 proxy (default Tor port)
-       .enableVerbose(true);
+       .enableVerbose(false);
 
     try {
         auto res = req.send();
