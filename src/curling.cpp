@@ -133,8 +133,9 @@ Request& Request::downloadToFile(const std::string& path) {
 Request& Request::setBody(const std::string& body) {
     this->body = body;
     if (method == Method::POST || method == Method::PUT || method == Method::PATCH) {
-        curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
-        curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, this->body.data());
+        curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, this->body.c_str());
+        //curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDSIZE, static_cast<long>(this->body.size()));
+        //curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, this->body.data());
     }
     return *this;
 }
