@@ -229,10 +229,12 @@ void Request::reset() {
     body.clear();
     downloadFilePath.clear();
     progressCallback = nullptr;
-    //set http method to dwfault get
+    //set the defaults
     method = Method::GET;
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
-    //clear options
+    httpVersion = HttpVersion::DEFAULT;
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
+    //clear all other options
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, nullptr);
     curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, nullptr);
