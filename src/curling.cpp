@@ -237,28 +237,6 @@ void Request::reset() {
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPGET, 1L);
     httpVersion = HttpVersion::DEFAULT;
     curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_NONE);
-    //clear all other options
-    /* //manual cleaning options, no need for those since it now uses fresh handle
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPHEADER, nullptr);
-  //  curl_easy_setopt(curlHandle.get(), CURLOPT_MIMEPOST, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, nullptr);
-  //  curl_easy_setopt(curlHandle.get(), CURLOPT_COPYPOSTFIELDS, nullptr);
-   // curl_easy_setopt(curlHandle.get(), CURLOPT_POSTFIELDS, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEFILE, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_COOKIEJAR, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_VERBOSE, 0L);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXY, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYUSERPWD, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_PROXYAUTH, CURLAUTH_NONE);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_USERPWD, nullptr);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTPAUTH, CURLAUTH_NONE);
-    
-    */
 }
 
 void Request::clean() noexcept {
