@@ -147,10 +147,10 @@ Response Request::send(unsigned attempts) {
 
     Response response;
     //for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
-    FILE* fileOut = nullptr;
+    FilePtr fileOut(nullptr);
     std::ostringstream responseStream;
 
-    prepareCurlOptions(response, fileOut, responseStream);
+    prepareCurlOptions(response, fileOut.get(), responseStream);
     updateURL();
     setCurlHttpVersion();
         
@@ -159,12 +159,6 @@ Response Request::send(unsigned attempts) {
 
     // Get HTTP status code regardless of result
     curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
-
-    // Close file if it was opened
-    if (fileOut) {
-        std::fclose(fileOut);
-        fileOut = nullptr;
-    }
 
     // Handle errors
     if (res != CURLE_OK) {
