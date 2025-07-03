@@ -198,7 +198,7 @@ Response Request::send(unsigned attempts) {
     std::ostringstream responseStream;
 
         
-    prepareCurlOptions(response, fileOut.get(), responseStream);
+    prepareCurlOptions(response, fileOut, responseStream);
     updateURL();
     setCurlHttpVersion();
 
