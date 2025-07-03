@@ -253,10 +253,13 @@ inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t 
 struct CurlHandleDeleter { void operator()(CURL* h) const noexcept { if (h) curl_easy_cleanup(h); }};
 struct CurlSlistDeleter { void operator()(curl_slist* l) const noexcept { if (l) curl_slist_free_all(l); }};
 struct CurlMimeDeleter { void operator()(curl_mime* m) const noexcept { if (m) curl_mime_free(m); }};
+struct FileCloser { void operator()(FILE* file) const noexcept { if (file) std::fclose(file); }};
 
 using CurlPtr = std::unique_ptr<CURL, CurlHandleDeleter>;
 using CurlSlistPtr = std::unique_ptr<curl_slist, CurlSlistDeleter>;
 using CurlMimePtr = std::unique_ptr<curl_mime, CurlMimeDeleter>;
+using FilePtr = std::unique_ptr<FILE, FileCloser>;
+
 
 /**
  * @struct Response
