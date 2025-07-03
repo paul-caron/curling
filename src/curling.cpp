@@ -138,6 +138,7 @@ Request& Request::setBody(const std::string& body) {
     return *this;
 }
 
+/*
 Response Request::send() {
     Response response;
     FILE* fileOut = nullptr;
@@ -213,6 +214,103 @@ Response Request::send() {
     reset(); // Reset state for reuse
 
     return response;
+}*/
+
+Response Request::send(unsigned attempts) {
+    if (attempts == 0) {
+        throw LogicException("Number of attempts must be greater than zero");
+    }
+
+    const unsigned waitTimeMs = 1000; // 1 second between retries, adjust as needed
+
+    Response response;
+    for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
+        FILE* fileOut = nullptr;
+        std::ostringstream responseStream;
+
+        // Set progress callback if present
+        if (progressCallback) {
+            curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L);
+        }
+
+        // Set write target (file or memory)
+        if (!downloadFilePath.empty()) {
+            fileOut = std::fopen(downloadFilePath.c_str(), "wb");
+            if (!fileOut) {
+                throw RequestException("Failed to open file for writing: " + downloadFilePath);
+            }
+            curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut);
+        } else {
+            curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, detail::WriteCallback);
+            curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
+        }
+
+        // Set headers callback
+        curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detail::HeaderCallback);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
+
+        updateURL();
+
+        // Set HTTP version
+        long curl_http_version = CURL_HTTP_VERSION_NONE;
+        switch (httpVersion) {
+            case HttpVersion::HTTP_1_1: curl_http_version = CURL_HTTP_VERSION_1_1; break;
+            case HttpVersion::HTTP_2:   curl_http_version = CURL_HTTP_VERSION_2_0; break;
+            case HttpVersion::HTTP_3:   curl_http_version = CURL_HTTP_VERSION_3;   break;
+            case HttpVersion::DEFAULT:
+            default:                    curl_http_version = CURL_HTTP_VERSION_NONE; break;
+        }
+        curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
+
+        // Perform request
+        CURLcode res = curl_easy_perform(curlHandle.get());
+
+        // Get HTTP status code regardless of result
+        curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
+
+        // Close file if it was opened
+        if (fileOut) {
+            std::fclose(fileOut);
+            fileOut = nullptr;
+        }
+
+        if (res == CURLE_OK) {
+            // Success! Store response body if not downloaded to file
+            if (downloadFilePath.empty()) {
+                response.body = responseStream.str();
+            }
+            reset(); // Reset state for reuse
+            return response;
+        } else {
+            // Failed this attempt
+            char* effectiveUrl = nullptr;
+            curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
+
+            std::ostringstream err;
+            err << "Curl perform failed for URL: " 
+                << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
+                << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
+                << "\nHTTP Status Code: " << response.httpCode
+                << "\nAttempt " << attempt << " of " << attempts;
+
+            if (attempt == attempts) {
+                // All attempts exhausted, throw exception
+                throw RequestException(err.str());
+            } else {
+                // Wait before retrying
+                curling::waitMs(waitTimeMs);
+                // Optionally, reset response data for next attempt
+                response = Response{};
+                // And reset state to prepare for next try
+                reset();
+            }
+        }
+    }
+
+    // Should never reach here
+    throw RequestException("Unexpected error in send retry logic");
 }
 
 void Request::reset() {
