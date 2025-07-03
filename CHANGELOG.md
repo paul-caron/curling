@@ -4,7 +4,7 @@
 
 ### Added - several new test cases added to the test suite.
 
-### Changed 
+### Changed - changed the Request::send() method to Request::send(unsigned attempts=1), allowing for an automatic retry mechanism.
 
 ## [1.2.0] - 2025-06-30
 ### Added
