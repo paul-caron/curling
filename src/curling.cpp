@@ -230,7 +230,7 @@ Response Request::send(unsigned attempts) {
 
         prepareCurlOptions(response, fileOut, responseStream);
         updateURL();
-        Request::setCurlHttpVersion();
+        setCurlHttpVersion();
         
         // Perform request
         CURLcode res = curl_easy_perform(curlHandle.get());
