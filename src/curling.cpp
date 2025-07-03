@@ -138,54 +138,6 @@ Request& Request::setBody(const std::string& body) {
     return *this;
 }
 
-/*
-Response Request::send(unsigned attempts) {
-    if (attempts == 0) {
-        throw LogicException("Number of attempts must be greater than zero");
-    }
-
-    const unsigned waitTimeMs = 1000; // 1 second between retries, adjust as needed
-
-    Response response;
-    //for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
-    FilePtr fileOut(nullptr);
-    std::ostringstream responseStream;
-
-    prepareCurlOptions(response, fileOut.get(), responseStream);
-    updateURL();
-    setCurlHttpVersion();
-        
-    // Perform request
-    CURLcode res = curl_easy_perform(curlHandle.get());
-
-    // Get HTTP status code regardless of result
-    curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
-
-    // Handle errors
-    if (res != CURLE_OK) {
-        char* effectiveUrl = nullptr;
-        curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
-
-        std::ostringstream err;
-        err << "Curl perform failed for URL: " 
-            << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
-            << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
-            << "\nHTTP Status Code: " << response.httpCode;
-
-        throw RequestException(err.str());
-    }
-
-    // Store response body if not downloaded to file
-    if (downloadFilePath.empty()) {
-        response.body = responseStream.str();
-    }
-
-    reset(); // Reset state for reuse
-
-    return response;
-    
-}*/
-
 Response Request::send(unsigned attempts) {
     if (attempts == 0) {
         throw LogicException("Number of attempts must be greater than zero");
