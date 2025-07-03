@@ -519,7 +519,7 @@ public:
      * @return Response object with status, body, headers.
      * @throws RequestException on failure.
      */
-    Response send(unsigned attempts = true);
+    Response send(unsigned attempts = 1);
 
     /**
      * @brief Resets internal state to allow reuse.
