@@ -560,7 +560,7 @@ private:
 
     void clean() noexcept;
     void updateURL();
-    void prepareCurlOptions(Response & response, FILE*& fileOut, std::ostringstream & responseStream);
+    void prepareCurlOptions(Response & response, FilePtr& fileOut, std::ostringstream & responseStream);
     void setCurlHttpVersion();
 };
 
