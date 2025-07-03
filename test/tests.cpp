@@ -15,6 +15,26 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+TEST_CASE("Request honors port with non‑HTTP protocol (FTP)") {
+    OYE
+    using namespace curling;
+    // Example using GNU's FTP server listening on default FTP port 21
+    const std::string host = "ftp.gnu.org";
+    const int port = 21;
+
+    Request req;
+    req.setURL("ftp://" + host + ":" + std::to_string(port) + "/")
+       .setMethod(Request::Method::GET)  // GET works for FTP directory listing
+       .setTimeout(10);
+
+    try {
+        Response res = req.send();
+        CHECK(res.httpCode >= 100);  // FTP response is translated to numeric code
+    } catch (const RequestException& ex) {
+        FAIL("FTP request failed: " << ex.what());
+    }
+}
+
 
 TEST_CASE("Simple Tor proxy test - GET through Tor SOCKS5 proxy") {
     OYE
