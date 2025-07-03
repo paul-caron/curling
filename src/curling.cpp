@@ -340,7 +340,7 @@ Request& Request::setHttpVersion(HttpVersion version) {
     return *this;
 }
 
-void Request::prepareCurlOptions(Response& response, FILE*& fileOut, std::ostringstream& responseStream) {
+void Request::prepareCurlOptions(Response& response, FilePtr& fileOut, std::ostringstream& responseStream) {
     // Set progress callback if defined
     if (progressCallback) {
         curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
@@ -357,7 +357,7 @@ void Request::prepareCurlOptions(Response& response, FILE*& fileOut, std::ostrin
             throw RequestException("Failed to open file for writing: " + downloadFilePath);
         }
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, nullptr);
-        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut.get());
     } else {
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, detail::WriteCallback);
         curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
