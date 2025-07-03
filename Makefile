@@ -73,7 +73,7 @@ doc:
 	doxygen Doxyfile
 
 doc-clean:
-	rm -rf $(DOC_DIR)
+	rm -rf $(DOC_DIR)/latex $(DOC_DIR)/html
 
 # ========== Testing ==========
 
