@@ -253,10 +253,13 @@ inline int ProgressCallbackBridge(void* clientp, curl_off_t dltotal, curl_off_t 
 struct CurlHandleDeleter { void operator()(CURL* h) const noexcept { if (h) curl_easy_cleanup(h); }};
 struct CurlSlistDeleter { void operator()(curl_slist* l) const noexcept { if (l) curl_slist_free_all(l); }};
 struct CurlMimeDeleter { void operator()(curl_mime* m) const noexcept { if (m) curl_mime_free(m); }};
+struct FileCloser { void operator()(FILE* file) const noexcept { if (file) std::fclose(file); }};
 
 using CurlPtr = std::unique_ptr<CURL, CurlHandleDeleter>;
 using CurlSlistPtr = std::unique_ptr<curl_slist, CurlSlistDeleter>;
 using CurlMimePtr = std::unique_ptr<curl_mime, CurlMimeDeleter>;
+using FilePtr = std::unique_ptr<FILE, FileCloser>;
+
 
 /**
  * @struct Response
@@ -516,7 +519,7 @@ public:
      * @return Response object with status, body, headers.
      * @throws RequestException on failure.
      */
-    Response send();
+    Response send(unsigned attempts = 1);
 
     /**
      * @brief Resets internal state to allow reuse.
@@ -557,6 +560,8 @@ private:
 
     void clean() noexcept;
     void updateURL();
+    void prepareCurlOptions(Response & response, FilePtr& fileOut, std::ostringstream & responseStream);
+    void setCurlHttpVersion();
 };
 
 static_assert(!std::is_copy_constructible_v<Request> && !std::is_copy_assignable_v<Request>,
@@ -711,81 +716,66 @@ inline Request& Request::setBody(const std::string& body) {
     return *this;
 }
 
-inline Response Request::send() {
+inline Response Request::send(unsigned attempts) {
+    if (attempts == 0) {
+        throw LogicException("Number of attempts must be greater than zero");
+    }
+
+    const unsigned baseDelayMs = 1000; // initial delay of 1 second
+
     Response response;
-    FILE* fileOut = nullptr;
+    FilePtr fileOut(nullptr);
     std::ostringstream responseStream;
 
-    // Set progress callback if present
-    if (progressCallback) {
-        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
-        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
-        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L);
-    }
-
-    // Set write target (file or memory)
-    if (!downloadFilePath.empty()) {
-        fileOut = std::fopen(downloadFilePath.c_str(), "wb");
-        if (!fileOut) {
-            throw RequestException("Failed to open file for writing: " + downloadFilePath);
-        }
-        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut);
-    } else {
-        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, detail::WriteCallback);
-        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
-    }
-
-    // Set headers callback
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detail::HeaderCallback);
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
-
+        
+    prepareCurlOptions(response, fileOut, responseStream);
     updateURL();
+    setCurlHttpVersion();
 
-    // Set HTTP version
-    long curl_http_version = CURL_HTTP_VERSION_NONE;
-    switch (httpVersion) {
-        case HttpVersion::HTTP_1_1: curl_http_version = CURL_HTTP_VERSION_1_1; break;
-        case HttpVersion::HTTP_2:   curl_http_version = CURL_HTTP_VERSION_2_0; break;
-        case HttpVersion::HTTP_3:   curl_http_version = CURL_HTTP_VERSION_3;   break;
-        case HttpVersion::DEFAULT:
-        default:                    curl_http_version = CURL_HTTP_VERSION_NONE; break;
+    for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
+        
+        try{
+            // Perform request
+            CURLcode res = curl_easy_perform(curlHandle.get());
+
+            // Get HTTP status code regardless of result
+            curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
+
+            if (res != CURLE_OK) {
+                throw RequestException(
+                    std::string("Curl perform failed on attempt ") + std::to_string(attempt) +
+                    ": " + curl_easy_strerror(res)
+                );
+            }
+
+            // Store response body if not downloading to file
+            if (downloadFilePath.empty()) {
+                response.body = responseStream.str();
+            }
+
+            reset(); // Reset for reuse
+            return response;
+
+        } catch (const RequestException& e) {
+            if (attempt == attempts) {
+                reset();
+                throw; // rethrow if final attempt fails
+            }
+
+            // Calculate exponential backoff delay
+            unsigned delayMs = baseDelayMs * (1 << (attempt - 1));
+
+            // Optional: Add jitter (randomize slightly to avoid thundering herd)
+            // delayMs += rand() % 250;
+
+            std::cerr << "Retry attempt " << attempt << " failed. Retrying in " << delayMs << "ms...\n";
+
+            waitMs(delayMs);
+        }
     }
-    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
 
-    // Perform request
-    CURLcode res = curl_easy_perform(curlHandle.get());
-
-    // Get HTTP status code regardless of result
-    curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
-
-    // Close file if it was opened
-    if (fileOut) {
-        std::fclose(fileOut);
-        fileOut = nullptr;
-    }
-
-    // Handle errors
-    if (res != CURLE_OK) {
-        char* effectiveUrl = nullptr;
-        curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
-
-        std::ostringstream err;
-        err << "Curl perform failed for URL: " 
-            << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
-            << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
-            << "\nHTTP Status Code: " << response.httpCode;
-
-        throw RequestException(err.str());
-    }
-
-    // Store response body if not downloaded to file
-    if (downloadFilePath.empty()) {
-        response.body = responseStream.str();
-    }
-
-    reset(); // Reset state for reuse
-
-    return response;
+    // Should never be reached
+    throw LogicException("Retry logic terminated unexpectedly");
 }
 
 inline void Request::reset() {
@@ -941,6 +931,46 @@ inline Request& Request::setHttpVersion(HttpVersion version) {
 
     this->httpVersion = version;
     return *this;
+}
+
+inline void Request::prepareCurlOptions(Response& response, FilePtr& fileOut, std::ostringstream& responseStream) {
+    // Set progress callback if defined
+    if (progressCallback) {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L);
+    } else {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 1L);
+    }
+
+    // Set output destination (file or memory stream)
+    if (!downloadFilePath.empty()) {
+        fileOut.reset(std::fopen(downloadFilePath.c_str(), "wb"));
+        if (!fileOut) {
+            throw RequestException("Failed to open file for writing: " + downloadFilePath);
+        }
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, nullptr);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut.get());
+    } else {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, detail::WriteCallback);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
+    }
+
+    // Set header callback
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detail::HeaderCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
+}
+
+inline void Request::setCurlHttpVersion() {
+    long curl_http_version = CURL_HTTP_VERSION_NONE;
+    switch (httpVersion) {
+        case HttpVersion::HTTP_1_1: curl_http_version = CURL_HTTP_VERSION_1_1; break;
+        case HttpVersion::HTTP_2:   curl_http_version = CURL_HTTP_VERSION_2_0; break;
+        case HttpVersion::HTTP_3:   curl_http_version = CURL_HTTP_VERSION_3;   break;
+        case HttpVersion::DEFAULT:
+        default:                    curl_http_version = CURL_HTTP_VERSION_NONE; break;
+    }
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
 }
 
 } // namespace curling
