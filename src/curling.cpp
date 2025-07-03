@@ -468,4 +468,32 @@ Request& Request::setHttpVersion(HttpVersion version) {
     return *this;
 }
 
+void Request::prepareCurlOptions(Response& response, FILE*& fileOut, std::ostringstream& responseStream) {
+    // Set progress callback if defined
+    if (progressCallback) {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFOFUNCTION, detail::ProgressCallbackBridge);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_XFERINFODATA, this);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 0L);
+    } else {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_NOPROGRESS, 1L);
+    }
+
+    // Set output destination (file or memory stream)
+    if (!downloadFilePath.empty()) {
+        fileOut = std::fopen(downloadFilePath.c_str(), "wb");
+        if (!fileOut) {
+            throw RequestException("Failed to open file for writing: " + downloadFilePath);
+        }
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, nullptr);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, fileOut);
+    } else {
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEFUNCTION, detail::WriteCallback);
+        curl_easy_setopt(curlHandle.get(), CURLOPT_WRITEDATA, &responseStream);
+    }
+
+    // Set header callback
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERFUNCTION, detail::HeaderCallback);
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
+}
+
 } // namespace curling
