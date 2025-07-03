@@ -111,6 +111,10 @@ inline std::string userAgentString(UserAgent agent) {
     }
 }
 
+inline void waitMs(unsigned ms) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
 /**
  * @class CurlingException
  * @brief Base exception class for Curling errors.
@@ -180,10 +184,6 @@ inline std::once_flag curlGlobalInitFlag;
 inline std::mutex curlGlobalMutex;
 
 inline int instanceCount = 0;
-
-inline void waitMs(unsigned ms) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-}
 
 inline void ensureCurlGlobalInit() {
     std::lock_guard<std::mutex> lock(curlGlobalMutex);
