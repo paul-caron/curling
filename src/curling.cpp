@@ -475,4 +475,16 @@ void Request::prepareCurlOptions(Response& response, FILE*& fileOut, std::ostrin
     curl_easy_setopt(curlHandle.get(), CURLOPT_HEADERDATA, &(response.headers));
 }
 
+void Request::setCurlHttpVersion() {
+    long curl_http_version = CURL_HTTP_VERSION_NONE;
+    switch (httpVersion) {
+        case HttpVersion::HTTP_1_1: curl_http_version = CURL_HTTP_VERSION_1_1; break;
+        case HttpVersion::HTTP_2:   curl_http_version = CURL_HTTP_VERSION_2_0; break;
+        case HttpVersion::HTTP_3:   curl_http_version = CURL_HTTP_VERSION_3;   break;
+        case HttpVersion::DEFAULT:
+        default:                    curl_http_version = CURL_HTTP_VERSION_NONE; break;
+    }
+    curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
+}
+
 } // namespace curling
