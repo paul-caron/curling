@@ -15,6 +15,25 @@ int testN{1};
 
 #define OYE std::cout << std::setw(2) << testN++ << " - " << doctest::detail::g_cs->currentTest->m_name << std::endl;
 
+// test_retry.cpp
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+#include "curling.hpp"
+
+using namespace curling;
+
+TEST_CASE("Request retries given number of attempts and fails on final one") {
+    OYE
+    Request req;
+    req.setURL("http://nonexistent.localhost") // This domain won't resolve
+       .setMethod(Request::Method::GET)
+       .setTimeout(1)
+       .setConnectTimeout(1);
+
+    // Expect failure after 3 retries
+    CHECK_THROWS_AS(req.send(3), RequestException);
+}
+
 TEST_CASE("Request honors port with non‑HTTP protocol (FTP)") {
     OYE
     using namespace curling;
