@@ -138,6 +138,7 @@ Request& Request::setBody(const std::string& body) {
     return *this;
 }
 
+/*
 Response Request::send(unsigned attempts) {
     if (attempts == 0) {
         throw LogicException("Number of attempts must be greater than zero");
@@ -183,6 +184,68 @@ Response Request::send(unsigned attempts) {
 
     return response;
     
+}*/
+
+Response Request::send(unsigned attempts) {
+    if (attempts == 0) {
+        throw LogicException("Number of attempts must be greater than zero");
+    }
+
+    const unsigned baseDelayMs = 1000; // initial delay of 1 second
+
+    Response response;
+    FilePtr fileOut(nullptr);
+    std::ostringstream responseStream;
+
+        
+    prepareCurlOptions(response, fileOut.get(), responseStream);
+    updateURL();
+    setCurlHttpVersion();
+
+    for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
+        
+        try{
+            // Perform request
+            CURLcode res = curl_easy_perform(curlHandle.get());
+
+            // Get HTTP status code regardless of result
+            curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
+
+            if (res != CURLE_OK) {
+                throw RequestException(
+                    std::string("Curl perform failed on attempt ") + std::to_string(attempt) +
+                    ": " + curl_easy_strerror(res)
+                );
+            }
+
+            // Store response body if not downloading to file
+            if (downloadFilePath.empty()) {
+                response.body = responseStream.str();
+            }
+
+            reset(); // Reset for reuse
+            return response;
+
+        } catch (const RequestException& e) {
+            if (attempt == attempts) {
+                reset();
+                throw; // rethrow if final attempt fails
+            }
+
+            // Calculate exponential backoff delay
+            unsigned delayMs = baseDelayMs * (1 << (attempt - 1));
+
+            // Optional: Add jitter (randomize slightly to avoid thundering herd)
+            // delayMs += rand() % 250;
+
+            std::cerr << "Retry attempt " << attempt << " failed. Retrying in " << delayMs << "ms...\n";
+
+            waitMs(delayMs);
+        }
+    }
+
+    // Should never be reached
+    throw LogicException("Retry logic terminated unexpectedly");
 }
 
 void Request::reset() {
