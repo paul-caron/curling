@@ -415,7 +415,7 @@ void Request::prepareCurlOptions(Response& response, FilePtr& fileOut, std::ostr
 
     // Set output destination (file or memory stream)
     if (!downloadFilePath.empty()) {
-        fileOut(std::fopen(downloadFilePath.c_str(), "wb"));
+        fileOut.reset(std::fopen(downloadFilePath.c_str(), "wb"));
         if (!fileOut) {
             throw RequestException("Failed to open file for writing: " + downloadFilePath);
         }
