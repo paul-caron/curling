@@ -557,6 +557,7 @@ private:
 
     void clean() noexcept;
     void updateURL();
+    void prepareCurlOptions(Response & response, FILE*& fileOut, std::ostringstream & responseStream);
 };
 
 static_assert(!std::is_copy_constructible_v<Request> && !std::is_copy_assignable_v<Request>,
