@@ -229,20 +229,9 @@ Response Request::send(unsigned attempts) {
         std::ostringstream responseStream;
 
         prepareCurlOptions(response, fileOut, responseStream);
-    
         updateURL();
-
-        // Set HTTP version
-        long curl_http_version = CURL_HTTP_VERSION_NONE;
-        switch (httpVersion) {
-            case HttpVersion::HTTP_1_1: curl_http_version = CURL_HTTP_VERSION_1_1; break;
-            case HttpVersion::HTTP_2:   curl_http_version = CURL_HTTP_VERSION_2_0; break;
-            case HttpVersion::HTTP_3:   curl_http_version = CURL_HTTP_VERSION_3;   break;
-            case HttpVersion::DEFAULT:
-            default:                    curl_http_version = CURL_HTTP_VERSION_NONE; break;
-        }
-        curl_easy_setopt(curlHandle.get(), CURLOPT_HTTP_VERSION, curl_http_version);
-
+        Request::setCurlHttpVersion();
+        
         // Perform request
         CURLcode res = curl_easy_perform(curlHandle.get());
 
