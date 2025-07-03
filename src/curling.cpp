@@ -224,58 +224,46 @@ Response Request::send(unsigned attempts) {
     const unsigned waitTimeMs = 1000; // 1 second between retries, adjust as needed
 
     Response response;
-    for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
-        FILE* fileOut = nullptr;
-        std::ostringstream responseStream;
+    //for (unsigned attempt = 1; attempt <= attempts; ++attempt) {
+    FILE* fileOut = nullptr;
+    std::ostringstream responseStream;
 
-        prepareCurlOptions(response, fileOut, responseStream);
-        updateURL();
-        setCurlHttpVersion();
+    prepareCurlOptions(response, fileOut, responseStream);
+    updateURL();
+    setCurlHttpVersion();
         
-        // Perform request
-        CURLcode res = curl_easy_perform(curlHandle.get());
+    // Perform request
+    CURLcode res = curl_easy_perform(curlHandle.get());
 
-        // Get HTTP status code regardless of result
-        curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
+    // Get HTTP status code regardless of result
+    curl_easy_getinfo(curlHandle.get(), CURLINFO_RESPONSE_CODE, &(response.httpCode));
 
-        // Close file if it was opened
-        if (fileOut) {
-            std::fclose(fileOut);
-            fileOut = nullptr;
-        }
-
-        if (res == CURLE_OK) {
-            // Success! Store response body if not downloaded to file
-            if (downloadFilePath.empty()) {
-                response.body = responseStream.str();
-            }
-            reset(); // Reset state for reuse
-            return response;
-        } else {
-            // Failed this attempt
-            char* effectiveUrl = nullptr;
-            curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
-
-            std::ostringstream err;
-            err << "Curl perform failed for URL: " 
-                << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
-                << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
-                << "\nHTTP Status Code: " << response.httpCode
-                << "\nAttempt " << attempt << " of " << attempts;
-
-            if (attempt == attempts) {
-                // All attempts exhausted, throw exception
-                throw RequestException(err.str());
-            } else {
-                // Wait before retrying
-                curling::waitMs(waitTimeMs);
-                // Optionally, reset response data for next attempt
-                response = Response{};
-                // And reset state to prepare for next try
-                reset();
-            }
-        }
+    // Close file if it was opened
+    if (fileOut) {
+        std::fclose(fileOut);
+        fileOut = nullptr;
     }
+
+    if (res == CURLE_OK) {
+        // Success! Store response body if not downloaded to file
+        if (downloadFilePath.empty()) {
+            response.body = responseStream.str();
+        }
+        reset(); // Reset state for reuse
+        return response;
+    } else {
+        char* effectiveUrl = nullptr;
+        curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
+
+        std::ostringstream err;
+        err << "Curl perform failed for URL: " 
+            << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
+            << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
+            << "\nHTTP Status Code: " << response.httpCode << std::endl;
+
+        throw RequestException(err.str());
+    }
+   // }
 
     // Should never reach here
     throw RequestException("Unexpected error in send retry logic");
