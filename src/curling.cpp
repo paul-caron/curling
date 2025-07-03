@@ -244,14 +244,8 @@ Response Request::send(unsigned attempts) {
         fileOut = nullptr;
     }
 
-    if (res == CURLE_OK) {
-        // Success! Store response body if not downloaded to file
-        if (downloadFilePath.empty()) {
-            response.body = responseStream.str();
-        }
-        reset(); // Reset state for reuse
-        return response;
-    } else {
+    // Handle errors
+    if (res != CURLE_OK) {
         char* effectiveUrl = nullptr;
         curl_easy_getinfo(curlHandle.get(), CURLINFO_EFFECTIVE_URL, &effectiveUrl);
 
@@ -259,14 +253,20 @@ Response Request::send(unsigned attempts) {
         err << "Curl perform failed for URL: " 
             << (effectiveUrl ? effectiveUrl : (url + (args.empty() ? "" : "?" + args)))
             << "\nError Code: " << res << " (" << curl_easy_strerror(res) << ")"
-            << "\nHTTP Status Code: " << response.httpCode << std::endl;
+            << "\nHTTP Status Code: " << response.httpCode;
 
         throw RequestException(err.str());
     }
-   // }
 
-    // Should never reach here
-    throw RequestException("Unexpected error in send retry logic");
+    // Store response body if not downloaded to file
+    if (downloadFilePath.empty()) {
+        response.body = responseStream.str();
+    }
+
+    reset(); // Reset state for reuse
+
+    return response;
+    
 }
 
 void Request::reset() {
