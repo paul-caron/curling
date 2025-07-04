@@ -301,7 +301,7 @@ MIME is a distinct HTTP method type (not used with POST/PUT).
 ## 🫶 Please Look The Examples
 
 Such as ollama.hpp :
-
+```cpp
 #pragma once
 #include "curling.hpp"
 #include "nlohmann/json.hpp"
@@ -421,3 +421,4 @@ public:
 private:
     std::string baseUrl_;
 };
+```
