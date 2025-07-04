@@ -1,6 +1,6 @@
 #pragma once
 #include "curling.hpp"
-#include "nlohmann/json.hpp"
+#include "json.hpp"
 
 #include <string>
 #include <stdexcept>
