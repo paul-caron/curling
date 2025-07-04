@@ -387,10 +387,9 @@ public:
         payload["prompt"] = prompt;
         payload["stream"] = false; // Disable streaming
 
+
         if (options.has_value()) {
-            for (const auto& [k, v] : options.value().items()) {
-                payload[k] = v;
-            }
+            payload["options"] = options.value();
         }
 
         curling::Request req;
