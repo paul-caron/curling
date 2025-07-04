@@ -331,9 +331,10 @@ public:
     };
 
     // Send chat messages to the /api/chat endpoint
-    ChatResponse chat(const std::string& model,
-                      const std::vector<ChatMessage>& messages,
-                      const std::optional<std::string>& systemPrompt = std::nullopt) {
+ChatResponse chat(const std::string& model,
+                  const std::vector<ChatMessage>& messages,
+                  const std::optional<std::string>& systemPrompt = std::nullopt,
+                  const std::optional<nlohmann::json>& options = std::nullopt) {
         nlohmann::json payload;
         payload["model"] = model;
         payload["messages"] = nlohmann::json::array();
@@ -345,6 +346,10 @@ public:
 
         if (systemPrompt.has_value()) {
             payload["system"] = systemPrompt.value();
+        }
+
+        if (options.has_value()) {
+            payload["options"] = options.value();
         }
 
         curling::Request req;
