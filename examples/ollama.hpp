@@ -32,6 +32,8 @@ public:
         nlohmann::json payload;
         payload["model"] = model;
         payload["messages"] = nlohmann::json::array();
+        payload["stream"] = false;
+        
         for (const auto& msg : messages) {
             payload["messages"].push_back({{"role", msg.role}, {"content", msg.content}});
         }
@@ -76,6 +78,7 @@ public:
         nlohmann::json payload;
         payload["model"] = model;
         payload["prompt"] = prompt;
+        payload["stream"] = false;
         if (options.has_value()) {
             for (auto& [k, v] : options.value().items()) {
                 payload[k] = v;
