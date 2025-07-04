@@ -26,19 +26,26 @@ public:
         std::string response;
     };
 
-    ChatResponse chat(const std::string& model,
-                      const std::vector<ChatMessage>& messages,
-                      const std::optional<std::string>& systemPrompt = std::nullopt) {
+    // Send chat messages to the /api/chat endpoint
+ChatResponse chat(const std::string& model,
+                  const std::vector<ChatMessage>& messages,
+                  const std::optional<std::string>& systemPrompt = std::nullopt,
+                  const std::optional<nlohmann::json>& options = std::nullopt) {
         nlohmann::json payload;
         payload["model"] = model;
         payload["messages"] = nlohmann::json::array();
-        payload["stream"] = false;
-        
+        payload["stream"] = false; // Disable streaming
+
         for (const auto& msg : messages) {
             payload["messages"].push_back({{"role", msg.role}, {"content", msg.content}});
         }
+
         if (systemPrompt.has_value()) {
             payload["system"] = systemPrompt.value();
+        }
+
+        if (options.has_value()) {
+            payload["options"] = options.value();
         }
 
         curling::Request req;
@@ -72,17 +79,18 @@ public:
         };
     }
 
+    // Send a single prompt to the /api/generate endpoint
     GenerateResponse generate(const std::string& model,
                               const std::string& prompt,
                               const std::optional<nlohmann::json>& options = std::nullopt) {
         nlohmann::json payload;
         payload["model"] = model;
         payload["prompt"] = prompt;
-        payload["stream"] = false;
+        payload["stream"] = false; // Disable streaming
+
+
         if (options.has_value()) {
-            for (auto& [k, v] : options.value().items()) {
-                payload[k] = v;
-            }
+            payload["options"] = options.value();
         }
 
         curling::Request req;
