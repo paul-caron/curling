@@ -27,7 +27,7 @@ public:
     };
 
     // Send chat messages to the /api/chat endpoint
-ChatResponse chat(const std::string& model,
+    ChatResponse chat(const std::string& model,
                   const std::vector<ChatMessage>& messages,
                   const std::optional<std::string>& systemPrompt = std::nullopt,
                   const std::optional<nlohmann::json>& options = std::nullopt) {
