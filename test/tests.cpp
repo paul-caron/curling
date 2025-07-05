@@ -169,16 +169,7 @@ TEST_CASE("Redirect not followed test") {
     CHECK(hasLocation);
 }
 
-TEST_CASE("Connect timeout test") {
-    OYE
-    curling::Request req;
-    req.setURL("https://10.255.255.1")  // unreachable IP
-       .setConnectTimeout(2)
-       .setTimeout(10)
-       .enableVerbose(false);
 
-    CHECK_THROWS_AS(req.send(), curling::RequestException);
-}
 
 TEST_CASE("Invalid URL test") {
     OYE
@@ -266,6 +257,17 @@ TEST_CASE("Cookie persistence - Reusing the same object") {
     std::filesystem::remove(cookieFile);
 }
 
+TEST_SUITE("Timeout tests"){
+TEST_CASE("Connect timeout test") {
+    OYE
+    curling::Request req;
+    req.setURL("https://10.255.255.1")  // unreachable IP
+       .setConnectTimeout(2)
+       .setTimeout(10)
+       .enableVerbose(false);
+
+    CHECK_THROWS_AS(req.send(), curling::RequestException);
+}
 
 TEST_CASE("Timeout test") {
     OYE
@@ -275,6 +277,7 @@ TEST_CASE("Timeout test") {
        .enableVerbose(false);
 
     CHECK_THROWS_AS(req.send(), curling::RequestException);
+}
 }
 
 TEST_CASE("Library version check") {
