@@ -112,7 +112,7 @@ TEST_CASE("Reusing Request object with different URLs and methods") {
     CHECK(res2.body.find("Updated") != std::string::npos);
 }
 
-TEST_SUITE("User Agent Tests){
+TEST_SUITE("User Agent Tests"){
 TEST_CASE("Custom User-Agent header test") {
     OYE
     curling::Request req;
