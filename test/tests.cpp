@@ -18,6 +18,12 @@ int testN{1};
 
 using namespace curling;
 
+TEST_CASE("Library version check") {
+    OYE
+    std::string version = curling::version();
+    CHECK(version == "1.2.0");
+}
+
 TEST_CASE("Request retries given number of attempts and fails on final one") {
     OYE
     Request req;
@@ -280,11 +286,7 @@ TEST_CASE("Timeout test") {
 }
 }
 
-TEST_CASE("Library version check") {
-    OYE
-    std::string version = curling::version();
-    CHECK(version == "1.2.0");
-}
+
 
 TEST_CASE("GET request to download image from httpbin") {
     OYE
@@ -306,7 +308,7 @@ TEST_CASE("GET request to download image from httpbin") {
 }
 
 
-
+TEST_SUITE("Athentication"){
 TEST_CASE("GET request test with basic authentication") {
     OYE
     curling::Request req;
@@ -425,6 +427,8 @@ TEST_CASE("GET request test with Digest authorization method with integrity prot
     CHECK(res.httpCode == 200);
     CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
 }
+}
+
 
 TEST_SUITE("testing HTTP methods"){
 
