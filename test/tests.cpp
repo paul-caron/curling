@@ -114,19 +114,7 @@ TEST_CASE("Multipart form with file upload") {
 
 
 
-TEST_CASE("User-Agent set via setUserAgent method") {
-    OYE
-    curling::Request req;
-    req.setMethod(curling::Request::Method::GET)
-       .setURL("https://httpbin.org/user-agent")
-       .setUserAgent("CurlingUserAgent/1.0")
-       .enableVerbose(false);
 
-    auto res = req.send();
-
-    CHECK(res.httpCode == 200);
-    CHECK(res.body.find("CurlingUserAgent/1.0") != std::string::npos);
-}
 
 TEST_CASE("Reusing Request object with different URLs and methods") {
     OYE
@@ -148,9 +136,7 @@ TEST_CASE("Reusing Request object with different URLs and methods") {
     CHECK(res2.body.find("Updated") != std::string::npos);
 }
 
-
-
-
+TEST_SUITE("User Agent Tests){
 TEST_CASE("Custom User-Agent header test") {
     OYE
     curling::Request req;
@@ -164,6 +150,23 @@ TEST_CASE("Custom User-Agent header test") {
     CHECK(res.httpCode == 200);
     CHECK(res.body.find("CurlingTestClient/42.0") != std::string::npos);
 }
+
+TEST_CASE("User-Agent set via setUserAgent method") {
+    OYE
+    curling::Request req;
+    req.setMethod(curling::Request::Method::GET)
+       .setURL("https://httpbin.org/user-agent")
+       .setUserAgent("CurlingUserAgent/1.0")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("CurlingUserAgent/1.0") != std::string::npos);
+}
+}
+
+
 
 TEST_CASE("Redirect not followed test") {
     OYE
