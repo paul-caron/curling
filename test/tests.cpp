@@ -86,31 +86,7 @@ TEST_CASE("Progress callback aborts download") {
     CHECK_THROWS_AS(req.send(), curling::RequestException);
 }
 
-TEST_CASE("Multipart form with file upload") {
-    OYE
-    const char * github = std::getenv("GITHUB");
-    if(github){
-        // test case doesnt work on github
-        std::cout << "[doctest] Skipping file upload test inside CI environment\n";
-        return;
-    }
-    const std::string testFile = "/tmp/test_upload.txt";
-    std::ofstream(testFile) << "This is test content";
 
-    curling::Request req;
-    req.setMethod(curling::Request::Method::MIME)
-       .setURL("https://httpbin.org/post")
-       .addFormField("field", "value")
-       .addFormFile("file", testFile)
-       .enableVerbose(false);
-
-    auto res = req.send();
-    CHECK(res.httpCode == 200);
-    CHECK(res.body.find("value") != std::string::npos);
-    CHECK(res.body.find("This is test content") != std::string::npos); // httpbin includes filename
-
-    std::filesystem::remove(testFile);
-}
 
 
 
@@ -602,6 +578,34 @@ TEST_CASE("Form-data (multipart) test") {
     CHECK(res.httpCode == 200);
     CHECK(res.body.find("value1") != std::string::npos);
     CHECK(res.body.find("value2") != std::string::npos);
+}
+
+TEST_SUITE("MIME Multipart tests"){
+TEST_CASE("Multipart form with file upload") {
+    OYE
+    const char * github = std::getenv("GITHUB");
+    if(github){
+        // test case doesnt work on github
+        std::cout << "[doctest] Skipping file upload test inside CI environment\n";
+        return;
+    }
+    const std::string testFile = "/tmp/test_upload.txt";
+    std::ofstream(testFile) << "This is test content";
+
+    curling::Request req;
+    req.setMethod(curling::Request::Method::MIME)
+       .setURL("https://httpbin.org/post")
+       .addFormField("field", "value")
+       .addFormFile("file", testFile)
+       .enableVerbose(false);
+
+    auto res = req.send();
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("value") != std::string::npos);
+    CHECK(res.body.find("This is test content") != std::string::npos); // httpbin includes filename
+
+    std::filesystem::remove(testFile);
+}
 }
 
 TEST_CASE("Force HTTP/1.1 version") {
