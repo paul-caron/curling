@@ -70,28 +70,7 @@ TEST_CASE("Simple Tor proxy test - GET through Tor SOCKS5 proxy") {
     }
 }
 
-TEST_CASE("Send XML payload") {
-    OYE
-    curling::Request req;
 
-    req.setMethod(curling::Request::Method::POST)
-       .setURL("https://httpbin.org/post")
-       .setBody(R"(
-           <note>
-               <to>User</to>
-               <from>ChatGPT</from>
-               <heading>Reminder</heading>
-               <body>Don't forget to test your XML payload!</body>
-           </note>
-       )")
-       .addHeader("Content-Type: application/xml");
-
-    auto res = req.send();
-
-    CHECK(res.httpCode == 200);
-    CHECK(res.body.find("<note>") != std::string::npos);
-    CHECK(res.body.find("Don't forget to test your XML payload!") != std::string::npos);
-}
 
 
 TEST_CASE("Progress callback aborts download") {
@@ -133,27 +112,7 @@ TEST_CASE("Multipart form with file upload") {
     std::filesystem::remove(testFile);
 }
 
-TEST_CASE("Force HTTP/1.1 version") {
-    OYE
-    curling::Request req;
-    req.setURL("https://httpbin.org/get")
-       .setHttpVersion(curling::Request::HttpVersion::HTTP_1_1)
-       .enableVerbose(false);
 
-    auto res = req.send();
-    CHECK(res.httpCode == 200);
-}
-
-TEST_CASE("Force HTTP/2 version") {
-    OYE
-    curling::Request req;
-    req.setURL("https://httpbin.org/get")
-       .setHttpVersion(curling::Request::HttpVersion::HTTP_2)
-       .enableVerbose(false);
-
-    auto res = req.send();
-    CHECK(res.httpCode == 200);
-}
 
 TEST_CASE("User-Agent set via setUserAgent method") {
     OYE
@@ -190,18 +149,7 @@ TEST_CASE("Reusing Request object with different URLs and methods") {
 }
 
 
-TEST_CASE("HEAD request test") {
-    OYE
-    curling::Request req;
-    req.setMethod(curling::Request::Method::HEAD)
-       .setURL("https://httpbin.org/get")
-       .enableVerbose(false);
 
-    auto res = req.send();
-
-    CHECK(res.httpCode == 200);
-    CHECK(res.body.empty());
-}
 
 TEST_CASE("Custom User-Agent header test") {
     OYE
@@ -375,19 +323,7 @@ TEST_CASE("GET request to download image from httpbin") {
     std::filesystem::remove(outputFile);
 }
 
-TEST_CASE("GET request test") {
-    OYE
-    curling::Request req;
-    req.setMethod(curling::Request::Method::GET)
-       .setURL("https://httpbin.org/get")
-       .addArg("key", "value")
-       .enableVerbose(false);
 
-    auto res = req.send();
-
-    CHECK(res.httpCode == 200);
-    CHECK(res.body.find("\"key\": \"value\"") != std::string::npos);
-}
 
 TEST_CASE("GET request test with basic authentication") {
     OYE
@@ -508,6 +444,45 @@ TEST_CASE("GET request test with Digest authorization method with integrity prot
     CHECK(res.body.find("\"authenticated\": true") != std::string::npos);
 }
 
+TEST_SUITE("testing HTTP methods"){
+
+TEST_CASE("GET request test") {
+    OYE
+    curling::Request req;
+    req.setMethod(curling::Request::Method::GET)
+       .setURL("https://httpbin.org/get")
+       .addArg("key", "value")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("\"key\": \"value\"") != std::string::npos);
+}
+
+TEST_CASE("POST XML payload") {
+    OYE
+    curling::Request req;
+
+    req.setMethod(curling::Request::Method::POST)
+       .setURL("https://httpbin.org/post")
+       .setBody(R"(
+           <note>
+               <to>User</to>
+               <from>ChatGPT</from>
+               <heading>Reminder</heading>
+               <body>Don't forget to test your XML payload!</body>
+           </note>
+       )")
+       .addHeader("Content-Type: application/xml");
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.find("<note>") != std::string::npos);
+    CHECK(res.body.find("Don't forget to test your XML payload!") != std::string::npos);
+}
+
 TEST_CASE("POST request test with JSON body") {
     OYE
     curling::Request req;
@@ -568,6 +543,20 @@ TEST_CASE("DELETE request test") {
     CHECK(res.body.find("\"url\": \"https://httpbin.org/delete\"") != std::string::npos);
 }
 
+TEST_CASE("HEAD request test") {
+    OYE
+    curling::Request req;
+    req.setMethod(curling::Request::Method::HEAD)
+       .setURL("https://httpbin.org/get")
+       .enableVerbose(false);
+
+    auto res = req.send();
+
+    CHECK(res.httpCode == 200);
+    CHECK(res.body.empty());
+}
+}
+
 TEST_CASE("Redirect follow test") {
     OYE
     curling::Request req;
@@ -612,3 +601,24 @@ TEST_CASE("Form-data (multipart) test") {
     CHECK(res.body.find("value2") != std::string::npos);
 }
 
+TEST_CASE("Force HTTP/1.1 version") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/get")
+       .setHttpVersion(curling::Request::HttpVersion::HTTP_1_1)
+       .enableVerbose(false);
+
+    auto res = req.send();
+    CHECK(res.httpCode == 200);
+}
+
+TEST_CASE("Force HTTP/2 version") {
+    OYE
+    curling::Request req;
+    req.setURL("https://httpbin.org/get")
+       .setHttpVersion(curling::Request::HttpVersion::HTTP_2)
+       .enableVerbose(false);
+
+    auto res = req.send();
+    CHECK(res.httpCode == 200);
+}
